@@ -45,7 +45,7 @@
     "@firebase/component": "0.1.19",
     "@firebase/auth-types-exp": "0.0.800",
     "node-fetch": "2.6.1",
-    "tslib": "^1.11.1"
+    "tslib": "^2.0.0"
   },
   "license": "Apache-2.0",
   "devDependencies": {
