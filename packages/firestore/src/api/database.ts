@@ -51,7 +51,18 @@ import { ListenOptions } from '../core/event_manager';
 import { ComponentConfiguration } from '../core/component_provider';
 import {
   FirestoreClient,
-  MAX_CONCURRENT_LIMBO_RESOLUTIONS
+  MAX_CONCURRENT_LIMBO_RESOLUTIONS,
+  firestoreClientWrite,
+  firestoreClientListen,
+  firestoreClientAddSnapshotsInSyncListener,
+  firestoreClientWaitForPendingWrites,
+  firestoreClientDisableNetwork,
+  firestoreClientEnableNetwork,
+  firestoreClientTransaction,
+  firestoreClientGetDocumentsFromLocalCache,
+  firestoreClientGetDocumentsViaSnapshotListener,
+  firestoreClientGetDocumentViaSnapshotListener,
+  firestoreClientGetDocumentFromLocalCache
 } from '../core/firestore_client';
 import {
   Bound,
@@ -335,19 +346,13 @@ export class Firestore
   private readonly _firebaseApp: FirebaseApp | null = null;
   private _settings: FirestoreSettings;
 
-  private readonly _clientId = AutoId.newId();
-
-  private readonly _receivedInitialUser = new Deferred<void>();
-  private _user = User.UNAUTHENTICATED;
-  private _credentialListener: CredentialChangeListener = () => {};
-
   // The firestore client instance. This will be available as soon as
   // configureClient is called, but any calls against it will block until
   // setup has completed.
   //
   // Operations on the _firestoreClient don't block on _firestoreReady. Those
   // are already set to synchronize on the async queue.
-  private _firestoreClient: FirestoreClient | undefined;
+  _firestoreClient!: FirestoreClient;
 
   // Public for use in tests.
   // TODO(mikelehen): Use modularized initialization instead.
@@ -387,41 +392,6 @@ export class Firestore
     }
 
     this._settings = new FirestoreSettings({});
-  }
-
-  async _getConfiguration(): Promise<ComponentConfiguration> {
-    this.ensureClientConfigured();
-    await this._receivedInitialUser.promise;
-
-    return {
-      asyncQueue: this._queue,
-      databaseInfo: this.makeDatabaseInfo(),
-      clientId: this._clientId,
-      credentials: this._credentials,
-      initialUser: this._user!,
-      maxConcurrentLimboResolutions: MAX_CONCURRENT_LIMBO_RESOLUTIONS
-    };
-  }
-
-  _setCredentialChangeListener(listener: (user: User) => void): void {
-    logDebug('FirebaseFirestore', 'Registering credential change listener');
-    this._credentialListener = listener;
-    // eslint-disable-next-line @typescript-eslint/no-floating-promises
-    this._receivedInitialUser.promise.then(() =>
-      this._credentialListener(this._user!)
-    );
-  }
-
-  _delete(): Promise<void> {
-    return this.INTERNAL.delete();
-  }
-
-  get _initialized(): boolean {
-    return !!this._firestoreClient;
-  }
-
-  get _terminated(): boolean {
-    return this._queue.isShuttingDown;
   }
 
   get _dataReader(): UserDataReader {
@@ -478,12 +448,12 @@ export class Firestore
 
   enableNetwork(): Promise<void> {
     this.ensureClientConfigured();
-    return this._firestoreClient!.enableNetwork();
+    return firestoreClientEnableNetwork(this._firestoreClient!);
   }
 
   disableNetwork(): Promise<void> {
     this.ensureClientConfigured();
-    return this._firestoreClient!.disableNetwork();
+    return firestoreClientDisableNetwork(this._firestoreClient!);
   }
 
   enablePersistence(settings?: PublicPersistenceSettings): Promise<void> {
@@ -530,7 +500,7 @@ export class Firestore
 
   waitForPendingWrites(): Promise<void> {
     this.ensureClientConfigured();
-    return this._firestoreClient!.waitForPendingWrites();
+    return firestoreClientWaitForPendingWrites(this._firestoreClient!);
   }
 
   onSnapshotsInSync(observer: PartialObserver<void>): Unsubscribe;
@@ -539,14 +509,18 @@ export class Firestore
     this.ensureClientConfigured();
 
     if (isPartialObserver(arg)) {
-      return this._firestoreClient!.addSnapshotsInSyncListener(
+      return firestoreClientAddSnapshotsInSyncListener(
+        this._firestoreClient!,
         arg as PartialObserver<void>
       );
     } else {
       const observer: PartialObserver<void> = {
         next: arg as () => void
       };
-      return this._firestoreClient!.addSnapshotsInSyncListener(observer);
+      return firestoreClientAddSnapshotsInSyncListener(
+        this._firestoreClient!,
+        observer
+      );
     }
   }
 
@@ -570,7 +544,7 @@ export class Firestore
     );
   }
 
-  private configureClient(): Promise<void> {
+  private configureClient(): void {
     debugAssert(!!this._settings.host, 'FirestoreSettings.host is not set');
     debugAssert(
       !this._firestoreClient,
@@ -578,25 +552,8 @@ export class Firestore
     );
 
     const databaseInfo = this.makeDatabaseInfo();
-    this._firestoreClient = new FirestoreClient(this._queue);
-
-    this._credentials.setChangeListener(user => {
-      if (!this._user.isEqual(user)) {
-        this._user = user;
-        this._credentialListener(user);
-      }
-      this._receivedInitialUser.resolve();
-    });
-
-    return this._queue.enqueue(async () => {
-      const offlineComponentProvider = await getOfflineComponentProvider(this);
-      const onlineComponentProvider = await getOnlineComponentProvider(this);
-      return this._firestoreClient!.start(
-        databaseInfo,
-        offlineComponentProvider,
-        onlineComponentProvider
-      );
-    });
+    this._firestoreClient = new FirestoreClient(this._credentials, this._queue);
+    this._firestoreClient!.start(databaseInfo);
   }
 
   private static databaseIdFromApp(app: FirebaseApp): DatabaseId {
@@ -638,7 +595,7 @@ export class Firestore
       const deferred = new Deferred();
       this._queue.enqueueAndForgetEvenWhileRestricted(async () => {
         try {
-          await removeComponents(this);
+          await removeComponents(this._firestoreClient);
 
           // `removeChangeListener` must be called after shutting down the
           // RemoteStore as it will prevent the RemoteStore from retrieving
@@ -702,7 +659,9 @@ export class Firestore
   runTransaction<T>(
     updateFunction: (transaction: PublicTransaction) => Promise<T>
   ): Promise<T> {
-    return this.ensureClientConfigured().transaction(
+    this.ensureClientConfigured();
+    return firestoreClientTransaction(
+      this._firestoreClient,
       (transaction: InternalTransaction) => {
         return updateFunction(new Transaction(this, transaction));
       }
@@ -992,7 +951,11 @@ export class WriteBatch implements PublicWriteBatch {
     this.verifyNotCommitted();
     this._committed = true;
     if (this._mutations.length > 0) {
-      return this._firestore.ensureClientConfigured().write(this._mutations);
+      this._firestore.ensureClientConfigured();
+      return firestoreClientWrite(
+        this._firestore._firestoreClient,
+        this._mutations
+      );
     }
 
     return Promise.resolve();
@@ -1106,7 +1069,8 @@ export class DocumentReference<T = DocumentData>
       this._converter !== null,
       options
     );
-    return this._firestoreClient.write(
+    return firestoreClientWrite(
+      this._firestoreClient,
       parsed.toMutations(this._key, Precondition.none())
     );
   }
@@ -1145,13 +1109,14 @@ export class DocumentReference<T = DocumentData>
       );
     }
 
-    return this._firestoreClient.write(
+    return firestoreClientWrite(
+      this._firestoreClient,
       parsed.toMutations(this._key, Precondition.exists(true))
     );
   }
 
   delete(): Promise<void> {
-    return this._firestoreClient.write([
+    return firestoreClientWrite(this._firestoreClient, [
       new DeleteMutation(this._key, Precondition.none())
     ]);
   }
@@ -1211,7 +1176,8 @@ export class DocumentReference<T = DocumentData>
       complete: args[currArg + 2] as CompleteFn
     };
 
-    return this._firestoreClient.listen(
+    return firestoreClientListen(
+      this._firestoreClient,
       newQueryForPath(this._key.path),
       internalOptions,
       observer
@@ -1221,23 +1187,26 @@ export class DocumentReference<T = DocumentData>
   get(options?: GetOptions): Promise<PublicDocumentSnapshot<T>> {
     const firestoreClient = this.firestore.ensureClientConfigured();
     if (options && options.source === 'cache') {
-      return firestoreClient
-        .getDocumentFromLocalCache(this._key)
-        .then(
-          doc =>
-            new DocumentSnapshot(
-              this.firestore,
-              this._key,
-              doc,
-              /*fromCache=*/ true,
-              doc instanceof Document ? doc.hasLocalMutations : false,
-              this._converter
-            )
-        );
+      return firestoreClientGetDocumentFromLocalCache(
+        this._firestoreClient,
+        this._key
+      ).then(
+        doc =>
+          new DocumentSnapshot(
+            this.firestore,
+            this._key,
+            doc,
+            /*fromCache=*/ true,
+            doc instanceof Document ? doc.hasLocalMutations : false,
+            this._converter
+          )
+      );
     } else {
-      return firestoreClient
-        .getDocumentViaSnapshotListener(this._key, options)
-        .then(snapshot => this._convertToDocSnapshot(snapshot));
+      return firestoreClientGetDocumentViaSnapshotListener(
+        this._firestoreClient,
+        this._key,
+        options
+      ).then(snapshot => this._convertToDocSnapshot(snapshot));
     }
   }
 
@@ -2062,7 +2031,12 @@ export class Query<T = DocumentData> implements PublicQuery<T> {
 
     validateHasExplicitOrderByForLimitToLast(this._query);
     const firestoreClient = this.firestore.ensureClientConfigured();
-    return firestoreClient.listen(this._query, options, observer);
+    return firestoreClientListen(
+      firestoreClient,
+      this._query,
+      options,
+      observer
+    );
   }
 
   get(options?: GetOptions): Promise<PublicQuerySnapshot<T>> {
@@ -2071,8 +2045,12 @@ export class Query<T = DocumentData> implements PublicQuery<T> {
 
     const firestoreClient = this.firestore.ensureClientConfigured();
     return (options && options.source === 'cache'
-      ? firestoreClient.getDocumentsFromLocalCache(this._query)
-      : firestoreClient.getDocumentsViaSnapshotListener(this._query, options)
+      ? firestoreClientGetDocumentsFromLocalCache(firestoreClient, this._query)
+      : firestoreClientGetDocumentsViaSnapshotListener(
+          firestoreClient,
+          this._query,
+          options
+        )
     ).then(
       snap =>
         new QuerySnapshot(this.firestore, this._query, snap, this._converter)

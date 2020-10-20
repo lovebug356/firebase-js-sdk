@@ -22,6 +22,7 @@ import { FirebaseFirestore } from './database';
 import { DatabaseInfo } from '../../../src/core/database_info';
 import { logDebug } from '../../../src/util/log';
 import { Code, FirestoreError } from '../../../src/util/error';
+import { FirestoreClient } from '../../../src/core/firestore_client';
 
 export const LOG_TAG = 'ComponentProvider';
 
@@ -41,7 +42,7 @@ const datastoreInstances = new Map<FirebaseFirestore, Datastore>();
 
 /**
  * Returns an initialized and started Datastore for the given Firestore
- * instance. Callers must invoke removeDatastore() when the Firestore
+ * instance. Callers must invoke removeComponents() when the Firestore
  * instance is terminated.
  */
 export function getDatastore(firestore: FirebaseFirestore): Datastore {

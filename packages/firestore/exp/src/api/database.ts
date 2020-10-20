@@ -20,7 +20,10 @@ import { _FirebaseService, FirebaseApp } from '@firebase/app-types-exp';
 import { Provider } from '@firebase/component';
 
 import { FirebaseAuthInternalName } from '@firebase/auth-interop-types';
-import { MAX_CONCURRENT_LIMBO_RESOLUTIONS } from '../../../src/core/firestore_client';
+import {
+  FirestoreClient,
+  MAX_CONCURRENT_LIMBO_RESOLUTIONS
+} from '../../../src/core/firestore_client';
 import {
   AsyncQueue,
   wrapInUserErrorIfRecoverable
@@ -85,10 +88,9 @@ export interface FirestoreCompat {
   readonly _databaseId: DatabaseId;
   readonly _persistenceKey: string;
   readonly _queue: AsyncQueue;
+  _ensureClientConfigured(): Promise<FirestoreClient>;
   _getSettings(): Settings;
-  _getConfiguration(): Promise<ComponentConfiguration>;
   _delete(): Promise<void>;
-  _setCredentialChangeListener(listener: (user: User) => void): void;
 }
 
 /**
@@ -106,6 +108,7 @@ export class FirebaseFirestore
   private readonly _receivedInitialUser = new Deferred<void>();
   private _user = User.UNAUTHENTICATED;
   private _credentialListener: CredentialChangeListener = () => {};
+  _firestoreClient!: FirestoreClient;
 
   // We override the Settings property of the Lite SDK since the full Firestore
   // SDK supports more settings.
@@ -168,7 +171,7 @@ export class FirebaseFirestore
     this._queue.enqueueAndForgetEvenWhileRestricted(async () => {
       try {
         await super._terminate();
-        await removeComponents(this);
+        await removeComponents(this._firestoreClient);
 
         // `removeChangeListener` must be called after shutting down the
         // RemoteStore as it will prevent the RemoteStore from retrieving
@@ -286,7 +289,7 @@ export function enableIndexedDbPersistence(
     persistenceSettings?.forceOwnership
   );
   return setPersistenceProviders(
-    firestore,
+    firestore._firestoreClient,
     onlineComponentProvider,
     offlineComponentProvider
   );
@@ -331,7 +334,7 @@ export function enableMultiTabIndexedDbPersistence(
     settings.cacheSizeBytes
   );
   return setPersistenceProviders(
-    firestore,
+    firestore._firestoreClient,
     onlineComponentProvider,
     offlineComponentProvider
   );
@@ -344,12 +347,12 @@ export function enableMultiTabIndexedDbPersistence(
  * but the client remains usable.
  */
 function setPersistenceProviders(
-  firestore: FirestoreCompat,
+  firestore: FirestoreClient,
   onlineComponentProvider: OnlineComponentProvider,
   offlineComponentProvider: OfflineComponentProvider
 ): Promise<void> {
   const persistenceResult = new Deferred();
-  return firestore._queue
+  return firestore.asyncQueue
     .enqueue(async () => {
       try {
         await setOfflineComponentProvider(firestore, offlineComponentProvider);
@@ -480,7 +483,7 @@ export function waitForPendingWrites(
 
   const deferred = new Deferred<void>();
   firestore._queue.enqueueAndForget(async () => {
-    const syncEngine = await getSyncEngine(firestore);
+    const syncEngine = await getSyncEngine(firestore._firestoreClient);
     return registerPendingWritesCallback(syncEngine, deferred);
   });
   return deferred.promise;
@@ -496,8 +499,8 @@ export function enableNetwork(firestore: FirebaseFirestore): Promise<void> {
   firestore._verifyNotTerminated();
 
   return firestore._queue.enqueue(async () => {
-    const remoteStore = await getRemoteStore(firestore);
-    const persistence = await getPersistence(firestore);
+    const remoteStore = await getRemoteStore(firestore._firestoreClient);
+    const persistence = await getPersistence(firestore._firestoreClient);
     persistence.setNetworkEnabled(true);
     return remoteStoreEnableNetwork(remoteStore);
   });

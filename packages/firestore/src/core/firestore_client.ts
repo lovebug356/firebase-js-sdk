@@ -18,6 +18,11 @@
 import { GetOptions } from '@firebase/firestore-types';
 
 import {
+  CredentialChangeListener,
+  CredentialsProvider
+} from '../api/credentials';
+import { User } from '../auth/user';
+import {
   executeQuery,
   LocalStore,
   readLocalDocument
@@ -29,7 +34,8 @@ import { Mutation } from '../model/mutation';
 import {
   RemoteStore,
   remoteStoreEnableNetwork,
-  remoteStoreDisableNetwork
+  remoteStoreDisableNetwork,
+  remoteStoreHandleCredentialChange
 } from '../remote/remote_store';
 import { AsyncQueue, wrapInUserErrorIfRecoverable } from '../util/async_queue';
 import { Code, FirestoreError } from '../util/error';
@@ -58,6 +64,7 @@ import { newQueryForPath, Query } from './query';
 import { Transaction } from './transaction';
 import { ViewSnapshot } from './view_snapshot';
 import {
+  ComponentConfiguration,
   OfflineComponentProvider,
   OnlineComponentProvider
 } from './component_provider';
@@ -65,7 +72,18 @@ import { AsyncObserver } from '../util/async_observer';
 import { debugAssert } from '../util/assert';
 import { TransactionRunner } from './transaction_runner';
 import { Datastore } from '../remote/datastore';
+import {
+  getDatastore,
+  getEventManager,
+  getLocalStore,
+  getPersistence,
+  getRemoteStore,
+  getSyncEngine
+} from '../../exp/src/api/components';
+import { logDebug } from '../util/log';
+import { AutoId } from '../util/misc';
 
+const LOG_TAG = 'FirestoreClient';
 export const MAX_CONCURRENT_LIMBO_RESOLUTIONS = 100;
 
 /**
@@ -81,18 +99,21 @@ export class FirestoreClient {
   // with the types rather than littering the code with '!' or unnecessary
   // undefined checks.
   private databaseInfo!: DatabaseInfo;
-  private eventMgr!: EventManager;
-  private persistence!: Persistence;
-  private localStore!: LocalStore;
-  private datastore!: Datastore;
-  private remoteStore!: RemoteStore;
-  private syncEngine!: SyncEngine;
-  private gcScheduler!: GarbageCollectionScheduler | null;
+  private user = User.UNAUTHENTICATED;
+  private readonly clientId = AutoId.newId();
+  private _credentialListener: CredentialChangeListener = () => {};
 
-  // PORTING NOTE: SharedClientState is only used for multi-tab web.
-  private sharedClientState!: SharedClientState;
+  // We defer our initialization until we get the current user from
+  // setChangeListener(). We block the async queue until we got the initial
+  // user and the initialization is completed. This will prevent any scheduled
+  // work from happening before initialization is completed.
+  //
+  // If initializationDone resolved then the FirestoreClient is in a usable
+  // state.
+  private readonly initializationDone = new Deferred<void>();
 
   constructor(
+    private credentials: CredentialsProvider,
     /**
      * Asynchronous queue responsible for all of our internal processing. When
      * we get incoming work from the user (via public API) or the network
@@ -101,7 +122,7 @@ export class FirestoreClient {
      * start processing a new operation while the previous one is waiting for
      * an async I/O to complete).
      */
-    private asyncQueue: AsyncQueue
+    public asyncQueue: AsyncQueue
   ) {}
 
   /**
@@ -133,63 +154,54 @@ export class FirestoreClient {
    * start() itself signals failure.
    *
    * @param databaseInfo The connection information for the current instance.
-   * @param offlineComponentProvider Provider that returns all components
-   * required for memory-only or IndexedDB persistence.
-   * @param onlineComponentProvider Provider that returns all components
-   * required for online support.
    */
-  start(
-    databaseInfo: DatabaseInfo,
-    offlineComponentProvider: OfflineComponentProvider,
-    onlineComponentProvider: OnlineComponentProvider
-  ): void {
+  start(databaseInfo: DatabaseInfo): void {
     this.databaseInfo = databaseInfo;
-    this.initializeComponents(
-      offlineComponentProvider,
-      onlineComponentProvider
-    );
-  }
 
-  /** Enables the network connection and requeues all pending operations. */
-  enableNetwork(): Promise<void> {
-    this.verifyNotTerminated();
-    return this.asyncQueue.enqueue(() => {
-      this.persistence.setNetworkEnabled(true);
-      return remoteStoreEnableNetwork(this.remoteStore);
+    let initialized = false;
+    this.credentials.setChangeListener(user => {
+      if (!initialized) {
+        initialized = true;
+        logDebug(LOG_TAG, 'Initializing. user=', user.uid);
+        this.initializationDone.resolve();
+      }
+      if (!user.isEqual(this.user)) {
+        this.user = user;
+        this._credentialListener(user);
+      }
     });
+
+    // Block the async queue until initialization is done
+    this.asyncQueue.enqueueAndForget(() => this.initializationDone.promise);
   }
 
-  /**
-   * Initializes persistent storage, attempting to use IndexedDB if
-   * usePersistence is true or memory-only if false.
-   *
-   * @param offlineComponentProvider Provider that returns all components
-   * required for memory-only or IndexedDB persistence.
-   * @param onlineComponentProvider Provider that returns all components
-   * required for online support.
-   */
-  private initializeComponents(
-    offlineComponentProvider: OfflineComponentProvider,
-    onlineComponentProvider: OnlineComponentProvider
-  ): void {
-    this.persistence = offlineComponentProvider.persistence;
-    this.sharedClientState = offlineComponentProvider.sharedClientState;
-    this.localStore = offlineComponentProvider.localStore;
-    this.gcScheduler = offlineComponentProvider.gcScheduler;
-    this.datastore = onlineComponentProvider.datastore;
-    this.remoteStore = onlineComponentProvider.remoteStore;
-    this.syncEngine = onlineComponentProvider.syncEngine;
-    this.eventMgr = onlineComponentProvider.eventManager;
+  async getConfiguration(): Promise<ComponentConfiguration> {
+    await this.initializationDone.promise;
 
-    this.eventMgr.onListen = syncEngineListen.bind(null, this.syncEngine);
-    this.eventMgr.onUnlisten = syncEngineUnlisten.bind(null, this.syncEngine);
+    return {
+      asyncQueue: this.asyncQueue,
+      databaseInfo: this.databaseInfo,
+      clientId: this.clientId,
+      credentials: this.credentials,
+      initialUser: this.user,
+      maxConcurrentLimboResolutions: MAX_CONCURRENT_LIMBO_RESOLUTIONS
+    };
+  }
+
+  setCredentialChangeListener(listener: (user: User) => void): void {
+    logDebug('FirebaseFirestore', 'Registering credential change listener');
+    this._credentialListener = listener;
+    // eslint-disable-next-line @typescript-eslint/no-floating-promises
+    this.initializationDone.promise.then(() =>
+      this._credentialListener(this.user)
+    );
   }
 
   /**
    * Checks that the client has not been terminated. Ensures that other methods on
    * this class cannot be called after the client is terminated.
    */
-  private verifyNotTerminated(): void {
+  verifyNotTerminated(): void {
     if (this.asyncQueue.isShuttingDown) {
       throw new FirestoreError(
         Code.FAILED_PRECONDITION,
@@ -198,163 +210,206 @@ export class FirestoreClient {
     }
   }
 
-  /** Disables the network connection. Pending operations will not complete. */
-  disableNetwork(): Promise<void> {
-    this.verifyNotTerminated();
-    return this.asyncQueue.enqueue(() => {
-      this.persistence.setNetworkEnabled(false);
-      return remoteStoreDisableNetwork(this.remoteStore);
-    });
-  }
-
-  /**
-   * Returns a Promise that resolves when all writes that were pending at the time this
-   * method was called received server acknowledgement. An acknowledgement can be either acceptance
-   * or rejection.
-   */
-  waitForPendingWrites(): Promise<void> {
-    this.verifyNotTerminated();
-
-    const deferred = new Deferred<void>();
-    this.asyncQueue.enqueueAndForget(() =>
-      registerPendingWritesCallback(this.syncEngine, deferred)
-    );
-    return deferred.promise;
-  }
-
-  listen(
-    query: Query,
-    options: ListenOptions,
-    observer: Partial<Observer<ViewSnapshot>>
-  ): () => void {
-    this.verifyNotTerminated();
-    const wrappedObserver = new AsyncObserver(observer);
-    const listener = new QueryListener(query, wrappedObserver, options);
-    this.asyncQueue.enqueueAndForget(() =>
-      eventManagerListen(this.eventMgr, listener)
-    );
-    return () => {
-      wrappedObserver.mute();
-      this.asyncQueue.enqueueAndForget(() =>
-        eventManagerUnlisten(this.eventMgr, listener)
-      );
-    };
-  }
-
-  async getDocumentFromLocalCache(
-    docKey: DocumentKey
-  ): Promise<Document | null> {
-    this.verifyNotTerminated();
-    const deferred = new Deferred<Document | null>();
-    this.asyncQueue.enqueueAndForget(() =>
-      readDocumentFromCache(this.localStore, docKey, deferred)
-    );
-    return deferred.promise;
-  }
-
-  async getDocumentViaSnapshotListener(
-    key: DocumentKey,
-    options: GetOptions = {}
-  ): Promise<ViewSnapshot> {
-    this.verifyNotTerminated();
-    const deferred = new Deferred<ViewSnapshot>();
-    this.asyncQueue.enqueueAndForget(() =>
-      readDocumentViaSnapshotListener(
-        this.eventMgr,
-        this.asyncQueue,
-        key,
-        options,
-        deferred
-      )
-    );
-    return deferred.promise;
-  }
-
-  async getDocumentsFromLocalCache(query: Query): Promise<ViewSnapshot> {
-    this.verifyNotTerminated();
-    const deferred = new Deferred<ViewSnapshot>();
-    this.asyncQueue.enqueueAndForget(() =>
-      executeQueryFromCache(this.localStore, query, deferred)
-    );
-    return deferred.promise;
-  }
-
-  async getDocumentsViaSnapshotListener(
-    query: Query,
-    options: GetOptions = {}
-  ): Promise<ViewSnapshot> {
-    this.verifyNotTerminated();
-    const deferred = new Deferred<ViewSnapshot>();
-    this.asyncQueue.enqueueAndForget(() =>
-      executeQueryViaSnapshotListener(
-        this.eventMgr,
-        this.asyncQueue,
-        query,
-        options,
-        deferred
-      )
-    );
-    return deferred.promise;
-  }
-
-  write(mutations: Mutation[]): Promise<void> {
-    this.verifyNotTerminated();
-    const deferred = new Deferred<void>();
-    this.asyncQueue.enqueueAndForget(() =>
-      syncEngineWrite(this.syncEngine, mutations, deferred)
-    );
-    return deferred.promise;
-  }
-
   databaseId(): DatabaseId {
     return this.databaseInfo.databaseId;
   }
+}
 
-  addSnapshotsInSyncListener(observer: Partial<Observer<void>>): () => void {
-    this.verifyNotTerminated();
-    const wrappedObserver = new AsyncObserver(observer);
-    this.asyncQueue.enqueueAndForget(async () =>
-      addSnapshotsInSyncListener(this.eventMgr, wrappedObserver)
-    );
-    return () => {
-      wrappedObserver.mute();
-      this.asyncQueue.enqueueAndForget(async () =>
-        removeSnapshotsInSyncListener(this.eventMgr, wrappedObserver)
-      );
-    };
-  }
+/** Enables the network connection and requeues all pending operations. */
+export async function firestoreClientEnableNetwork(
+  firestoreClient: FirestoreClient
+): Promise<void> {
+  firestoreClient.verifyNotTerminated();
+  return firestoreClient.asyncQueue.enqueue(async () => {
+    const persistence = await getPersistence(firestoreClient);
+    const remoteStore = await getRemoteStore(firestoreClient);
+    persistence.setNetworkEnabled(true);
+    return remoteStoreEnableNetwork(remoteStore);
+  });
+}
 
-  /**
-   * Takes an updateFunction in which a set of reads and writes can be performed
-   * atomically. In the updateFunction, the client can read and write values
-   * using the supplied transaction object. After the updateFunction, all
-   * changes will be committed. If a retryable error occurs (ex: some other
-   * client has changed any of the data referenced), then the updateFunction
-   * will be called again after a backoff. If the updateFunction still fails
-   * after all retries, then the transaction will be rejected.
-   *
-   * The transaction object passed to the updateFunction contains methods for
-   * accessing documents and collections. Unlike other datastore access, data
-   * accessed with the transaction will not reflect local changes that have not
-   * been committed. For this reason, it is required that all reads are
-   * performed before any writes. Transactions must be performed while online.
-   */
-  transaction<T>(
-    updateFunction: (transaction: Transaction) => Promise<T>
-  ): Promise<T> {
-    this.verifyNotTerminated();
-    const deferred = new Deferred<T>();
-    this.asyncQueue.enqueueAndForget(() => {
-      new TransactionRunner<T>(
-        this.asyncQueue,
-        this.datastore,
-        updateFunction,
-        deferred
-      ).run();
-      return Promise.resolve();
+/** Disables the network connection. Pending operations will not complete. */
+export async function firestoreClientDisableNetwork(
+  firestoreClient: FirestoreClient
+): Promise<void> {
+  firestoreClient.verifyNotTerminated();
+  return firestoreClient.asyncQueue.enqueue(async () => {
+    const persistence = await getPersistence(firestoreClient);
+    const remoteStore = await getRemoteStore(firestoreClient);
+    persistence.setNetworkEnabled(false);
+    return remoteStoreDisableNetwork(remoteStore);
+  });
+}
+
+/**
+ * Returns a Promise that resolves when all writes that were pending at the time this
+ * method was called received server acknowledgement. An acknowledgement can be either acceptance
+ * or rejection.
+ */
+export async function firestoreClientWaitForPendingWrites(
+  firestoreClient: FirestoreClient
+): Promise<void> {
+  firestoreClient.verifyNotTerminated();
+
+  const deferred = new Deferred<void>();
+  firestoreClient.asyncQueue.enqueueAndForget(async () => {
+    const syncEngine = await getSyncEngine(firestoreClient);
+    return registerPendingWritesCallback(syncEngine, deferred);
+  });
+  return deferred.promise;
+}
+
+export function firestoreClientListen(
+  firestoreClient: FirestoreClient,
+  query: Query,
+  options: ListenOptions,
+  observer: Partial<Observer<ViewSnapshot>>
+): () => void {
+  firestoreClient.verifyNotTerminated();
+  const wrappedObserver = new AsyncObserver(observer);
+  const listener = new QueryListener(query, wrappedObserver, options);
+  firestoreClient.asyncQueue.enqueueAndForget(async () => {
+    const eventManager = await getEventManager(firestoreClient);
+    return eventManagerListen(eventManager, listener);
+  });
+  return () => {
+    wrappedObserver.mute();
+    firestoreClient.asyncQueue.enqueueAndForget(async () => {
+      const eventManager = await getEventManager(firestoreClient);
+      return eventManagerUnlisten(eventManager, listener);
     });
-    return deferred.promise;
-  }
+  };
+}
+
+export function firestoreClientGetDocumentFromLocalCache(
+  firestoreClient: FirestoreClient,
+  docKey: DocumentKey
+): Promise<Document | null> {
+  firestoreClient.verifyNotTerminated();
+  const deferred = new Deferred<Document | null>();
+  firestoreClient.asyncQueue.enqueueAndForget(async () => {
+    const localStore = await getLocalStore(firestoreClient);
+    return readDocumentFromCache(localStore, docKey, deferred);
+  });
+  return deferred.promise;
+}
+
+export function firestoreClientGetDocumentViaSnapshotListener(
+  firestoreClient: FirestoreClient,
+  key: DocumentKey,
+  options: GetOptions = {}
+): Promise<ViewSnapshot> {
+  firestoreClient.verifyNotTerminated();
+  const deferred = new Deferred<ViewSnapshot>();
+  firestoreClient.asyncQueue.enqueueAndForget(async () => {
+    const eventManager = await getEventManager(firestoreClient);
+    return readDocumentViaSnapshotListener(
+      eventManager,
+      firestoreClient.asyncQueue,
+      key,
+      options,
+      deferred
+    );
+  });
+  return deferred.promise;
+}
+
+export function firestoreClientGetDocumentsFromLocalCache(
+  firestoreClient: FirestoreClient,
+  query: Query
+): Promise<ViewSnapshot> {
+  firestoreClient.verifyNotTerminated();
+  const deferred = new Deferred<ViewSnapshot>();
+  firestoreClient.asyncQueue.enqueueAndForget(async () => {
+    const localStore = await getLocalStore(firestoreClient);
+    return executeQueryFromCache(localStore, query, deferred);
+  });
+  return deferred.promise;
+}
+
+export function firestoreClientGetDocumentsViaSnapshotListener(
+  firestoreClient: FirestoreClient,
+  query: Query,
+  options: GetOptions = {}
+): Promise<ViewSnapshot> {
+  firestoreClient.verifyNotTerminated();
+  const deferred = new Deferred<ViewSnapshot>();
+  firestoreClient.asyncQueue.enqueueAndForget(async () => {
+    const eventManager = await getEventManager(firestoreClient);
+    return executeQueryViaSnapshotListener(
+      eventManager,
+      firestoreClient.asyncQueue,
+      query,
+      options,
+      deferred
+    );
+  });
+  return deferred.promise;
+}
+
+export function firestoreClientWrite(
+  firestoreClient: FirestoreClient,
+  mutations: Mutation[]
+): Promise<void> {
+  firestoreClient.verifyNotTerminated();
+  const deferred = new Deferred<void>();
+  firestoreClient.asyncQueue.enqueueAndForget(async () => {
+    const syncEngine = await getSyncEngine(firestoreClient);
+    return syncEngineWrite(syncEngine, mutations, deferred);
+  });
+  return deferred.promise;
+}
+
+export function firestoreClientAddSnapshotsInSyncListener(
+  firestoreClient: FirestoreClient,
+  observer: Partial<Observer<void>>
+): () => void {
+  firestoreClient.verifyNotTerminated();
+  const wrappedObserver = new AsyncObserver(observer);
+  firestoreClient.asyncQueue.enqueueAndForget(async () => {
+    const eventManager = await getEventManager(firestoreClient);
+    return addSnapshotsInSyncListener(eventManager, wrappedObserver);
+  });
+  return () => {
+    wrappedObserver.mute();
+    firestoreClient.asyncQueue.enqueueAndForget(async () => {
+      const eventManager = await getEventManager(firestoreClient);
+      return removeSnapshotsInSyncListener(eventManager, wrappedObserver);
+    });
+  };
+}
+
+/**
+ * Takes an updateFunction in which a set of reads and writes can be performed
+ * atomically. In the updateFunction, the client can read and write values
+ * using the supplied transaction object. After the updateFunction, all
+ * changes will be committed. If a retryable error occurs (ex: some other
+ * client has changed any of the data referenced), then the updateFunction
+ * will be called again after a backoff. If the updateFunction still fails
+ * after all retries, then the transaction will be rejected.
+ *
+ * The transaction object passed to the updateFunction contains methods for
+ * accessing documents and collections. Unlike other datastore access, data
+ * accessed with the transaction will not reflect local changes that have not
+ * been committed. For this reason, it is required that all reads are
+ * performed before any writes. Transactions must be performed while online.
+ */
+export function firestoreClientTransaction<T>(
+  firestoreClient: FirestoreClient,
+  updateFunction: (transaction: Transaction) => Promise<T>
+): Promise<T> {
+  firestoreClient.verifyNotTerminated();
+  const deferred = new Deferred<T>();
+  firestoreClient.asyncQueue.enqueueAndForget(async () => {
+    const datastore = await getDatastore(firestoreClient);
+    new TransactionRunner<T>(
+      firestoreClient.asyncQueue,
+      datastore,
+      updateFunction,
+      deferred
+    ).run();
+  });
+  return deferred.promise;
 }
 
 export async function readDocumentFromCache(

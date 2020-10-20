@@ -34,6 +34,8 @@ import {
 } from '../../../src/core/sync_engine';
 import { Persistence } from '../../../src/local/persistence';
 import { EventManager } from '../../../src/core/event_manager';
+import { FirestoreClient } from '../../../src/core/firestore_client';
+import { Datastore } from '../../../src/remote/datastore';
 
 const LOG_TAG = 'ComponentProvider';
 
@@ -44,11 +46,11 @@ const LOG_TAG = 'ComponentProvider';
 // Instance maps that ensure that only one component provider exists per
 // Firestore instance.
 const offlineComponentProviders = new Map<
-  FirestoreCompat,
+  FirestoreClient,
   OfflineComponentProvider
 >();
 const onlineComponentProviders = new Map<
-  FirestoreCompat,
+  FirestoreClient,
   OnlineComponentProvider
 >();
 
@@ -57,12 +59,13 @@ export async function setOfflineComponentProvider(
   offlineComponentProvider: OfflineComponentProvider
 ): Promise<void> {
   firestore._queue.verifyOperationInProgress();
+  const firestoreClient = firestore._firestoreClient;
 
   logDebug(LOG_TAG, 'Initializing OfflineComponentProvider');
-  const configuration = await firestore._getConfiguration();
+  const configuration = await firestoreClient.getConfiguration();
   await offlineComponentProvider.initialize(configuration);
-  firestore._setCredentialChangeListener(user =>
-    firestore._queue.enqueueRetryable(async () => {
+  firestoreClient.setCredentialChangeListener(user =>
+    firestoreClient.asyncQueue.enqueueRetryable(async () => {
       await handleUserChange(offlineComponentProvider.localStore, user);
     })
   );
@@ -72,7 +75,7 @@ export async function setOfflineComponentProvider(
     firestore._delete()
   );
 
-  offlineComponentProviders.set(firestore, offlineComponentProvider);
+  offlineComponentProviders.set(firestoreClient, offlineComponentProvider);
 }
 
 export async function setOnlineComponentProvider(
@@ -80,19 +83,20 @@ export async function setOnlineComponentProvider(
   onlineComponentProvider: OnlineComponentProvider
 ): Promise<void> {
   firestore._queue.verifyOperationInProgress();
+  const firestoreClient = firestore._firestoreClient;
 
   const offlineComponentProvider = await getOfflineComponentProvider(firestore);
 
   logDebug(LOG_TAG, 'Initializing OnlineComponentProvider');
-  const configuration = await firestore._getConfiguration();
+  const configuration = await firestoreClient.getConfiguration();
   await onlineComponentProvider.initialize(
     offlineComponentProvider,
     configuration
   );
   // The CredentialChangeListener of the online component provider takes
   // precedence over the offline component provider.
-  firestore._setCredentialChangeListener(user =>
-    firestore._queue.enqueueRetryable(() =>
+  firestoreClient.setCredentialChangeListener(user =>
+    firestoreClient.asyncQueue.enqueueRetryable(() =>
       remoteStoreHandleCredentialChange(
         onlineComponentProvider.remoteStore,
         user
@@ -100,14 +104,15 @@ export async function setOnlineComponentProvider(
     )
   );
 
-  onlineComponentProviders.set(firestore, onlineComponentProvider);
+  onlineComponentProviders.set(firestoreClient, onlineComponentProvider);
 }
 
 // TODO(firestore-compat): Remove `export` once compat migration is complete.
 export async function getOfflineComponentProvider(
   firestore: FirestoreCompat
 ): Promise<OfflineComponentProvider> {
-  firestore._queue.verifyOperationInProgress();
+  firestore.asyncQueue.verifyOperationInProgress();
+  const firestoreClient = await firestore._firestoreClient;
 
   if (!offlineComponentProviders.has(firestore)) {
     logDebug(LOG_TAG, 'Using default OfflineComponentProvider');
@@ -122,9 +127,9 @@ export async function getOfflineComponentProvider(
 
 // TODO(firestore-compat): Remove `export` once compat migration is complete.
 export async function getOnlineComponentProvider(
-  firestore: FirestoreCompat
+  firestore: FirestoreClient
 ): Promise<OnlineComponentProvider> {
-  firestore._queue.verifyOperationInProgress();
+  firestore.asyncQueue.verifyOperationInProgress();
 
   if (!onlineComponentProviders.has(firestore)) {
     logDebug(LOG_TAG, 'Using default OnlineComponentProvider');
@@ -135,21 +140,28 @@ export async function getOnlineComponentProvider(
 }
 
 export async function getSyncEngine(
-  firestore: FirebaseFirestore
+  firestore: FirestoreClient
 ): Promise<SyncEngine> {
   const onlineComponentProvider = await getOnlineComponentProvider(firestore);
   return onlineComponentProvider.syncEngine;
 }
 
 export async function getRemoteStore(
-  firestore: FirebaseFirestore
+  firestore: FirestoreClient
 ): Promise<RemoteStore> {
   const onlineComponentProvider = await getOnlineComponentProvider(firestore);
   return onlineComponentProvider.remoteStore;
 }
 
+export async function getDatastore(
+  firestore: FirestoreClient
+): Promise<Datastore> {
+  const onlineComponentProvider = await getOnlineComponentProvider(firestore);
+  return onlineComponentProvider.datastore;
+}
+
 export async function getEventManager(
-  firestore: FirebaseFirestore
+  firestore: FirestoreClient
 ): Promise<EventManager> {
   const onlineComponentProvider = await getOnlineComponentProvider(firestore);
   const eventManager = onlineComponentProvider.eventManager;
@@ -165,14 +177,14 @@ export async function getEventManager(
 }
 
 export async function getPersistence(
-  firestore: FirebaseFirestore
+  firestore: FirestoreClient
 ): Promise<Persistence> {
   const offlineComponentProvider = await getOfflineComponentProvider(firestore);
   return offlineComponentProvider.persistence;
 }
 
 export async function getLocalStore(
-  firestore: FirebaseFirestore
+  firestore: FirestoreClient
 ): Promise<LocalStore> {
   const offlineComponentProvider = await getOfflineComponentProvider(firestore);
   return offlineComponentProvider.localStore;
@@ -183,7 +195,7 @@ export async function getLocalStore(
  * when the Firestore instance is terminated.
  */
 export async function removeComponents(
-  firestore: FirestoreCompat
+  firestore: FirestoreClient
 ): Promise<void> {
   const onlineComponentProviderPromise = onlineComponentProviders.get(
     firestore
