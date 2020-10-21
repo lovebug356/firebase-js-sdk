@@ -2221,14 +2221,6 @@ export class CollectionReference<T = DocumentData>
   }
 }
 
-function validateGetOptions(
-  methodName: string,
-  options: GetOptions | undefined
-): void {
-  if (options) {
-  }
-}
-
 function validateReference<T>(
   methodName: string,
   documentRef: PublicDocumentReference<T>,
