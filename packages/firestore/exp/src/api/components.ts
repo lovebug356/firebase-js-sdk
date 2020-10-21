@@ -55,11 +55,10 @@ const onlineComponentProviders = new Map<
 >();
 
 export async function setOfflineComponentProvider(
-  firestore: FirestoreCompat,
+  firestoreClient: FirestoreClient,
   offlineComponentProvider: OfflineComponentProvider
 ): Promise<void> {
-  firestore._queue.verifyOperationInProgress();
-  const firestoreClient = firestore._firestoreClient;
+  firestoreClient.asyncQueue.verifyOperationInProgress();
 
   logDebug(LOG_TAG, 'Initializing OfflineComponentProvider');
   const configuration = await firestoreClient.getConfiguration();
@@ -72,20 +71,21 @@ export async function setOfflineComponentProvider(
   // When a user calls clearPersistence() in one client, all other clients
   // need to be terminated to allow the delete to succeed.
   offlineComponentProvider.persistence.setDatabaseDeletedListener(() =>
-    firestore._delete()
+    firestoreClient._delete()
   );
 
   offlineComponentProviders.set(firestoreClient, offlineComponentProvider);
 }
 
 export async function setOnlineComponentProvider(
-  firestore: FirestoreCompat,
+  firestoreClient: FirestoreClient,
   onlineComponentProvider: OnlineComponentProvider
 ): Promise<void> {
-  firestore._queue.verifyOperationInProgress();
-  const firestoreClient = firestore._firestoreClient;
+  firestoreClient.asyncQueue.verifyOperationInProgress();
 
-  const offlineComponentProvider = await getOfflineComponentProvider(firestore);
+  const offlineComponentProvider = await getOfflineComponentProvider(
+    firestoreClient
+  );
 
   logDebug(LOG_TAG, 'Initializing OnlineComponentProvider');
   const configuration = await firestoreClient.getConfiguration();
@@ -109,34 +109,36 @@ export async function setOnlineComponentProvider(
 
 // TODO(firestore-compat): Remove `export` once compat migration is complete.
 export async function getOfflineComponentProvider(
-  firestore: FirestoreCompat
+  firestoreClient: FirestoreClient
 ): Promise<OfflineComponentProvider> {
-  firestore.asyncQueue.verifyOperationInProgress();
-  const firestoreClient = await firestore._firestoreClient;
+  firestoreClient.asyncQueue.verifyOperationInProgress();
 
-  if (!offlineComponentProviders.has(firestore)) {
+  if (!offlineComponentProviders.has(firestoreClient)) {
     logDebug(LOG_TAG, 'Using default OfflineComponentProvider');
     await setOfflineComponentProvider(
-      firestore,
+      firestoreClient,
       new MemoryOfflineComponentProvider()
     );
   }
 
-  return offlineComponentProviders.get(firestore)!;
+  return offlineComponentProviders.get(firestoreClient)!;
 }
 
 // TODO(firestore-compat): Remove `export` once compat migration is complete.
 export async function getOnlineComponentProvider(
-  firestore: FirestoreClient
+  firestoreClient: FirestoreClient
 ): Promise<OnlineComponentProvider> {
-  firestore.asyncQueue.verifyOperationInProgress();
+  firestoreClient.asyncQueue.verifyOperationInProgress();
 
-  if (!onlineComponentProviders.has(firestore)) {
+  if (!onlineComponentProviders.has(firestoreClient)) {
     logDebug(LOG_TAG, 'Using default OnlineComponentProvider');
-    await setOnlineComponentProvider(firestore, new OnlineComponentProvider());
+    await setOnlineComponentProvider(
+      firestoreClient,
+      new OnlineComponentProvider()
+    );
   }
 
-  return onlineComponentProviders.get(firestore)!;
+  return onlineComponentProviders.get(firestoreClient)!;
 }
 
 export async function getSyncEngine(
@@ -177,16 +179,20 @@ export async function getEventManager(
 }
 
 export async function getPersistence(
-  firestore: FirestoreClient
+  firestoreClient: FirestoreClient
 ): Promise<Persistence> {
-  const offlineComponentProvider = await getOfflineComponentProvider(firestore);
+  const offlineComponentProvider = await getOfflineComponentProvider(
+    firestoreClient
+  );
   return offlineComponentProvider.persistence;
 }
 
 export async function getLocalStore(
-  firestore: FirestoreClient
+  firestoreClient: FirestoreClient
 ): Promise<LocalStore> {
-  const offlineComponentProvider = await getOfflineComponentProvider(firestore);
+  const offlineComponentProvider = await getOfflineComponentProvider(
+    firestoreClient
+  );
   return offlineComponentProvider.localStore;
 }
 

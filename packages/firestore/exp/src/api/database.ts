@@ -88,9 +88,8 @@ export interface FirestoreCompat {
   readonly _databaseId: DatabaseId;
   readonly _persistenceKey: string;
   readonly _queue: AsyncQueue;
-  _ensureClientConfigured(): Promise<FirestoreClient>;
+  _ensureClientConfigured(): FirestoreClient;
   _getSettings(): Settings;
-  _delete(): Promise<void>;
 }
 
 /**
@@ -103,12 +102,8 @@ export class FirebaseFirestore
   implements _FirebaseService, FirestoreCompat {
   readonly _queue = new AsyncQueue();
   readonly _persistenceKey: string;
-  readonly _clientId = AutoId.newId();
 
-  private readonly _receivedInitialUser = new Deferred<void>();
-  private _user = User.UNAUTHENTICATED;
-  private _credentialListener: CredentialChangeListener = () => {};
-  _firestoreClient!: FirestoreClient;
+  _firestoreClient: FirestoreClient | undefined;
 
   // We override the Settings property of the Lite SDK since the full Firestore
   // SDK supports more settings.
@@ -120,58 +115,38 @@ export class FirebaseFirestore
   ) {
     super(app, authProvider);
     this._persistenceKey = app.name;
-    this._credentials.setChangeListener(user => {
-      if (!this._user.isEqual(user)) {
-        this._user = user;
-        this._credentialListener(user);
-      }
-      this._receivedInitialUser.resolve();
-    });
-  }
-
-  _setCredentialChangeListener(
-    credentialListener: CredentialChangeListener
-  ): void {
-    logDebug(LOG_TAG, 'Registering credential change listener');
-    this._credentialListener = credentialListener;
-    // eslint-disable-next-line @typescript-eslint/no-floating-promises
-    this._receivedInitialUser.promise.then(() =>
-      this._credentialListener(this._user)
-    );
-  }
-
-  async _getConfiguration(): Promise<ComponentConfiguration> {
-    const settings = this._getSettings();
-    await this._receivedInitialUser.promise;
-    const databaseInfo = new DatabaseInfo(
-      this._databaseId,
-      this._persistenceKey,
-      settings.host ?? DEFAULT_HOST,
-      settings.ssl ?? DEFAULT_SSL,
-      /* forceLongPolling= */ false,
-      /* forceAutoDetectLongPolling= */ true
-    );
-    return {
-      asyncQueue: this._queue,
-      databaseInfo,
-      clientId: this._clientId,
-      credentials: this._credentials,
-      initialUser: this._user,
-      maxConcurrentLimboResolutions: MAX_CONCURRENT_LIMBO_RESOLUTIONS
-    };
   }
 
   _getSettings(): Settings {
     return super._getSettings();
   }
 
+  _ensureClientConfigured(): FirestoreClient {
+    if (this._terminated) {
+      throw new FirestoreError(
+        Code.FAILED_PRECONDITION,
+        'The client has already been terminated.'
+      );
+    }
+
+    if (!this._firestoreClient) {
+      this._firestoreClient = new FirestoreClient(
+        this._credentials,
+        this._queue
+      );
+    }
+    return this._firestoreClient!;
+  }
+
   _terminate(): Promise<void> {
+    this._ensureClientConfigured();
+
     this._queue.enterRestrictedMode();
     const deferred = new Deferred();
     this._queue.enqueueAndForgetEvenWhileRestricted(async () => {
       try {
         await super._terminate();
-        await removeComponents(this._firestoreClient);
+        await removeComponents(this._firestoreClient!);
 
         // `removeChangeListener` must be called after shutting down the
         // RemoteStore as it will prevent the RemoteStore from retrieving
@@ -289,7 +264,7 @@ export function enableIndexedDbPersistence(
     persistenceSettings?.forceOwnership
   );
   return setPersistenceProviders(
-    firestore._firestoreClient,
+    firestore._ensureClientConfigured(),
     onlineComponentProvider,
     offlineComponentProvider
   );
@@ -334,7 +309,7 @@ export function enableMultiTabIndexedDbPersistence(
     settings.cacheSizeBytes
   );
   return setPersistenceProviders(
-    firestore._firestoreClient,
+    firestore._ensureClientConfigured(),
     onlineComponentProvider,
     offlineComponentProvider
   );
@@ -479,11 +454,11 @@ export function clearIndexedDbPersistence(
 export function waitForPendingWrites(
   firestore: FirebaseFirestore
 ): Promise<void> {
-  firestore._verifyNotTerminated();
+  const firestoreClient = firestore._ensureClientConfigured();
 
   const deferred = new Deferred<void>();
   firestore._queue.enqueueAndForget(async () => {
-    const syncEngine = await getSyncEngine(firestore._firestoreClient);
+    const syncEngine = await getSyncEngine(firestoreClient);
     return registerPendingWritesCallback(syncEngine, deferred);
   });
   return deferred.promise;
@@ -496,11 +471,11 @@ export function waitForPendingWrites(
  * @return A promise that is resolved once the network has been enabled.
  */
 export function enableNetwork(firestore: FirebaseFirestore): Promise<void> {
-  firestore._verifyNotTerminated();
+  const firestoreClient = firestore._ensureClientConfigured();
 
   return firestore._queue.enqueue(async () => {
-    const remoteStore = await getRemoteStore(firestore._firestoreClient);
-    const persistence = await getPersistence(firestore._firestoreClient);
+    const remoteStore = await getRemoteStore(firestoreClient);
+    const persistence = await getPersistence(firestoreClient);
     persistence.setNetworkEnabled(true);
     return remoteStoreEnableNetwork(remoteStore);
   });
@@ -515,11 +490,11 @@ export function enableNetwork(firestore: FirebaseFirestore): Promise<void> {
  * @return A promise that is resolved once the network has been disabled.
  */
 export function disableNetwork(firestore: FirebaseFirestore): Promise<void> {
-  firestore._verifyNotTerminated();
+  const firestoreClient = firestore._ensureClientConfigured();
 
   return firestore._queue.enqueue(async () => {
-    const remoteStore = await getRemoteStore(firestore);
-    const persistence = await getPersistence(firestore);
+    const remoteStore = await getRemoteStore(firestoreClient);
+    const persistence = await getPersistence(firestoreClient);
     persistence.setNetworkEnabled(false);
     return remoteStoreDisableNetwork(remoteStore);
   });

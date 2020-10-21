@@ -38,6 +38,7 @@ import { SyncPoint } from '../core/SyncPoint';
 import { Database } from './Database';
 import { DataSnapshot } from './DataSnapshot';
 import * as types from '@firebase/database-types';
+import { ThenableReference } from '@firebase/database-types';
 
 export interface ReferenceConstructor {
   new (repo: Repo, path: Path): Reference;
@@ -331,7 +332,10 @@ export class Reference extends Query {
    * @param {function(?Error)=} onComplete
    * @return {!Reference}
    */
-  push(value?: unknown, onComplete?: (a: Error | null) => void): Reference {
+  push(
+    value?: unknown,
+    onComplete?: (a: Error | null) => void
+  ): ThenableReference {
     validateArgCount('Reference.push', 0, 2, arguments.length);
     validateWritablePath('Reference.push', this.path);
     validateFirebaseDataArg('Reference.push', 1, value, this.path, true);
@@ -369,6 +373,7 @@ export class Reference extends Query {
    * @return {!OnDisconnect}
    */
   onDisconnect(): OnDisconnect {
+    this.push().startAt('ff');
     validateWritablePath('Reference.onDisconnect', this.path);
     return new OnDisconnect(this.repo, this.path);
   }
