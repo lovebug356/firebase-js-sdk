@@ -20,7 +20,14 @@ import { _FirebaseService, FirebaseApp } from '@firebase/app-types-exp';
 import { Provider } from '@firebase/component';
 
 import { FirebaseAuthInternalName } from '@firebase/auth-interop-types';
-import { FirestoreClient } from '../../../src/core/firestore_client';
+import {
+  FirestoreClient,
+  getPersistence,
+  getRemoteStore,
+  getSyncEngine,
+  setOfflineComponentProvider,
+  setOnlineComponentProvider
+} from '../../../src/core/firestore_client';
 import {
   AsyncQueue,
   wrapInUserErrorIfRecoverable
@@ -43,15 +50,7 @@ import {
   indexedDbClearPersistence,
   indexedDbStoragePrefix
 } from '../../../src/local/indexeddb_persistence';
-import {
-  getPersistence,
-  getRemoteStore,
-  getSyncEngine,
-  removeComponents,
-  setOfflineComponentProvider,
-  setOnlineComponentProvider
-} from './components';
-import { DatabaseId, DatabaseInfo } from '../../../src/core/database_info';
+import { DatabaseId } from '../../../src/core/database_info';
 import { registerPendingWritesCallback } from '../../../src/core/sync_engine';
 import {
   remoteStoreDisableNetwork,
@@ -146,7 +145,7 @@ export class FirebaseFirestore
     this._queue.enqueueAndForgetEvenWhileRestricted(async () => {
       try {
         await super._terminate();
-        await removeComponents(this._firestoreClient!);
+        await this._firestoreClient!.terminate();
 
         // `removeChangeListener` must be called after shutting down the
         // RemoteStore as it will prevent the RemoteStore from retrieving

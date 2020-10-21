@@ -56,12 +56,14 @@ import {
   PartialObserver,
   Unsubscribe
 } from '../../../src/api/observer';
-import { getEventManager, getLocalStore, getSyncEngine } from './components';
 import {
+  getEventManager,
   executeQueryFromCache,
   executeQueryViaSnapshotListener,
   readDocumentFromCache,
-  readDocumentViaSnapshotListener
+  readDocumentViaSnapshotListener,
+  getLocalStore,
+  getSyncEngine
 } from '../../../src/core/firestore_client';
 import {
   newQueryForPath,

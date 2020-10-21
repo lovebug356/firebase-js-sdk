@@ -2012,7 +2012,6 @@ export class Query<T = DocumentData> implements PublicQuery<T> {
   }
 
   get(options?: GetOptions): Promise<PublicQuerySnapshot<T>> {
-    validateGetOptions('Query.get', options);
     validateHasExplicitOrderByForLimitToLast(this._query);
 
     const firestoreClient = this.firestore._ensureClientConfigured();

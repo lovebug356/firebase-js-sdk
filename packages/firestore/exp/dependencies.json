@@ -18,7 +18,6 @@
                 "randomBytes",
                 "registerFirestore",
                 "removeComponents",
-                "removeComponents$1",
                 "uint8ArrayFromBinaryString",
                 "wrapInUserErrorIfRecoverable"
             ],
@@ -42,7 +41,7 @@
             ],
             "variables": []
         },
-        "sizeInBytes": 20149
+        "sizeInBytes": 19572
     },
     "CollectionReference": {
         "dependencies": {
@@ -61,7 +60,6 @@
                 "randomBytes",
                 "registerFirestore",
                 "removeComponents",
-                "removeComponents$1",
                 "wrapInUserErrorIfRecoverable"
             ],
             "classes": [
@@ -90,7 +88,7 @@
             ],
             "variables": []
         },
-        "sizeInBytes": 23166
+        "sizeInBytes": 22589
     },
     "DocumentReference": {
         "dependencies": {
@@ -109,7 +107,6 @@
                 "randomBytes",
                 "registerFirestore",
                 "removeComponents",
-                "removeComponents$1",
                 "wrapInUserErrorIfRecoverable"
             ],
             "classes": [
@@ -138,7 +135,7 @@
             ],
             "variables": []
         },
-        "sizeInBytes": 23164
+        "sizeInBytes": 22587
     },
     "DocumentSnapshot": {
         "dependencies": {
@@ -173,7 +170,6 @@
                 "randomBytes",
                 "registerFirestore",
                 "removeComponents",
-                "removeComponents$1",
                 "typeOrder",
                 "uint8ArrayFromBinaryString",
                 "wrapInUserErrorIfRecoverable"
@@ -216,7 +212,7 @@
             ],
             "variables": []
         },
-        "sizeInBytes": 38417
+        "sizeInBytes": 37840
     },
     "FieldPath": {
         "dependencies": {
@@ -234,7 +230,6 @@
                 "randomBytes",
                 "registerFirestore",
                 "removeComponents",
-                "removeComponents$1",
                 "wrapInUserErrorIfRecoverable"
             ],
             "classes": [
@@ -259,7 +254,7 @@
             ],
             "variables": []
         },
-        "sizeInBytes": 22087
+        "sizeInBytes": 21510
     },
     "FieldValue": {
         "dependencies": {
@@ -277,7 +272,6 @@
                 "randomBytes",
                 "registerFirestore",
                 "removeComponents",
-                "removeComponents$1",
                 "wrapInUserErrorIfRecoverable"
             ],
             "classes": [
@@ -299,7 +293,7 @@
             ],
             "variables": []
         },
-        "sizeInBytes": 18361
+        "sizeInBytes": 17784
     },
     "FirebaseFirestore": {
         "dependencies": {
@@ -317,7 +311,6 @@
                 "randomBytes",
                 "registerFirestore",
                 "removeComponents",
-                "removeComponents$1",
                 "wrapInUserErrorIfRecoverable"
             ],
             "classes": [
@@ -338,7 +331,7 @@
             ],
             "variables": []
         },
-        "sizeInBytes": 18319
+        "sizeInBytes": 17742
     },
     "GeoPoint": {
         "dependencies": {
@@ -356,7 +349,6 @@
                 "randomBytes",
                 "registerFirestore",
                 "removeComponents",
-                "removeComponents$1",
                 "wrapInUserErrorIfRecoverable"
             ],
             "classes": [
@@ -378,7 +370,7 @@
             ],
             "variables": []
         },
-        "sizeInBytes": 19022
+        "sizeInBytes": 18445
     },
     "Query": {
         "dependencies": {
@@ -396,7 +388,6 @@
                 "randomBytes",
                 "registerFirestore",
                 "removeComponents",
-                "removeComponents$1",
                 "wrapInUserErrorIfRecoverable"
             ],
             "classes": [
@@ -418,7 +409,7 @@
             ],
             "variables": []
         },
-        "sizeInBytes": 18507
+        "sizeInBytes": 17930
     },
     "QueryConstraint": {
         "dependencies": {
@@ -436,7 +427,6 @@
                 "randomBytes",
                 "registerFirestore",
                 "removeComponents",
-                "removeComponents$1",
                 "wrapInUserErrorIfRecoverable"
             ],
             "classes": [
@@ -458,7 +448,7 @@
             ],
             "variables": []
         },
-        "sizeInBytes": 18317
+        "sizeInBytes": 17740
     },
     "QueryDocumentSnapshot": {
         "dependencies": {
@@ -493,7 +483,6 @@
                 "randomBytes",
                 "registerFirestore",
                 "removeComponents",
-                "removeComponents$1",
                 "typeOrder",
                 "uint8ArrayFromBinaryString",
                 "wrapInUserErrorIfRecoverable"
@@ -536,7 +525,7 @@
             ],
             "variables": []
         },
-        "sizeInBytes": 38427
+        "sizeInBytes": 37850
     },
     "QuerySnapshot": {
         "dependencies": {
@@ -572,7 +561,6 @@
                 "randomBytes",
                 "registerFirestore",
                 "removeComponents",
-                "removeComponents$1",
                 "resultChangeType",
                 "typeOrder",
                 "uint8ArrayFromBinaryString",
@@ -618,7 +606,7 @@
             ],
             "variables": []
         },
-        "sizeInBytes": 41069
+        "sizeInBytes": 40492
     },
     "SnapshotMetadata": {
         "dependencies": {
@@ -636,7 +624,6 @@
                 "randomBytes",
                 "registerFirestore",
                 "removeComponents",
-                "removeComponents$1",
                 "wrapInUserErrorIfRecoverable"
             ],
             "classes": [
@@ -658,7 +645,7 @@
             ],
             "variables": []
         },
-        "sizeInBytes": 18526
+        "sizeInBytes": 17949
     },
     "Timestamp": {
         "dependencies": {
@@ -676,7 +663,6 @@
                 "randomBytes",
                 "registerFirestore",
                 "removeComponents",
-                "removeComponents$1",
                 "wrapInUserErrorIfRecoverable"
             ],
             "classes": [
@@ -698,7 +684,7 @@
             ],
             "variables": []
         },
-        "sizeInBytes": 19912
+        "sizeInBytes": 19335
     },
     "Transaction": {
         "dependencies": {
@@ -760,7 +746,6 @@
                 "randomBytes",
                 "registerFirestore",
                 "removeComponents",
-                "removeComponents$1",
                 "timestampEquals",
                 "toBytes",
                 "toDouble",
@@ -838,7 +823,7 @@
             ],
             "variables": []
         },
-        "sizeInBytes": 63178
+        "sizeInBytes": 62601
     },
     "WriteBatch": {
         "dependencies": {
@@ -896,7 +881,6 @@
                 "randomBytes",
                 "registerFirestore",
                 "removeComponents",
-                "removeComponents$1",
                 "timestampEquals",
                 "toBytes",
                 "toDouble",
@@ -960,7 +944,7 @@
             ],
             "variables": []
         },
-        "sizeInBytes": 53576
+        "sizeInBytes": 52999
     },
     "addDoc": {
         "dependencies": {
@@ -1036,6 +1020,8 @@
                 "emitNewSnapsAndNotifyLocalStore",
                 "enableNetworkInternal",
                 "encodeBase64",
+                "ensureOfflineComponents",
+                "ensureOnlineComponents",
                 "ensureWriteCallbacks",
                 "ensureWriteStream",
                 "errorMessage",
@@ -1067,8 +1053,6 @@
                 "getLocalWriteTime",
                 "getLogLevel",
                 "getMessageOrStack",
-                "getOfflineComponentProvider",
-                "getOnlineComponentProvider",
                 "getPostMutationVersion",
                 "getSyncEngine",
                 "handleUserChange",
@@ -1164,7 +1148,6 @@
                 "remoteStoreHandleCredentialChange",
                 "remoteStoreShutdown",
                 "removeComponents",
-                "removeComponents$1",
                 "requireDocument",
                 "restartNetwork",
                 "serverTimestamp",
@@ -1317,7 +1300,7 @@
             ],
             "variables": []
         },
-        "sizeInBytes": 167210
+        "sizeInBytes": 166498
     },
     "arrayRemove": {
         "dependencies": {
@@ -1354,7 +1337,6 @@
                 "randomBytes",
                 "registerFirestore",
                 "removeComponents",
-                "removeComponents$1",
                 "toBytes",
                 "toDouble",
                 "toInteger",
@@ -1399,7 +1381,7 @@
             ],
             "variables": []
         },
-        "sizeInBytes": 35081
+        "sizeInBytes": 34504
     },
     "arrayUnion": {
         "dependencies": {
@@ -1436,7 +1418,6 @@
                 "randomBytes",
                 "registerFirestore",
                 "removeComponents",
-                "removeComponents$1",
                 "toBytes",
                 "toDouble",
                 "toInteger",
@@ -1481,7 +1462,7 @@
             ],
             "variables": []
         },
-        "sizeInBytes": 35074
+        "sizeInBytes": 34497
     },
     "clearIndexedDbPersistence": {
         "dependencies": {
@@ -1503,7 +1484,6 @@
                 "randomBytes",
                 "registerFirestore",
                 "removeComponents",
-                "removeComponents$1",
                 "wrapInUserErrorIfRecoverable",
                 "wrapRequest"
             ],
@@ -1531,7 +1511,7 @@
             ],
             "variables": []
         },
-        "sizeInBytes": 31485
+        "sizeInBytes": 30908
     },
     "collection": {
         "dependencies": {
@@ -1551,7 +1531,6 @@
                 "randomBytes",
                 "registerFirestore",
                 "removeComponents",
-                "removeComponents$1",
                 "validateCollectionPath",
                 "validateNonEmptyArgument",
                 "wrapInUserErrorIfRecoverable"
@@ -1582,7 +1561,7 @@
             ],
             "variables": []
         },
-        "sizeInBytes": 24379
+        "sizeInBytes": 23802
     },
     "collectionGroup": {
         "dependencies": {
@@ -1602,7 +1581,6 @@
                 "randomBytes",
                 "registerFirestore",
                 "removeComponents",
-                "removeComponents$1",
                 "validateNonEmptyArgument",
                 "wrapInUserErrorIfRecoverable"
             ],
@@ -1628,7 +1606,7 @@
             ],
             "variables": []
         },
-        "sizeInBytes": 21974
+        "sizeInBytes": 21397
     },
     "deleteDoc": {
         "dependencies": {
@@ -1701,6 +1679,8 @@
                 "emitNewSnapsAndNotifyLocalStore",
                 "enableNetworkInternal",
                 "encodeBase64",
+                "ensureOfflineComponents",
+                "ensureOnlineComponents",
                 "ensureWriteCallbacks",
                 "ensureWriteStream",
                 "eventManagerOnOnlineStateChange",
@@ -1728,8 +1708,6 @@
                 "getLocalWriteTime",
                 "getLogLevel",
                 "getMessageOrStack",
-                "getOfflineComponentProvider",
-                "getOnlineComponentProvider",
                 "getPostMutationVersion",
                 "getSyncEngine",
                 "handleUserChange",
@@ -1813,7 +1791,6 @@
                 "remoteStoreHandleCredentialChange",
                 "remoteStoreShutdown",
                 "removeComponents",
-                "removeComponents$1",
                 "requireDocument",
                 "restartNetwork",
                 "serverTimestamp",
@@ -1948,7 +1925,7 @@
             ],
             "variables": []
         },
-        "sizeInBytes": 151681
+        "sizeInBytes": 150969
     },
     "deleteField": {
         "dependencies": {
@@ -1967,7 +1944,6 @@
                 "randomBytes",
                 "registerFirestore",
                 "removeComponents",
-                "removeComponents$1",
                 "wrapInUserErrorIfRecoverable"
             ],
             "classes": [
@@ -1990,7 +1966,7 @@
             ],
             "variables": []
         },
-        "sizeInBytes": 18895
+        "sizeInBytes": 18318
     },
     "disableNetwork": {
         "dependencies": {
@@ -2054,6 +2030,8 @@
                 "emitNewSnapsAndNotifyLocalStore",
                 "enableNetworkInternal",
                 "encodeBase64",
+                "ensureOfflineComponents",
+                "ensureOnlineComponents",
                 "eventManagerOnOnlineStateChange",
                 "fail",
                 "fieldTransformEquals",
@@ -2066,8 +2044,6 @@
                 "getLocalWriteTime",
                 "getLogLevel",
                 "getMessageOrStack",
-                "getOfflineComponentProvider",
-                "getOnlineComponentProvider",
                 "getPersistence",
                 "getPostMutationVersion",
                 "getRemoteStore",
@@ -2139,7 +2115,6 @@
                 "remoteStoreHandleCredentialChange",
                 "remoteStoreShutdown",
                 "removeComponents",
-                "removeComponents$1",
                 "requireDocument",
                 "restartNetwork",
                 "serverTimestamp",
@@ -2252,7 +2227,7 @@
             ],
             "variables": []
         },
-        "sizeInBytes": 128346
+        "sizeInBytes": 127575
     },
     "doc": {
         "dependencies": {
@@ -2272,7 +2247,6 @@
                 "randomBytes",
                 "registerFirestore",
                 "removeComponents",
-                "removeComponents$1",
                 "validateDocumentPath",
                 "validateNonEmptyArgument",
                 "wrapInUserErrorIfRecoverable"
@@ -2303,7 +2277,7 @@
             ],
             "variables": []
         },
-        "sizeInBytes": 24423
+        "sizeInBytes": 23846
     },
     "documentId": {
         "dependencies": {
@@ -2322,7 +2296,6 @@
                 "randomBytes",
                 "registerFirestore",
                 "removeComponents",
-                "removeComponents$1",
                 "wrapInUserErrorIfRecoverable"
             ],
             "classes": [
@@ -2347,7 +2320,7 @@
             ],
             "variables": []
         },
-        "sizeInBytes": 22137
+        "sizeInBytes": 21560
     },
     "enableIndexedDbPersistence": {
         "dependencies": {
@@ -2443,6 +2416,7 @@
                 "encodeResourcePath",
                 "encodeSegment",
                 "encodeSeparator",
+                "ensureOfflineComponents",
                 "ensureWriteCallbacks",
                 "ensureWriteStream",
                 "eventManagerOnOnlineStateChange",
@@ -2494,7 +2468,6 @@
                 "getLocalWriteTime",
                 "getLogLevel",
                 "getMessageOrStack",
-                "getOfflineComponentProvider",
                 "getPostMutationVersion",
                 "getWindow",
                 "globalTargetStore",
@@ -2595,7 +2568,6 @@
                 "remoteStoreHandleCredentialChange",
                 "remoteStoreShutdown",
                 "removeComponents",
-                "removeComponents$1",
                 "removeMutationBatch",
                 "requireDocument",
                 "restartNetwork",
@@ -2802,7 +2774,7 @@
             ],
             "variables": []
         },
-        "sizeInBytes": 239072
+        "sizeInBytes": 238435
     },
     "enableMultiTabIndexedDbPersistence": {
         "dependencies": {
@@ -2914,6 +2886,7 @@
                 "encodeResourcePath",
                 "encodeSegment",
                 "encodeSeparator",
+                "ensureOfflineComponents",
                 "ensureWatchCallbacks",
                 "ensureWatchStream",
                 "ensureWriteCallbacks",
@@ -2980,7 +2953,6 @@
                 "getLogLevel",
                 "getMessageOrStack",
                 "getNewDocumentChanges",
-                "getOfflineComponentProvider",
                 "getPostMutationVersion",
                 "getRemoteKeysForTarget",
                 "getWindow",
@@ -3099,7 +3071,6 @@
                 "removeAndCleanupTarget",
                 "removeCachedMutationBatchMetadata",
                 "removeComponents",
-                "removeComponents$1",
                 "removeLimboTarget",
                 "removeMutationBatch",
                 "requireDocument",
@@ -3347,7 +3318,7 @@
             ],
             "variables": []
         },
-        "sizeInBytes": 307653
+        "sizeInBytes": 307016
     },
     "enableNetwork": {
         "dependencies": {
@@ -3411,6 +3382,8 @@
                 "enableNetwork",
                 "enableNetworkInternal",
                 "encodeBase64",
+                "ensureOfflineComponents",
+                "ensureOnlineComponents",
                 "eventManagerOnOnlineStateChange",
                 "fail",
                 "fieldTransformEquals",
@@ -3423,8 +3396,6 @@
                 "getLocalWriteTime",
                 "getLogLevel",
                 "getMessageOrStack",
-                "getOfflineComponentProvider",
-                "getOnlineComponentProvider",
                 "getPersistence",
                 "getPostMutationVersion",
                 "getRemoteStore",
@@ -3496,7 +3467,6 @@
                 "remoteStoreHandleCredentialChange",
                 "remoteStoreShutdown",
                 "removeComponents",
-                "removeComponents$1",
                 "requireDocument",
                 "restartNetwork",
                 "serverTimestamp",
@@ -3609,7 +3579,7 @@
             ],
             "variables": []
         },
-        "sizeInBytes": 128288
+        "sizeInBytes": 127517
     },
     "endAt": {
         "dependencies": {
@@ -3670,7 +3640,6 @@
                 "refValue",
                 "registerFirestore",
                 "removeComponents",
-                "removeComponents$1",
                 "toBytes",
                 "toDouble",
                 "toInteger",
@@ -3729,7 +3698,7 @@
             ],
             "variables": []
         },
-        "sizeInBytes": 51707
+        "sizeInBytes": 51130
     },
     "endBefore": {
         "dependencies": {
@@ -3790,7 +3759,6 @@
                 "refValue",
                 "registerFirestore",
                 "removeComponents",
-                "removeComponents$1",
                 "toBytes",
                 "toDouble",
                 "toInteger",
@@ -3849,7 +3817,7 @@
             ],
             "variables": []
         },
-        "sizeInBytes": 51718
+        "sizeInBytes": 51141
     },
     "getDoc": {
         "dependencies": {
@@ -3924,6 +3892,8 @@
                 "emitNewSnapsAndNotifyLocalStore",
                 "enableNetworkInternal",
                 "encodeBase64",
+                "ensureOfflineComponents",
+                "ensureOnlineComponents",
                 "ensureWatchCallbacks",
                 "ensureWatchStream",
                 "errorMessage",
@@ -3962,8 +3932,6 @@
                 "getLocalWriteTime",
                 "getLogLevel",
                 "getMessageOrStack",
-                "getOfflineComponentProvider",
-                "getOnlineComponentProvider",
                 "getPostMutationVersion",
                 "getPreviousValue",
                 "getRemoteKeysForTarget",
@@ -4054,7 +4022,6 @@
                 "remoteStoreUnlisten",
                 "removeAndCleanupTarget",
                 "removeComponents",
-                "removeComponents$1",
                 "removeLimboTarget",
                 "requireDocument",
                 "restartNetwork",
@@ -4234,7 +4201,7 @@
             ],
             "variables": []
         },
-        "sizeInBytes": 200796
+        "sizeInBytes": 200135
     },
     "getDocFromCache": {
         "dependencies": {
@@ -4292,6 +4259,7 @@
                 "documentKeySet",
                 "documentMap",
                 "encodeBase64",
+                "ensureOfflineComponents",
                 "errorMessage",
                 "fail",
                 "fieldPathFromArgument$1",
@@ -4309,7 +4277,6 @@
                 "getLocalWriteTime",
                 "getLogLevel",
                 "getMessageOrStack",
-                "getOfflineComponentProvider",
                 "getPostMutationVersion",
                 "getPreviousValue",
                 "handleUserChange",
@@ -4365,7 +4332,6 @@
                 "readLocalDocument",
                 "registerFirestore",
                 "removeComponents",
-                "removeComponents$1",
                 "requireDocument",
                 "serverTimestamp",
                 "serverTransformResults",
@@ -4479,7 +4445,7 @@
             ],
             "variables": []
         },
-        "sizeInBytes": 119320
+        "sizeInBytes": 118641
     },
     "getDocFromServer": {
         "dependencies": {
@@ -4554,6 +4520,8 @@
                 "emitNewSnapsAndNotifyLocalStore",
                 "enableNetworkInternal",
                 "encodeBase64",
+                "ensureOfflineComponents",
+                "ensureOnlineComponents",
                 "ensureWatchCallbacks",
                 "ensureWatchStream",
                 "errorMessage",
@@ -4592,8 +4560,6 @@
                 "getLocalWriteTime",
                 "getLogLevel",
                 "getMessageOrStack",
-                "getOfflineComponentProvider",
-                "getOnlineComponentProvider",
                 "getPostMutationVersion",
                 "getPreviousValue",
                 "getRemoteKeysForTarget",
@@ -4684,7 +4650,6 @@
                 "remoteStoreUnlisten",
                 "removeAndCleanupTarget",
                 "removeComponents",
-                "removeComponents$1",
                 "removeLimboTarget",
                 "requireDocument",
                 "restartNetwork",
@@ -4864,7 +4829,7 @@
             ],
             "variables": []
         },
-        "sizeInBytes": 200815
+        "sizeInBytes": 200154
     },
     "getDocs": {
         "dependencies": {
@@ -4939,6 +4904,8 @@
                 "emitNewSnapsAndNotifyLocalStore",
                 "enableNetworkInternal",
                 "encodeBase64",
+                "ensureOfflineComponents",
+                "ensureOnlineComponents",
                 "ensureWatchCallbacks",
                 "ensureWatchStream",
                 "errorMessage",
@@ -4978,8 +4945,6 @@
                 "getLocalWriteTime",
                 "getLogLevel",
                 "getMessageOrStack",
-                "getOfflineComponentProvider",
-                "getOnlineComponentProvider",
                 "getPostMutationVersion",
                 "getPreviousValue",
                 "getRemoteKeysForTarget",
@@ -5069,7 +5034,6 @@
                 "remoteStoreUnlisten",
                 "removeAndCleanupTarget",
                 "removeComponents",
-                "removeComponents$1",
                 "removeLimboTarget",
                 "requireDocument",
                 "restartNetwork",
@@ -5252,7 +5216,7 @@
             ],
             "variables": []
         },
-        "sizeInBytes": 203097
+        "sizeInBytes": 202436
     },
     "getDocsFromCache": {
         "dependencies": {
@@ -5312,6 +5276,7 @@
                 "documentKeySet",
                 "documentMap",
                 "encodeBase64",
+                "ensureOfflineComponents",
                 "errorMessage",
                 "executeQuery",
                 "executeQueryFromCache",
@@ -5332,7 +5297,6 @@
                 "getLocalWriteTime",
                 "getLogLevel",
                 "getMessageOrStack",
-                "getOfflineComponentProvider",
                 "getPostMutationVersion",
                 "getPreviousValue",
                 "handleUserChange",
@@ -5387,7 +5351,6 @@
                 "randomBytes",
                 "registerFirestore",
                 "removeComponents",
-                "removeComponents$1",
                 "requireDocument",
                 "resultChangeType",
                 "serverTimestamp",
@@ -5509,7 +5472,7 @@
             ],
             "variables": []
         },
-        "sizeInBytes": 132288
+        "sizeInBytes": 131609
     },
     "getDocsFromServer": {
         "dependencies": {
@@ -5584,6 +5547,8 @@
                 "emitNewSnapsAndNotifyLocalStore",
                 "enableNetworkInternal",
                 "encodeBase64",
+                "ensureOfflineComponents",
+                "ensureOnlineComponents",
                 "ensureWatchCallbacks",
                 "ensureWatchStream",
                 "errorMessage",
@@ -5623,8 +5588,6 @@
                 "getLocalWriteTime",
                 "getLogLevel",
                 "getMessageOrStack",
-                "getOfflineComponentProvider",
-                "getOnlineComponentProvider",
                 "getPostMutationVersion",
                 "getPreviousValue",
                 "getRemoteKeysForTarget",
@@ -5714,7 +5677,6 @@
                 "remoteStoreUnlisten",
                 "removeAndCleanupTarget",
                 "removeComponents",
-                "removeComponents$1",
                 "removeLimboTarget",
                 "requireDocument",
                 "restartNetwork",
@@ -5896,7 +5858,7 @@
             ],
             "variables": []
         },
-        "sizeInBytes": 202825
+        "sizeInBytes": 202164
     },
     "getFirestore": {
         "dependencies": {
@@ -5915,7 +5877,6 @@
                 "randomBytes",
                 "registerFirestore",
                 "removeComponents",
-                "removeComponents$1",
                 "wrapInUserErrorIfRecoverable"
             ],
             "classes": [
@@ -5936,7 +5897,7 @@
             ],
             "variables": []
         },
-        "sizeInBytes": 18387
+        "sizeInBytes": 17810
     },
     "increment": {
         "dependencies": {
@@ -5957,7 +5918,6 @@
                 "randomBytes",
                 "registerFirestore",
                 "removeComponents",
-                "removeComponents$1",
                 "toDouble",
                 "toInteger",
                 "toNumber",
@@ -5986,7 +5946,7 @@
             ],
             "variables": []
         },
-        "sizeInBytes": 19801
+        "sizeInBytes": 19224
     },
     "initializeFirestore": {
         "dependencies": {
@@ -6005,7 +5965,6 @@
                 "randomBytes",
                 "registerFirestore",
                 "removeComponents",
-                "removeComponents$1",
                 "wrapInUserErrorIfRecoverable"
             ],
             "classes": [
@@ -6027,7 +5986,7 @@
             ],
             "variables": []
         },
-        "sizeInBytes": 19691
+        "sizeInBytes": 19114
     },
     "limit": {
         "dependencies": {
@@ -6047,7 +6006,6 @@
                 "randomBytes",
                 "registerFirestore",
                 "removeComponents",
-                "removeComponents$1",
                 "validatePositiveNumber",
                 "wrapInUserErrorIfRecoverable"
             ],
@@ -6073,7 +6031,7 @@
             ],
             "variables": []
         },
-        "sizeInBytes": 19706
+        "sizeInBytes": 19129
     },
     "limitToLast": {
         "dependencies": {
@@ -6093,7 +6051,6 @@
                 "randomBytes",
                 "registerFirestore",
                 "removeComponents",
-                "removeComponents$1",
                 "validatePositiveNumber",
                 "wrapInUserErrorIfRecoverable"
             ],
@@ -6119,7 +6076,7 @@
             ],
             "variables": []
         },
-        "sizeInBytes": 19730
+        "sizeInBytes": 19153
     },
     "onSnapshot": {
         "dependencies": {
@@ -6195,6 +6152,8 @@
                 "emitNewSnapsAndNotifyLocalStore",
                 "enableNetworkInternal",
                 "encodeBase64",
+                "ensureOfflineComponents",
+                "ensureOnlineComponents",
                 "ensureWatchCallbacks",
                 "ensureWatchStream",
                 "errorMessage",
@@ -6232,8 +6191,6 @@
                 "getLocalWriteTime",
                 "getLogLevel",
                 "getMessageOrStack",
-                "getOfflineComponentProvider",
-                "getOnlineComponentProvider",
                 "getPostMutationVersion",
                 "getPreviousValue",
                 "getRemoteKeysForTarget",
@@ -6326,7 +6283,6 @@
                 "remoteStoreUnlisten",
                 "removeAndCleanupTarget",
                 "removeComponents",
-                "removeComponents$1",
                 "removeLimboTarget",
                 "requireDocument",
                 "restartNetwork",
@@ -6509,7 +6465,7 @@
             ],
             "variables": []
         },
-        "sizeInBytes": 204213
+        "sizeInBytes": 203552
     },
     "onSnapshotsInSync": {
         "dependencies": {
@@ -6582,6 +6538,8 @@
                 "emitNewSnapsAndNotifyLocalStore",
                 "enableNetworkInternal",
                 "encodeBase64",
+                "ensureOfflineComponents",
+                "ensureOnlineComponents",
                 "ensureWatchCallbacks",
                 "ensureWatchStream",
                 "eventManagerOnOnlineStateChange",
@@ -6613,8 +6571,6 @@
                 "getLocalWriteTime",
                 "getLogLevel",
                 "getMessageOrStack",
-                "getOfflineComponentProvider",
-                "getOnlineComponentProvider",
                 "getPostMutationVersion",
                 "getRemoteKeysForTarget",
                 "handleTargetError",
@@ -6706,7 +6662,6 @@
                 "remoteStoreUnlisten",
                 "removeAndCleanupTarget",
                 "removeComponents",
-                "removeComponents$1",
                 "removeLimboTarget",
                 "removeSnapshotsInSyncListener",
                 "requireDocument",
@@ -6869,7 +6824,7 @@
             ],
             "variables": []
         },
-        "sizeInBytes": 185924
+        "sizeInBytes": 185263
     },
     "orderBy": {
         "dependencies": {
@@ -6897,7 +6852,6 @@
                 "randomBytes",
                 "registerFirestore",
                 "removeComponents",
-                "removeComponents$1",
                 "validateNewOrderBy",
                 "validateOrderByAndInequalityMatch",
                 "wrapInUserErrorIfRecoverable"
@@ -6929,7 +6883,7 @@
             ],
             "variables": []
         },
-        "sizeInBytes": 26561
+        "sizeInBytes": 25984
     },
     "query": {
         "dependencies": {
@@ -6948,7 +6902,6 @@
                 "randomBytes",
                 "registerFirestore",
                 "removeComponents",
-                "removeComponents$1",
                 "wrapInUserErrorIfRecoverable"
             ],
             "classes": [
@@ -6969,7 +6922,7 @@
             ],
             "variables": []
         },
-        "sizeInBytes": 18412
+        "sizeInBytes": 17835
     },
     "queryEqual": {
         "dependencies": {
@@ -7013,7 +6966,6 @@
                 "randomBytes",
                 "registerFirestore",
                 "removeComponents",
-                "removeComponents$1",
                 "targetEquals",
                 "timestampEquals",
                 "typeOrder",
@@ -7047,7 +6999,7 @@
             ],
             "variables": []
         },
-        "sizeInBytes": 33551
+        "sizeInBytes": 32974
     },
     "refEqual": {
         "dependencies": {
@@ -7067,7 +7019,6 @@
                 "refEqual",
                 "registerFirestore",
                 "removeComponents",
-                "removeComponents$1",
                 "wrapInUserErrorIfRecoverable"
             ],
             "classes": [
@@ -7096,7 +7047,7 @@
             ],
             "variables": []
         },
-        "sizeInBytes": 23451
+        "sizeInBytes": 22874
     },
     "runTransaction": {
         "dependencies": {
@@ -7181,7 +7132,6 @@
                 "randomBytes",
                 "registerFirestore",
                 "removeComponents",
-                "removeComponents$1",
                 "runTransaction",
                 "timestampEquals",
                 "toBytes",
@@ -7281,7 +7231,7 @@
             ],
             "variables": []
         },
-        "sizeInBytes": 82092
+        "sizeInBytes": 81515
     },
     "serverTimestamp": {
         "dependencies": {
@@ -7299,7 +7249,6 @@
                 "randomBytes",
                 "registerFirestore",
                 "removeComponents",
-                "removeComponents$1",
                 "serverTimestamp$1",
                 "wrapInUserErrorIfRecoverable"
             ],
@@ -7326,7 +7275,7 @@
             ],
             "variables": []
         },
-        "sizeInBytes": 18906
+        "sizeInBytes": 18329
     },
     "setDoc": {
         "dependencies": {
@@ -7400,6 +7349,8 @@
                 "emitNewSnapsAndNotifyLocalStore",
                 "enableNetworkInternal",
                 "encodeBase64",
+                "ensureOfflineComponents",
+                "ensureOnlineComponents",
                 "ensureWriteCallbacks",
                 "ensureWriteStream",
                 "errorMessage",
@@ -7431,8 +7382,6 @@
                 "getLocalWriteTime",
                 "getLogLevel",
                 "getMessageOrStack",
-                "getOfflineComponentProvider",
-                "getOnlineComponentProvider",
                 "getPostMutationVersion",
                 "getSyncEngine",
                 "handleUserChange",
@@ -7527,7 +7476,6 @@
                 "remoteStoreHandleCredentialChange",
                 "remoteStoreShutdown",
                 "removeComponents",
-                "removeComponents$1",
                 "requireDocument",
                 "restartNetwork",
                 "serverTimestamp",
@@ -7676,7 +7624,7 @@
             ],
             "variables": []
         },
-        "sizeInBytes": 164575
+        "sizeInBytes": 163863
     },
     "setLogLevel": {
         "dependencies": {
@@ -7694,7 +7642,6 @@
                 "randomBytes",
                 "registerFirestore",
                 "removeComponents",
-                "removeComponents$1",
                 "setLogLevel",
                 "wrapInUserErrorIfRecoverable"
             ],
@@ -7716,7 +7663,7 @@
             ],
             "variables": []
         },
-        "sizeInBytes": 18353
+        "sizeInBytes": 17776
     },
     "snapshotEqual": {
         "dependencies": {
@@ -7770,7 +7717,6 @@
                 "randomBytes",
                 "registerFirestore",
                 "removeComponents",
-                "removeComponents$1",
                 "resultChangeType",
                 "snapshotEqual",
                 "targetEquals",
@@ -7823,7 +7769,7 @@
             ],
             "variables": []
         },
-        "sizeInBytes": 48413
+        "sizeInBytes": 47836
     },
     "startAfter": {
         "dependencies": {
@@ -7883,7 +7829,6 @@
                 "refValue",
                 "registerFirestore",
                 "removeComponents",
-                "removeComponents$1",
                 "startAfter",
                 "toBytes",
                 "toDouble",
@@ -7943,7 +7888,7 @@
             ],
             "variables": []
         },
-        "sizeInBytes": 51728
+        "sizeInBytes": 51151
     },
     "startAt": {
         "dependencies": {
@@ -8003,7 +7948,6 @@
                 "refValue",
                 "registerFirestore",
                 "removeComponents",
-                "removeComponents$1",
                 "startAt",
                 "toBytes",
                 "toDouble",
@@ -8063,7 +8007,7 @@
             ],
             "variables": []
         },
-        "sizeInBytes": 51718
+        "sizeInBytes": 51141
     },
     "terminate": {
         "dependencies": {
@@ -8081,7 +8025,6 @@
                 "randomBytes",
                 "registerFirestore",
                 "removeComponents",
-                "removeComponents$1",
                 "terminate",
                 "wrapInUserErrorIfRecoverable"
             ],
@@ -8103,7 +8046,7 @@
             ],
             "variables": []
         },
-        "sizeInBytes": 18422
+        "sizeInBytes": 17845
     },
     "updateDoc": {
         "dependencies": {
@@ -8176,6 +8119,8 @@
                 "emitNewSnapsAndNotifyLocalStore",
                 "enableNetworkInternal",
                 "encodeBase64",
+                "ensureOfflineComponents",
+                "ensureOnlineComponents",
                 "ensureWriteCallbacks",
                 "ensureWriteStream",
                 "errorMessage",
@@ -8208,8 +8153,6 @@
                 "getLocalWriteTime",
                 "getLogLevel",
                 "getMessageOrStack",
-                "getOfflineComponentProvider",
-                "getOnlineComponentProvider",
                 "getPostMutationVersion",
                 "getSyncEngine",
                 "handleUserChange",
@@ -8305,7 +8248,6 @@
                 "remoteStoreHandleCredentialChange",
                 "remoteStoreShutdown",
                 "removeComponents",
-                "removeComponents$1",
                 "requireDocument",
                 "restartNetwork",
                 "serverTimestamp",
@@ -8456,7 +8398,7 @@
             ],
             "variables": []
         },
-        "sizeInBytes": 166007
+        "sizeInBytes": 165295
     },
     "waitForPendingWrites": {
         "dependencies": {
@@ -8519,6 +8461,8 @@
                 "emitNewSnapsAndNotifyLocalStore",
                 "enableNetworkInternal",
                 "encodeBase64",
+                "ensureOfflineComponents",
+                "ensureOnlineComponents",
                 "eventManagerOnOnlineStateChange",
                 "fail",
                 "fieldTransformEquals",
@@ -8532,8 +8476,6 @@
                 "getLocalWriteTime",
                 "getLogLevel",
                 "getMessageOrStack",
-                "getOfflineComponentProvider",
-                "getOnlineComponentProvider",
                 "getPostMutationVersion",
                 "getSyncEngine",
                 "handleUserChange",
@@ -8604,7 +8546,6 @@
                 "remoteStoreHandleCredentialChange",
                 "remoteStoreShutdown",
                 "removeComponents",
-                "removeComponents$1",
                 "requireDocument",
                 "restartNetwork",
                 "serverTimestamp",
@@ -8718,7 +8659,7 @@
             ],
             "variables": []
         },
-        "sizeInBytes": 128967
+        "sizeInBytes": 128255
     },
     "where": {
         "dependencies": {
@@ -8790,7 +8731,6 @@
                 "refValue",
                 "registerFirestore",
                 "removeComponents",
-                "removeComponents$1",
                 "timestampEquals",
                 "toBytes",
                 "toDouble",
@@ -8858,7 +8798,7 @@
             ],
             "variables": []
         },
-        "sizeInBytes": 56793
+        "sizeInBytes": 56216
     },
     "writeBatch": {
         "dependencies": {
@@ -8931,6 +8871,8 @@
                 "emitNewSnapsAndNotifyLocalStore",
                 "enableNetworkInternal",
                 "encodeBase64",
+                "ensureOfflineComponents",
+                "ensureOnlineComponents",
                 "ensureWriteCallbacks",
                 "ensureWriteStream",
                 "errorMessage",
@@ -8963,8 +8905,6 @@
                 "getLocalWriteTime",
                 "getLogLevel",
                 "getMessageOrStack",
-                "getOfflineComponentProvider",
-                "getOnlineComponentProvider",
                 "getPostMutationVersion",
                 "getSyncEngine",
                 "handleUserChange",
@@ -9061,7 +9001,6 @@
                 "remoteStoreHandleCredentialChange",
                 "remoteStoreShutdown",
                 "removeComponents",
-                "removeComponents$1",
                 "requireDocument",
                 "restartNetwork",
                 "serverTimestamp",
@@ -9215,6 +9154,6 @@
             ],
             "variables": []
         },
-        "sizeInBytes": 169185
+        "sizeInBytes": 168473
     }
 }

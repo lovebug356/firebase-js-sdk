@@ -24,6 +24,7 @@ import {
 import { User } from '../auth/user';
 import {
   executeQuery,
+  handleUserChange,
   LocalStore,
   readLocalDocument
 } from '../local/local_store';
@@ -31,8 +32,10 @@ import { Document, NoDocument } from '../model/document';
 import { DocumentKey } from '../model/document_key';
 import { Mutation } from '../model/mutation';
 import {
+  RemoteStore,
+  remoteStoreDisableNetwork,
   remoteStoreEnableNetwork,
-  remoteStoreDisableNetwork
+  remoteStoreHandleCredentialChange
 } from '../remote/remote_store';
 import { AsyncQueue, wrapInUserErrorIfRecoverable } from '../util/async_queue';
 import { Code, FirestoreError } from '../util/error';
@@ -47,27 +50,31 @@ import {
   QueryListener,
   removeSnapshotsInSyncListener
 } from './event_manager';
-import { registerPendingWritesCallback, syncEngineWrite } from './sync_engine';
+import {
+  registerPendingWritesCallback,
+  SyncEngine,
+  syncEngineListen,
+  syncEngineUnlisten,
+  syncEngineWrite
+} from './sync_engine';
 import { View } from './view';
 import { DatabaseId, DatabaseInfo } from './database_info';
 import { newQueryForPath, Query } from './query';
 import { Transaction } from './transaction';
 import { ViewSnapshot } from './view_snapshot';
-import { ComponentConfiguration } from './component_provider';
+import {
+  ComponentConfiguration,
+  MemoryOfflineComponentProvider,
+  OfflineComponentProvider,
+  OnlineComponentProvider
+} from './component_provider';
 import { AsyncObserver } from '../util/async_observer';
 import { debugAssert } from '../util/assert';
 import { TransactionRunner } from './transaction_runner';
-import {
-  getDatastore,
-  getEventManager,
-  getLocalStore,
-  getPersistence,
-  getRemoteStore,
-  getSyncEngine,
-  removeComponents
-} from '../../exp/src/api/components';
 import { logDebug } from '../util/log';
 import { AutoId } from '../util/misc';
+import { Persistence } from '../local/persistence';
+import { Datastore } from '../remote/datastore';
 
 const LOG_TAG = 'FirestoreClient';
 export const MAX_CONCURRENT_LIMBO_RESOLUTIONS = 100;
@@ -87,7 +94,10 @@ export class FirestoreClient {
   private databaseInfo!: DatabaseInfo;
   private user = User.UNAUTHENTICATED;
   private readonly clientId = AutoId.newId();
-  private _credentialListener: CredentialChangeListener = () => {};
+  private credentialListener: CredentialChangeListener = () => {};
+
+  offlineComponents?: OfflineComponentProvider;
+  onlineComponents?: OnlineComponentProvider;
 
   // We defer our initialization until we get the current user from
   // setChangeListener(). We block the async queue until we got the initial
@@ -154,7 +164,7 @@ export class FirestoreClient {
       }
       if (!user.isEqual(this.user)) {
         this.user = user;
-        this._credentialListener(user);
+        this.credentialListener(user);
       }
     });
 
@@ -177,10 +187,10 @@ export class FirestoreClient {
 
   setCredentialChangeListener(listener: (user: User) => void): void {
     logDebug('FirebaseFirestore', 'Registering credential change listener');
-    this._credentialListener = listener;
+    this.credentialListener = listener;
     // eslint-disable-next-line @typescript-eslint/no-floating-promises
     this.initializationDone.promise.then(() =>
-      this._credentialListener(this.user)
+      this.credentialListener(this.user)
     );
   }
 
@@ -206,7 +216,8 @@ export class FirestoreClient {
     const deferred = new Deferred();
     this.asyncQueue.enqueueAndForgetEvenWhileRestricted(async () => {
       try {
-        await removeComponents(this);
+        await this.onlineComponents?.terminate();
+        await this.offlineComponents?.terminate();
 
         // `removeChangeListener` must be called after shutting down the
         // RemoteStore as it will prevent the RemoteStore from retrieving
@@ -225,7 +236,99 @@ export class FirestoreClient {
   }
 }
 
-/** Enables the network connection and requeues all pending operations. */
+// TODO(firestore-compat): Remove `export` once compat migration is complete.
+export async function ensureOfflineComponents(
+  firestoreClient: FirestoreClient
+): Promise<OfflineComponentProvider> {
+  firestoreClient.asyncQueue.verifyOperationInProgress();
+
+  if (!firestoreClient.offlineComponents) {
+    logDebug(LOG_TAG, 'Using default OfflineComponentProvider');
+    await setOfflineComponentProvider(
+      firestoreClient,
+      new MemoryOfflineComponentProvider()
+    );
+  }
+
+  return firestoreClient.offlineComponents!;
+}
+
+// TODO(firestore-compat): Remove `export` once compat migration is complete.
+export async function ensureOnlineComponents(
+  firestoreClient: FirestoreClient
+): Promise<OnlineComponentProvider> {
+  firestoreClient.asyncQueue.verifyOperationInProgress();
+
+  if (!firestoreClient.onlineComponents) {
+    logDebug(LOG_TAG, 'Using default OnlineComponentProvider');
+    await setOnlineComponentProvider(
+      firestoreClient,
+      new OnlineComponentProvider()
+    );
+  }
+
+  return firestoreClient.onlineComponents!;
+}
+
+export async function setOfflineComponentProvider(
+  firestoreClient: FirestoreClient,
+  offlineComponentProvider: OfflineComponentProvider
+): Promise<void> {
+  firestoreClient.asyncQueue.verifyOperationInProgress();
+
+  logDebug(LOG_TAG, 'Initializing OfflineComponentProvider');
+  const configuration = await firestoreClient.getConfiguration();
+  await offlineComponentProvider.initialize(configuration);
+  firestoreClient.setCredentialChangeListener(user =>
+    firestoreClient.asyncQueue.enqueueRetryable(async () => {
+      await handleUserChange(offlineComponentProvider.localStore, user);
+    })
+  );
+  // When a user calls clearPersistence() in one client, all other clients
+  // need to be terminated to allow the delete to succeed.
+  offlineComponentProvider.persistence.setDatabaseDeletedListener(() =>
+    firestoreClient.terminate()
+  );
+
+  firestoreClient.offlineComponents = offlineComponentProvider;
+}
+
+export async function setOnlineComponentProvider(
+  firestoreClient: FirestoreClient,
+  onlineComponentProvider: OnlineComponentProvider
+): Promise<void> {
+  firestoreClient.asyncQueue.verifyOperationInProgress();
+
+  const offlineComponentProvider = await ensureOfflineComponents(
+    firestoreClient
+  );
+
+  logDebug(LOG_TAG, 'Initializing OnlineComponentProvider');
+  const configuration = await firestoreClient.getConfiguration();
+  await onlineComponentProvider.initialize(
+    offlineComponentProvider,
+    configuration
+  );
+  // The CredentialChangeListener of the online component provider takes
+  // precedence over the offline component provider.
+  firestoreClient.setCredentialChangeListener(user =>
+    firestoreClient.asyncQueue.enqueueRetryable(() =>
+      remoteStoreHandleCredentialChange(
+        onlineComponentProvider.remoteStore,
+        user
+      )
+    )
+  );
+  firestoreClient.onlineComponents = onlineComponentProvider;
+}
+
+export async function getPersistence(
+  firestoreClient: FirestoreClient
+): Promise<Persistence> {
+  return (await ensureOfflineComponents(firestoreClient)).persistence;
+}
+
+/** Enables the network connection and re-enqueues all pending operations. */
 export async function firestoreClientEnableNetwork(
   firestoreClient: FirestoreClient
 ): Promise<void> {
@@ -236,6 +339,12 @@ export async function firestoreClientEnableNetwork(
     persistence.setNetworkEnabled(true);
     return remoteStoreEnableNetwork(remoteStore);
   });
+}
+
+export async function getRemoteStore(
+  firestoreClient: FirestoreClient
+): Promise<RemoteStore> {
+  return (await ensureOnlineComponents(firestoreClient)).remoteStore;
 }
 
 /** Disables the network connection. Pending operations will not complete. */
@@ -249,6 +358,12 @@ export async function firestoreClientDisableNetwork(
     persistence.setNetworkEnabled(false);
     return remoteStoreDisableNetwork(remoteStore);
   });
+}
+
+export async function getSyncEngine(
+  firestoreClient: FirestoreClient
+): Promise<SyncEngine> {
+  return (await ensureOnlineComponents(firestoreClient)).syncEngine;
 }
 
 /**
@@ -267,6 +382,22 @@ export async function firestoreClientWaitForPendingWrites(
     return registerPendingWritesCallback(syncEngine, deferred);
   });
   return deferred.promise;
+}
+
+export async function getEventManager(
+  firestoreClient: FirestoreClient
+): Promise<EventManager> {
+  let onlineComponentProvider = await ensureOnlineComponents(firestoreClient);
+  const eventManager = onlineComponentProvider.eventManager;
+  eventManager.onListen = syncEngineListen.bind(
+    null,
+    onlineComponentProvider.syncEngine
+  );
+  eventManager.onUnlisten = syncEngineUnlisten.bind(
+    null,
+    onlineComponentProvider.syncEngine
+  );
+  return eventManager;
 }
 
 export function firestoreClientListen(
@@ -322,6 +453,10 @@ export function firestoreClientGetDocumentViaSnapshotListener(
     );
   });
   return deferred.promise;
+}
+
+export async function getLocalStore(firestoreClient: FirestoreClient) {
+  return (await ensureOfflineComponents(firestoreClient)).localStore;
 }
 
 export function firestoreClientGetDocumentsFromLocalCache(
@@ -387,6 +522,12 @@ export function firestoreClientAddSnapshotsInSyncListener(
       return removeSnapshotsInSyncListener(eventManager, wrappedObserver);
     });
   };
+}
+
+export async function getDatastore(
+  firestoreClient: FirestoreClient
+): Promise<Datastore> {
+  return (await ensureOnlineComponents(firestoreClient)).datastore;
 }
 
 /**
