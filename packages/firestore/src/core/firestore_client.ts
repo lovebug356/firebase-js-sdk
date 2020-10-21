@@ -322,10 +322,10 @@ export async function setOnlineComponentProvider(
   firestoreClient.onlineComponents = onlineComponentProvider;
 }
 
-export async function getPersistence(
+export function getPersistence(
   firestoreClient: FirestoreClient
 ): Promise<Persistence> {
-  return (await ensureOfflineComponents(firestoreClient)).persistence;
+  return ensureOfflineComponents(firestoreClient).then(o => o.persistence);
 }
 
 /** Enables the network connection and re-enqueues all pending operations. */
@@ -341,10 +341,10 @@ export async function firestoreClientEnableNetwork(
   });
 }
 
-export async function getRemoteStore(
+export function getRemoteStore(
   firestoreClient: FirestoreClient
 ): Promise<RemoteStore> {
-  return (await ensureOnlineComponents(firestoreClient)).remoteStore;
+  return ensureOnlineComponents(firestoreClient).then(o => o.remoteStore);
 }
 
 /** Disables the network connection. Pending operations will not complete. */
@@ -360,10 +360,10 @@ export async function firestoreClientDisableNetwork(
   });
 }
 
-export async function getSyncEngine(
+export function getSyncEngine(
   firestoreClient: FirestoreClient
 ): Promise<SyncEngine> {
-  return (await ensureOnlineComponents(firestoreClient)).syncEngine;
+  return ensureOnlineComponents(firestoreClient).then(c => c.syncEngine);
 }
 
 /**
