@@ -15,7 +15,6 @@
  * limitations under the License.
  */
 
-import { FirebaseFirestore, FirestoreCompat } from './database';
 import {
   MemoryOfflineComponentProvider,
   OfflineComponentProvider,
@@ -71,7 +70,7 @@ export async function setOfflineComponentProvider(
   // When a user calls clearPersistence() in one client, all other clients
   // need to be terminated to allow the delete to succeed.
   offlineComponentProvider.persistence.setDatabaseDeletedListener(() =>
-    firestoreClient._delete()
+    firestoreClient.terminate()
   );
 
   offlineComponentProviders.set(firestoreClient, offlineComponentProvider);

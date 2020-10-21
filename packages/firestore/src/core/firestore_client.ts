@@ -27,15 +27,12 @@ import {
   LocalStore,
   readLocalDocument
 } from '../local/local_store';
-import { GarbageCollectionScheduler, Persistence } from '../local/persistence';
 import { Document, NoDocument } from '../model/document';
 import { DocumentKey } from '../model/document_key';
 import { Mutation } from '../model/mutation';
 import {
-  RemoteStore,
   remoteStoreEnableNetwork,
-  remoteStoreDisableNetwork,
-  remoteStoreHandleCredentialChange
+  remoteStoreDisableNetwork
 } from '../remote/remote_store';
 import { AsyncQueue, wrapInUserErrorIfRecoverable } from '../util/async_queue';
 import { Code, FirestoreError } from '../util/error';
@@ -50,35 +47,24 @@ import {
   QueryListener,
   removeSnapshotsInSyncListener
 } from './event_manager';
-import {
-  registerPendingWritesCallback,
-  SyncEngine,
-  syncEngineListen,
-  syncEngineUnlisten,
-  syncEngineWrite
-} from './sync_engine';
+import { registerPendingWritesCallback, syncEngineWrite } from './sync_engine';
 import { View } from './view';
-import { SharedClientState } from '../local/shared_client_state';
 import { DatabaseId, DatabaseInfo } from './database_info';
 import { newQueryForPath, Query } from './query';
 import { Transaction } from './transaction';
 import { ViewSnapshot } from './view_snapshot';
-import {
-  ComponentConfiguration,
-  OfflineComponentProvider,
-  OnlineComponentProvider
-} from './component_provider';
+import { ComponentConfiguration } from './component_provider';
 import { AsyncObserver } from '../util/async_observer';
 import { debugAssert } from '../util/assert';
 import { TransactionRunner } from './transaction_runner';
-import { Datastore } from '../remote/datastore';
 import {
   getDatastore,
   getEventManager,
   getLocalStore,
   getPersistence,
   getRemoteStore,
-  getSyncEngine
+  getSyncEngine,
+  removeComponents
 } from '../../exp/src/api/components';
 import { logDebug } from '../util/log';
 import { AutoId } from '../util/misc';
@@ -162,6 +148,7 @@ export class FirestoreClient {
     this.credentials.setChangeListener(user => {
       if (!initialized) {
         initialized = true;
+
         logDebug(LOG_TAG, 'Initializing. user=', user.uid);
         this.initializationDone.resolve();
       }
@@ -213,6 +200,29 @@ export class FirestoreClient {
   databaseId(): DatabaseId {
     return this.databaseInfo.databaseId;
   }
+
+  terminate(): Promise<void> {
+    this.asyncQueue.enterRestrictedMode();
+    const deferred = new Deferred();
+    this.asyncQueue.enqueueAndForgetEvenWhileRestricted(async () => {
+      try {
+        await removeComponents(this);
+
+        // `removeChangeListener` must be called after shutting down the
+        // RemoteStore as it will prevent the RemoteStore from retrieving
+        // auth tokens.
+        this.credentials.removeChangeListener();
+        deferred.resolve();
+      } catch (e) {
+        const firestoreError = wrapInUserErrorIfRecoverable(
+          e,
+          `Failed to shutdown persistence`
+        );
+        deferred.reject(firestoreError);
+      }
+    });
+    return deferred.promise;
+  }
 }
 
 /** Enables the network connection and requeues all pending operations. */
@@ -242,9 +252,9 @@ export async function firestoreClientDisableNetwork(
 }
 
 /**
- * Returns a Promise that resolves when all writes that were pending at the time this
- * method was called received server acknowledgement. An acknowledgement can be either acceptance
- * or rejection.
+ * Returns a Promise that resolves when all writes that were pending at the time
+ * this method was called received server acknowledgement. An acknowledgement
+ * can be either acceptance or rejection.
  */
 export async function firestoreClientWaitForPendingWrites(
   firestoreClient: FirestoreClient

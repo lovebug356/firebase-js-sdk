@@ -18,11 +18,11 @@
 import { Datastore, newDatastore } from '../../../src/remote/datastore';
 import { newConnection } from '../../../src/platform/connection';
 import { newSerializer } from '../../../src/platform/serializer';
-import { FirebaseFirestore } from './database';
-import { DatabaseInfo } from '../../../src/core/database_info';
+import { FirebaseFirestore, Settings } from './database';
+import { DatabaseId, DatabaseInfo } from '../../../src/core/database_info';
 import { logDebug } from '../../../src/util/log';
 import { Code, FirestoreError } from '../../../src/util/error';
-import { FirestoreClient } from '../../../src/core/firestore_client';
+import { FirestoreCompat } from '../../../exp/src/api/database';
 
 export const LOG_TAG = 'ComponentProvider';
 
@@ -54,18 +54,13 @@ export function getDatastore(firestore: FirebaseFirestore): Datastore {
   }
   if (!datastoreInstances.has(firestore)) {
     logDebug(LOG_TAG, 'Initializing Datastore');
-    const settings = firestore._getSettings();
-    const databaseInfo = new DatabaseInfo(
+    const databaseInfo = makeDatabaseInfo(
       firestore._databaseId,
       firestore._persistenceKey,
-      settings.host ?? DEFAULT_HOST,
-      settings.ssl ?? DEFAULT_SSL,
-      /* forceLongPolling= */ false,
-      /* forceAutoDetectLongPolling= */ true
+      firestore._getSettings()
     );
-
     const connection = newConnection(databaseInfo);
-    const serializer = newSerializer(databaseInfo.databaseId);
+    const serializer = newSerializer(firestore._databaseId);
     const datastore = newDatastore(
       firestore._credentials,
       connection,
@@ -88,4 +83,19 @@ export function removeComponents(firestore: FirebaseFirestore): void {
     datastoreInstances.delete(firestore);
     datastore.terminate();
   }
+}
+
+export function makeDatabaseInfo(
+  databaseId: DatabaseId,
+  persistenceKey: string,
+  settings: Settings
+) {
+  return new DatabaseInfo(
+    databaseId,
+    persistenceKey,
+    settings.host ?? DEFAULT_HOST,
+    settings.ssl ?? DEFAULT_SSL,
+    /* forceLongPolling= */ false,
+    /* forceAutoDetectLongPolling= */ true
+  );
 }

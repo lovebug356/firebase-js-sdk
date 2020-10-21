@@ -305,7 +305,6 @@ export function setDoc<T>(
   options?: SetOptions
 ): Promise<void> {
   const firestore = cast(reference.firestore, FirebaseFirestore);
-  const firestoreClient = firestore._ensureClientConfigured();
 
   const convertedValue = applyFirestoreDataConverter(
     reference._converter,
@@ -370,7 +369,6 @@ export function updateDoc(
   ...moreFieldsAndValues: unknown[]
 ): Promise<void> {
   const firestore = cast(reference.firestore, FirebaseFirestore);
-  const firestoreClient = firestore._ensureClientConfigured();
 
   const dataReader = newUserDataReader(firestore);
 
@@ -414,8 +412,6 @@ export function deleteDoc(
   reference: DocumentReference<unknown>
 ): Promise<void> {
   const firestore = cast(reference.firestore, FirebaseFirestore);
-  const firestoreClient = firestore._ensureClientConfigured();
-
   const mutations = [new DeleteMutation(reference._key, Precondition.none())];
   return executeWrite(firestore, mutations);
 }
@@ -435,7 +431,6 @@ export function addDoc<T>(
   data: T
 ): Promise<DocumentReference<T>> {
   const firestore = cast(reference.firestore, FirebaseFirestore);
-  const firestoreClient = firestore._ensureClientConfigured();
 
   const docRef = doc(reference);
   const convertedValue = applyFirestoreDataConverter(

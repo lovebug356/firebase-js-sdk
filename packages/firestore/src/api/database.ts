@@ -48,10 +48,8 @@ import { _FirebaseApp, FirebaseService } from '@firebase/app-types/private';
 import { Blob } from './blob';
 import { DatabaseId, DatabaseInfo } from '../core/database_info';
 import { ListenOptions } from '../core/event_manager';
-import { ComponentConfiguration } from '../core/component_provider';
 import {
   FirestoreClient,
-  MAX_CONCURRENT_LIMBO_RESOLUTIONS,
   firestoreClientWrite,
   firestoreClientListen,
   firestoreClientAddSnapshotsInSyncListener,
@@ -99,7 +97,7 @@ import { FieldPath, ResourcePath } from '../model/path';
 import { isServerTimestamp } from '../model/server_timestamps';
 import { refValue } from '../model/values';
 import { debugAssert, fail } from '../util/assert';
-import { AsyncQueue, wrapInUserErrorIfRecoverable } from '../util/async_queue';
+import { AsyncQueue } from '../util/async_queue';
 import { Code, FirestoreError } from '../util/error';
 import {
   cast,
@@ -109,16 +107,10 @@ import {
   validateSetOptions,
   valueDescription
 } from '../util/input_validation';
-import {
-  setLogLevel as setClientLogLevel,
-  logWarn,
-  logDebug
-} from '../util/log';
+import { setLogLevel as setClientLogLevel, logWarn } from '../util/log';
 import { AutoId } from '../util/misc';
-import { Deferred } from '../util/promise';
 import { FieldPath as ExternalFieldPath } from './field_path';
 import {
-  CredentialChangeListener,
   CredentialsProvider,
   CredentialsSettings,
   EmptyCredentialsProvider,
@@ -152,12 +144,6 @@ import {
   enableMultiTabIndexedDbPersistence,
   FirestoreCompat
 } from '../../exp/src/api/database';
-import { User } from '../auth/user';
-import {
-  getOfflineComponentProvider,
-  getOnlineComponentProvider,
-  removeComponents
-} from '../../exp/src/api/components';
 
 // settings() defaults:
 const DEFAULT_HOST = 'firestore.googleapis.com';
@@ -352,7 +338,7 @@ export class Firestore
   //
   // Operations on the _firestoreClient don't block on _firestoreReady. Those
   // are already set to synchronize on the async queue.
-  _firestoreClient!: FirestoreClient;
+  private _firestoreClient: FirestoreClient | undefined;
 
   // Public for use in tests.
   // TODO(mikelehen): Use modularized initialization instead.
@@ -538,6 +524,7 @@ export class Firestore
       // eslint-disable-next-line @typescript-eslint/no-floating-promises
       this.configureClient();
     }
+    this._firestoreClient!.verifyNotTerminated();
     return this._firestoreClient as FirestoreClient;
   }
 
@@ -561,7 +548,7 @@ export class Firestore
 
     const databaseInfo = this.makeDatabaseInfo();
     this._firestoreClient = new FirestoreClient(this._credentials, this._queue);
-    this._firestoreClient!.start(databaseInfo);
+    this._firestoreClient.start(databaseInfo);
   }
 
   private static databaseIdFromApp(app: FirebaseApp): DatabaseId {
@@ -597,29 +584,10 @@ export class Firestore
     delete: async (): Promise<void> => {
       // The client must be initialized to ensure that all subsequent API usage
       // throws an exception.
-      this._ensureClientConfigured();
-
-      this._queue.enterRestrictedMode();
-      const deferred = new Deferred();
-      this._queue.enqueueAndForgetEvenWhileRestricted(async () => {
-        try {
-          await removeComponents(this._firestoreClient);
-
-          // `removeChangeListener` must be called after shutting down the
-          // RemoteStore as it will prevent the RemoteStore from retrieving
-          // auth tokens.
-          this._credentials.removeChangeListener();
-
-          deferred.resolve();
-        } catch (e) {
-          const firestoreError = wrapInUserErrorIfRecoverable(
-            e,
-            `Failed to shutdown persistence`
-          );
-          deferred.reject(firestoreError);
-        }
-      });
-      return deferred.promise;
+      if (!this._terminated) {
+        this._ensureClientConfigured();
+        await this._firestoreClient!.terminate();
+      }
     }
   };
 
@@ -669,7 +637,7 @@ export class Firestore
   ): Promise<T> {
     this._ensureClientConfigured();
     return firestoreClientTransaction(
-      this._firestoreClient,
+      this._firestoreClient!,
       (transaction: InternalTransaction) => {
         return updateFunction(new Transaction(this, transaction));
       }
@@ -959,11 +927,8 @@ export class WriteBatch implements PublicWriteBatch {
     this.verifyNotCommitted();
     this._committed = true;
     if (this._mutations.length > 0) {
-      this._firestore._ensureClientConfigured();
-      return firestoreClientWrite(
-        this._firestore._firestoreClient,
-        this._mutations
-      );
+      const firestoreClient = this._firestore._ensureClientConfigured();
+      return firestoreClientWrite(firestoreClient, this._mutations);
     }
 
     return Promise.resolve();
@@ -1193,7 +1158,6 @@ export class DocumentReference<T = DocumentData>
   }
 
   get(options?: GetOptions): Promise<PublicDocumentSnapshot<T>> {
-    const firestoreClient = this.firestore._ensureClientConfigured();
     if (options && options.source === 'cache') {
       return firestoreClientGetDocumentFromLocalCache(
         this._firestoreClient,

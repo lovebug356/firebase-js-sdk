@@ -13,6 +13,7 @@
                 "isIndexedDbTransactionError",
                 "logDebug",
                 "logError",
+                "makeDatabaseInfo",
                 "primitiveComparator",
                 "randomBytes",
                 "registerFirestore",
@@ -34,13 +35,14 @@
                 "FirebaseCredentialsProvider",
                 "FirebaseFirestore",
                 "FirebaseFirestore$1",
+                "FirestoreClient",
                 "FirestoreError",
                 "OAuthToken",
                 "User"
             ],
             "variables": []
         },
-        "sizeInBytes": 18596
+        "sizeInBytes": 20149
     },
     "CollectionReference": {
         "dependencies": {
@@ -53,6 +55,7 @@
                 "isIndexedDbTransactionError",
                 "logDebug",
                 "logError",
+                "makeDatabaseInfo",
                 "newQueryForPath",
                 "primitiveComparator",
                 "randomBytes",
@@ -76,6 +79,7 @@
                 "FirebaseCredentialsProvider",
                 "FirebaseFirestore",
                 "FirebaseFirestore$1",
+                "FirestoreClient",
                 "FirestoreError",
                 "OAuthToken",
                 "Query",
@@ -86,7 +90,7 @@
             ],
             "variables": []
         },
-        "sizeInBytes": 21609
+        "sizeInBytes": 23166
     },
     "DocumentReference": {
         "dependencies": {
@@ -99,6 +103,7 @@
                 "isIndexedDbTransactionError",
                 "logDebug",
                 "logError",
+                "makeDatabaseInfo",
                 "newQueryForPath",
                 "primitiveComparator",
                 "randomBytes",
@@ -122,6 +127,7 @@
                 "FirebaseCredentialsProvider",
                 "FirebaseFirestore",
                 "FirebaseFirestore$1",
+                "FirestoreClient",
                 "FirestoreError",
                 "OAuthToken",
                 "Query",
@@ -132,7 +138,7 @@
             ],
             "variables": []
         },
-        "sizeInBytes": 21607
+        "sizeInBytes": 23164
     },
     "DocumentSnapshot": {
         "dependencies": {
@@ -148,37 +154,28 @@
                 "fieldPathFromDotSeparatedString",
                 "forEach",
                 "formatJSON",
-                "formatPlural",
                 "fromDotSeparatedString",
                 "getLocalWriteTime",
                 "getMessageOrStack",
                 "getPreviousValue",
                 "hardAssert",
-                "invalidClassError",
                 "isIndexedDbTransactionError",
-                "isPlainObject",
                 "isServerTimestamp",
                 "isValidResourceName",
                 "logDebug",
                 "logError",
+                "makeDatabaseInfo",
                 "newQueryForPath",
                 "normalizeByteString",
                 "normalizeNumber",
                 "normalizeTimestamp",
-                "ordinal",
                 "primitiveComparator",
                 "randomBytes",
                 "registerFirestore",
                 "removeComponents",
                 "removeComponents$1",
-                "tryGetCustomObjectType",
                 "typeOrder",
                 "uint8ArrayFromBinaryString",
-                "validateArgType",
-                "validateExactNumberOfArgs",
-                "validateNamedArrayAtLeastNumberOfElements",
-                "validateType",
-                "valueDescription",
                 "wrapInUserErrorIfRecoverable"
             ],
             "classes": [
@@ -202,6 +199,7 @@
                 "FirebaseCredentialsProvider",
                 "FirebaseFirestore",
                 "FirebaseFirestore$1",
+                "FirestoreClient",
                 "FirestoreError",
                 "GeoPoint",
                 "OAuthToken",
@@ -218,7 +216,7 @@
             ],
             "variables": []
         },
-        "sizeInBytes": 40021
+        "sizeInBytes": 38417
     },
     "FieldPath": {
         "dependencies": {
@@ -226,24 +224,17 @@
                 "argToString",
                 "fail",
                 "formatJSON",
-                "formatPlural",
                 "getMessageOrStack",
                 "hardAssert",
                 "isIndexedDbTransactionError",
-                "isPlainObject",
                 "logDebug",
                 "logError",
-                "ordinal",
+                "makeDatabaseInfo",
                 "primitiveComparator",
                 "randomBytes",
                 "registerFirestore",
                 "removeComponents",
                 "removeComponents$1",
-                "tryGetCustomObjectType",
-                "validateArgType",
-                "validateNamedArrayAtLeastNumberOfElements",
-                "validateType",
-                "valueDescription",
                 "wrapInUserErrorIfRecoverable"
             ],
             "classes": [
@@ -260,6 +251,7 @@
                 "FirebaseCredentialsProvider",
                 "FirebaseFirestore",
                 "FirebaseFirestore$1",
+                "FirestoreClient",
                 "FirestoreError",
                 "OAuthToken",
                 "User",
@@ -267,7 +259,7 @@
             ],
             "variables": []
         },
-        "sizeInBytes": 22777
+        "sizeInBytes": 22087
     },
     "FieldValue": {
         "dependencies": {
@@ -280,6 +272,7 @@
                 "isIndexedDbTransactionError",
                 "logDebug",
                 "logError",
+                "makeDatabaseInfo",
                 "primitiveComparator",
                 "randomBytes",
                 "registerFirestore",
@@ -299,13 +292,14 @@
                 "FirebaseCredentialsProvider",
                 "FirebaseFirestore",
                 "FirebaseFirestore$1",
+                "FirestoreClient",
                 "FirestoreError",
                 "OAuthToken",
                 "User"
             ],
             "variables": []
         },
-        "sizeInBytes": 16808
+        "sizeInBytes": 18361
     },
     "FirebaseFirestore": {
         "dependencies": {
@@ -318,6 +312,7 @@
                 "isIndexedDbTransactionError",
                 "logDebug",
                 "logError",
+                "makeDatabaseInfo",
                 "primitiveComparator",
                 "randomBytes",
                 "registerFirestore",
@@ -336,13 +331,14 @@
                 "FirebaseCredentialsProvider",
                 "FirebaseFirestore",
                 "FirebaseFirestore$1",
+                "FirestoreClient",
                 "FirestoreError",
                 "OAuthToken",
                 "User"
             ],
             "variables": []
         },
-        "sizeInBytes": 16766
+        "sizeInBytes": 18319
     },
     "GeoPoint": {
         "dependencies": {
@@ -350,24 +346,17 @@
                 "argToString",
                 "fail",
                 "formatJSON",
-                "formatPlural",
                 "getMessageOrStack",
                 "hardAssert",
                 "isIndexedDbTransactionError",
-                "isPlainObject",
                 "logDebug",
                 "logError",
-                "ordinal",
+                "makeDatabaseInfo",
                 "primitiveComparator",
                 "randomBytes",
                 "registerFirestore",
                 "removeComponents",
                 "removeComponents$1",
-                "tryGetCustomObjectType",
-                "validateArgType",
-                "validateExactNumberOfArgs",
-                "validateType",
-                "valueDescription",
                 "wrapInUserErrorIfRecoverable"
             ],
             "classes": [
@@ -381,6 +370,7 @@
                 "FirebaseCredentialsProvider",
                 "FirebaseFirestore",
                 "FirebaseFirestore$1",
+                "FirestoreClient",
                 "FirestoreError",
                 "GeoPoint",
                 "OAuthToken",
@@ -388,7 +378,7 @@
             ],
             "variables": []
         },
-        "sizeInBytes": 19667
+        "sizeInBytes": 19022
     },
     "Query": {
         "dependencies": {
@@ -401,6 +391,7 @@
                 "isIndexedDbTransactionError",
                 "logDebug",
                 "logError",
+                "makeDatabaseInfo",
                 "primitiveComparator",
                 "randomBytes",
                 "registerFirestore",
@@ -419,6 +410,7 @@
                 "FirebaseCredentialsProvider",
                 "FirebaseFirestore",
                 "FirebaseFirestore$1",
+                "FirestoreClient",
                 "FirestoreError",
                 "OAuthToken",
                 "Query",
@@ -426,7 +418,7 @@
             ],
             "variables": []
         },
-        "sizeInBytes": 16954
+        "sizeInBytes": 18507
     },
     "QueryConstraint": {
         "dependencies": {
@@ -439,6 +431,7 @@
                 "isIndexedDbTransactionError",
                 "logDebug",
                 "logError",
+                "makeDatabaseInfo",
                 "primitiveComparator",
                 "randomBytes",
                 "registerFirestore",
@@ -457,6 +450,7 @@
                 "FirebaseCredentialsProvider",
                 "FirebaseFirestore",
                 "FirebaseFirestore$1",
+                "FirestoreClient",
                 "FirestoreError",
                 "OAuthToken",
                 "QueryConstraint",
@@ -464,7 +458,7 @@
             ],
             "variables": []
         },
-        "sizeInBytes": 16764
+        "sizeInBytes": 18317
     },
     "QueryDocumentSnapshot": {
         "dependencies": {
@@ -480,37 +474,28 @@
                 "fieldPathFromDotSeparatedString",
                 "forEach",
                 "formatJSON",
-                "formatPlural",
                 "fromDotSeparatedString",
                 "getLocalWriteTime",
                 "getMessageOrStack",
                 "getPreviousValue",
                 "hardAssert",
-                "invalidClassError",
                 "isIndexedDbTransactionError",
-                "isPlainObject",
                 "isServerTimestamp",
                 "isValidResourceName",
                 "logDebug",
                 "logError",
+                "makeDatabaseInfo",
                 "newQueryForPath",
                 "normalizeByteString",
                 "normalizeNumber",
                 "normalizeTimestamp",
-                "ordinal",
                 "primitiveComparator",
                 "randomBytes",
                 "registerFirestore",
                 "removeComponents",
                 "removeComponents$1",
-                "tryGetCustomObjectType",
                 "typeOrder",
                 "uint8ArrayFromBinaryString",
-                "validateArgType",
-                "validateExactNumberOfArgs",
-                "validateNamedArrayAtLeastNumberOfElements",
-                "validateType",
-                "valueDescription",
                 "wrapInUserErrorIfRecoverable"
             ],
             "classes": [
@@ -534,6 +519,7 @@
                 "FirebaseCredentialsProvider",
                 "FirebaseFirestore",
                 "FirebaseFirestore$1",
+                "FirestoreClient",
                 "FirestoreError",
                 "GeoPoint",
                 "OAuthToken",
@@ -550,7 +536,7 @@
             ],
             "variables": []
         },
-        "sizeInBytes": 40031
+        "sizeInBytes": 38427
     },
     "QuerySnapshot": {
         "dependencies": {
@@ -567,38 +553,29 @@
                 "fieldPathFromDotSeparatedString",
                 "forEach",
                 "formatJSON",
-                "formatPlural",
                 "fromDotSeparatedString",
                 "getLocalWriteTime",
                 "getMessageOrStack",
                 "getPreviousValue",
                 "hardAssert",
-                "invalidClassError",
                 "isIndexedDbTransactionError",
-                "isPlainObject",
                 "isServerTimestamp",
                 "isValidResourceName",
                 "logDebug",
                 "logError",
+                "makeDatabaseInfo",
                 "newQueryForPath",
                 "normalizeByteString",
                 "normalizeNumber",
                 "normalizeTimestamp",
-                "ordinal",
                 "primitiveComparator",
                 "randomBytes",
                 "registerFirestore",
                 "removeComponents",
                 "removeComponents$1",
                 "resultChangeType",
-                "tryGetCustomObjectType",
                 "typeOrder",
                 "uint8ArrayFromBinaryString",
-                "validateArgType",
-                "validateExactNumberOfArgs",
-                "validateNamedArrayAtLeastNumberOfElements",
-                "validateType",
-                "valueDescription",
                 "wrapInUserErrorIfRecoverable"
             ],
             "classes": [
@@ -622,6 +599,7 @@
                 "FirebaseCredentialsProvider",
                 "FirebaseFirestore",
                 "FirebaseFirestore$1",
+                "FirestoreClient",
                 "FirestoreError",
                 "GeoPoint",
                 "OAuthToken",
@@ -640,7 +618,7 @@
             ],
             "variables": []
         },
-        "sizeInBytes": 42663
+        "sizeInBytes": 41069
     },
     "SnapshotMetadata": {
         "dependencies": {
@@ -653,6 +631,7 @@
                 "isIndexedDbTransactionError",
                 "logDebug",
                 "logError",
+                "makeDatabaseInfo",
                 "primitiveComparator",
                 "randomBytes",
                 "registerFirestore",
@@ -671,6 +650,7 @@
                 "FirebaseCredentialsProvider",
                 "FirebaseFirestore",
                 "FirebaseFirestore$1",
+                "FirestoreClient",
                 "FirestoreError",
                 "OAuthToken",
                 "SnapshotMetadata",
@@ -678,7 +658,7 @@
             ],
             "variables": []
         },
-        "sizeInBytes": 16973
+        "sizeInBytes": 18526
     },
     "Timestamp": {
         "dependencies": {
@@ -691,6 +671,7 @@
                 "isIndexedDbTransactionError",
                 "logDebug",
                 "logError",
+                "makeDatabaseInfo",
                 "primitiveComparator",
                 "randomBytes",
                 "registerFirestore",
@@ -709,6 +690,7 @@
                 "FirebaseCredentialsProvider",
                 "FirebaseFirestore",
                 "FirebaseFirestore$1",
+                "FirestoreClient",
                 "FirestoreError",
                 "OAuthToken",
                 "Timestamp",
@@ -716,7 +698,7 @@
             ],
             "variables": []
         },
-        "sizeInBytes": 18359
+        "sizeInBytes": 19912
     },
     "Transaction": {
         "dependencies": {
@@ -737,7 +719,6 @@
                 "fieldPathFromDotSeparatedString",
                 "forEach",
                 "formatJSON",
-                "formatPlural",
                 "fromDotSeparatedString",
                 "fullyQualifiedPrefixPath",
                 "geoPointEquals",
@@ -745,7 +726,6 @@
                 "getMessageOrStack",
                 "getPreviousValue",
                 "hardAssert",
-                "invalidClassError",
                 "isEmpty",
                 "isIndexedDbTransactionError",
                 "isMapValue",
@@ -758,6 +738,7 @@
                 "logDebug",
                 "logError",
                 "looksLikeJsonObject",
+                "makeDatabaseInfo",
                 "newQueryForPath",
                 "newSerializer",
                 "newUserDataReader",
@@ -767,7 +748,6 @@
                 "numberEquals",
                 "objectEquals",
                 "objectSize",
-                "ordinal",
                 "parseArray",
                 "parseData",
                 "parseObject",
@@ -791,12 +771,8 @@
                 "tryGetCustomObjectType",
                 "typeOrder",
                 "uint8ArrayFromBinaryString",
-                "validateArgType",
-                "validateExactNumberOfArgs",
-                "validateNamedArrayAtLeastNumberOfElements",
                 "validatePlainObject",
                 "validateReference",
-                "validateType",
                 "valueDescription",
                 "valueEquals",
                 "wrapInUserErrorIfRecoverable"
@@ -828,6 +804,7 @@
                 "FirebaseCredentialsProvider",
                 "FirebaseFirestore",
                 "FirebaseFirestore$1",
+                "FirestoreClient",
                 "FirestoreError",
                 "GeoPoint",
                 "JsonProtoSerializer",
@@ -861,7 +838,7 @@
             ],
             "variables": []
         },
-        "sizeInBytes": 63765
+        "sizeInBytes": 63178
     },
     "WriteBatch": {
         "dependencies": {
@@ -881,14 +858,12 @@
                 "fieldPathFromDotSeparatedString",
                 "forEach",
                 "formatJSON",
-                "formatPlural",
                 "fromDotSeparatedString",
                 "fullyQualifiedPrefixPath",
                 "geoPointEquals",
                 "getLocalWriteTime",
                 "getMessageOrStack",
                 "hardAssert",
-                "invalidClassError",
                 "isEmpty",
                 "isIndexedDbTransactionError",
                 "isMapValue",
@@ -900,6 +875,7 @@
                 "logDebug",
                 "logError",
                 "looksLikeJsonObject",
+                "makeDatabaseInfo",
                 "newSerializer",
                 "newUserDataReader",
                 "normalizeByteString",
@@ -908,7 +884,6 @@
                 "numberEquals",
                 "objectEquals",
                 "objectSize",
-                "ordinal",
                 "parseArray",
                 "parseData",
                 "parseObject",
@@ -932,12 +907,8 @@
                 "tryGetCustomObjectType",
                 "typeOrder",
                 "uint8ArrayFromBinaryString",
-                "validateArgType",
-                "validateExactNumberOfArgs",
-                "validateNamedArrayAtLeastNumberOfElements",
                 "validatePlainObject",
                 "validateReference",
-                "validateType",
                 "valueDescription",
                 "valueEquals",
                 "wrapInUserErrorIfRecoverable"
@@ -964,6 +935,7 @@
                 "FirebaseCredentialsProvider",
                 "FirebaseFirestore",
                 "FirebaseFirestore$1",
+                "FirestoreClient",
                 "FirestoreError",
                 "GeoPoint",
                 "JsonProtoSerializer",
@@ -988,7 +960,7 @@
             ],
             "variables": []
         },
-        "sizeInBytes": 54009
+        "sizeInBytes": 53576
     },
     "addDoc": {
         "dependencies": {
@@ -1081,7 +1053,6 @@
                 "filterEquals",
                 "forEach",
                 "formatJSON",
-                "formatPlural",
                 "fromDotSeparatedString",
                 "fromTimestamp",
                 "fromVersion",
@@ -1106,7 +1077,6 @@
                 "hasLimitToFirst",
                 "hasLimitToLast",
                 "ignoreIfPrimaryLeaseLoss",
-                "invalidClassError",
                 "isArray",
                 "isCollectionGroupQuery",
                 "isDocumentQuery",
@@ -1131,6 +1101,7 @@
                 "logError",
                 "logWarn",
                 "looksLikeJsonObject",
+                "makeDatabaseInfo",
                 "mapCodeFromRpcCode",
                 "matchesAllDocuments",
                 "maybeDocumentMap",
@@ -1140,6 +1111,7 @@
                 "newDatastore",
                 "newEventManager",
                 "newLocalStore",
+                "newMemoryRemoteDocumentCache",
                 "newPersistentWriteStream",
                 "newQueryComparator",
                 "newQueryForPath",
@@ -1163,7 +1135,6 @@
                 "onWriteStreamClose",
                 "onWriteStreamOpen",
                 "orderByEquals",
-                "ordinal",
                 "parseArray",
                 "parseData",
                 "parseObject",
@@ -1231,13 +1202,9 @@
                 "tryGetCustomObjectType",
                 "typeOrder",
                 "uint8ArrayFromBinaryString",
-                "validateArgType",
                 "validateDocumentPath",
-                "validateExactNumberOfArgs",
-                "validateNamedArrayAtLeastNumberOfElements",
                 "validateNonEmptyArgument",
                 "validatePlainObject",
-                "validateType",
                 "valueCompare",
                 "valueDescription",
                 "valueEquals",
@@ -1274,6 +1241,7 @@
                 "FirebaseCredentialsProvider",
                 "FirebaseFirestore",
                 "FirebaseFirestore$1",
+                "FirestoreClient",
                 "FirestoreError",
                 "GeoPoint",
                 "GrpcConnection",
@@ -1293,7 +1261,8 @@
                 "MemoryMutationQueue",
                 "MemoryOfflineComponentProvider",
                 "MemoryPersistence",
-                "MemoryRemoteDocumentCache",
+                "MemoryRemoteDocumentCacheImpl",
+                "MemoryRemoteDocumentChangeBuffer",
                 "MemorySharedClientState",
                 "MemoryTargetCache",
                 "MemoryTransaction",
@@ -1348,7 +1317,7 @@
             ],
             "variables": []
         },
-        "sizeInBytes": 167169
+        "sizeInBytes": 167210
     },
     "arrayRemove": {
         "dependencies": {
@@ -1363,7 +1332,6 @@
                 "fail",
                 "forEach",
                 "formatJSON",
-                "formatPlural",
                 "fullyQualifiedPrefixPath",
                 "getMessageOrStack",
                 "hardAssert",
@@ -1376,7 +1344,7 @@
                 "logDebug",
                 "logError",
                 "looksLikeJsonObject",
-                "ordinal",
+                "makeDatabaseInfo",
                 "parseArray",
                 "parseData",
                 "parseObject",
@@ -1395,11 +1363,7 @@
                 "toTimestamp",
                 "tryGetCustomObjectType",
                 "uint8ArrayFromBinaryString",
-                "validateArgType",
-                "validateAtLeastNumberOfArgs",
-                "validateExactNumberOfArgs",
                 "validatePlainObject",
-                "validateType",
                 "valueDescription",
                 "wrapInUserErrorIfRecoverable"
             ],
@@ -1422,6 +1386,7 @@
                 "FirebaseCredentialsProvider",
                 "FirebaseFirestore",
                 "FirebaseFirestore$1",
+                "FirestoreClient",
                 "FirestoreError",
                 "GeoPoint",
                 "OAuthToken",
@@ -1434,7 +1399,7 @@
             ],
             "variables": []
         },
-        "sizeInBytes": 35084
+        "sizeInBytes": 35081
     },
     "arrayUnion": {
         "dependencies": {
@@ -1449,7 +1414,6 @@
                 "fail",
                 "forEach",
                 "formatJSON",
-                "formatPlural",
                 "fullyQualifiedPrefixPath",
                 "getMessageOrStack",
                 "hardAssert",
@@ -1462,7 +1426,7 @@
                 "logDebug",
                 "logError",
                 "looksLikeJsonObject",
-                "ordinal",
+                "makeDatabaseInfo",
                 "parseArray",
                 "parseData",
                 "parseObject",
@@ -1481,11 +1445,7 @@
                 "toTimestamp",
                 "tryGetCustomObjectType",
                 "uint8ArrayFromBinaryString",
-                "validateArgType",
-                "validateAtLeastNumberOfArgs",
-                "validateExactNumberOfArgs",
                 "validatePlainObject",
-                "validateType",
                 "valueDescription",
                 "wrapInUserErrorIfRecoverable"
             ],
@@ -1508,6 +1468,7 @@
                 "FirebaseCredentialsProvider",
                 "FirebaseFirestore",
                 "FirebaseFirestore$1",
+                "FirestoreClient",
                 "FirestoreError",
                 "GeoPoint",
                 "OAuthToken",
@@ -1520,7 +1481,7 @@
             ],
             "variables": []
         },
-        "sizeInBytes": 35076
+        "sizeInBytes": 35074
     },
     "clearIndexedDbPersistence": {
         "dependencies": {
@@ -1537,6 +1498,7 @@
                 "isIndexedDbTransactionError",
                 "logDebug",
                 "logError",
+                "makeDatabaseInfo",
                 "primitiveComparator",
                 "randomBytes",
                 "registerFirestore",
@@ -1556,6 +1518,7 @@
                 "FirebaseCredentialsProvider",
                 "FirebaseFirestore",
                 "FirebaseFirestore$1",
+                "FirestoreClient",
                 "FirestoreError",
                 "IndexedDbTransactionError",
                 "IterationController",
@@ -1568,7 +1531,7 @@
             ],
             "variables": []
         },
-        "sizeInBytes": 29742
+        "sizeInBytes": 31485
     },
     "collection": {
         "dependencies": {
@@ -1582,6 +1545,7 @@
                 "isIndexedDbTransactionError",
                 "logDebug",
                 "logError",
+                "makeDatabaseInfo",
                 "newQueryForPath",
                 "primitiveComparator",
                 "randomBytes",
@@ -1607,6 +1571,7 @@
                 "FirebaseCredentialsProvider",
                 "FirebaseFirestore",
                 "FirebaseFirestore$1",
+                "FirestoreClient",
                 "FirestoreError",
                 "OAuthToken",
                 "Query",
@@ -1617,7 +1582,7 @@
             ],
             "variables": []
         },
-        "sizeInBytes": 22828
+        "sizeInBytes": 24379
     },
     "collectionGroup": {
         "dependencies": {
@@ -1631,6 +1596,7 @@
                 "isIndexedDbTransactionError",
                 "logDebug",
                 "logError",
+                "makeDatabaseInfo",
                 "newQueryForCollectionGroup",
                 "primitiveComparator",
                 "randomBytes",
@@ -1652,6 +1618,7 @@
                 "FirebaseCredentialsProvider",
                 "FirebaseFirestore",
                 "FirebaseFirestore$1",
+                "FirestoreClient",
                 "FirestoreError",
                 "OAuthToken",
                 "Query",
@@ -1661,7 +1628,7 @@
             ],
             "variables": []
         },
-        "sizeInBytes": 20417
+        "sizeInBytes": 21974
     },
     "deleteDoc": {
         "dependencies": {
@@ -1791,6 +1758,7 @@
                 "logDebug",
                 "logError",
                 "logWarn",
+                "makeDatabaseInfo",
                 "mapCodeFromRpcCode",
                 "matchesAllDocuments",
                 "maybeDocumentMap",
@@ -1800,6 +1768,7 @@
                 "newDatastore",
                 "newEventManager",
                 "newLocalStore",
+                "newMemoryRemoteDocumentCache",
                 "newPersistentWriteStream",
                 "newQueryComparator",
                 "newRemoteStore",
@@ -1877,9 +1846,11 @@
                 "transformObject",
                 "transformOperationEquals",
                 "triggerPendingWritesCallbacks",
+                "tryGetCustomObjectType",
                 "typeOrder",
                 "uint8ArrayFromBinaryString",
                 "valueCompare",
+                "valueDescription",
                 "valueEquals",
                 "wrapInUserErrorIfRecoverable"
             ],
@@ -1908,6 +1879,7 @@
                 "FirebaseCredentialsProvider",
                 "FirebaseFirestore",
                 "FirebaseFirestore$1",
+                "FirestoreClient",
                 "FirestoreError",
                 "GrpcConnection",
                 "IndexFreeQueryEngine",
@@ -1926,7 +1898,8 @@
                 "MemoryMutationQueue",
                 "MemoryOfflineComponentProvider",
                 "MemoryPersistence",
-                "MemoryRemoteDocumentCache",
+                "MemoryRemoteDocumentCacheImpl",
+                "MemoryRemoteDocumentChangeBuffer",
                 "MemorySharedClientState",
                 "MemoryTargetCache",
                 "MemoryTransaction",
@@ -1975,7 +1948,7 @@
             ],
             "variables": []
         },
-        "sizeInBytes": 148806
+        "sizeInBytes": 151681
     },
     "deleteField": {
         "dependencies": {
@@ -1989,6 +1962,7 @@
                 "isIndexedDbTransactionError",
                 "logDebug",
                 "logError",
+                "makeDatabaseInfo",
                 "primitiveComparator",
                 "randomBytes",
                 "registerFirestore",
@@ -2009,13 +1983,14 @@
                 "FirebaseCredentialsProvider",
                 "FirebaseFirestore",
                 "FirebaseFirestore$1",
+                "FirestoreClient",
                 "FirestoreError",
                 "OAuthToken",
                 "User"
             ],
             "variables": []
         },
-        "sizeInBytes": 17342
+        "sizeInBytes": 18895
     },
     "disableNetwork": {
         "dependencies": {
@@ -2117,6 +2092,7 @@
                 "logDebug",
                 "logError",
                 "logWarn",
+                "makeDatabaseInfo",
                 "mapCodeFromRpcCode",
                 "matchesAllDocuments",
                 "maybeDocumentMap",
@@ -2126,6 +2102,7 @@
                 "newDatastore",
                 "newEventManager",
                 "newLocalStore",
+                "newMemoryRemoteDocumentCache",
                 "newQueryComparator",
                 "newRemoteStore",
                 "newSerializer",
@@ -2211,6 +2188,7 @@
                 "FirebaseCredentialsProvider",
                 "FirebaseFirestore",
                 "FirebaseFirestore$1",
+                "FirestoreClient",
                 "FirestoreError",
                 "GrpcConnection",
                 "IndexFreeQueryEngine",
@@ -2229,7 +2207,8 @@
                 "MemoryMutationQueue",
                 "MemoryOfflineComponentProvider",
                 "MemoryPersistence",
-                "MemoryRemoteDocumentCache",
+                "MemoryRemoteDocumentCacheImpl",
+                "MemoryRemoteDocumentChangeBuffer",
                 "MemorySharedClientState",
                 "MemoryTargetCache",
                 "MemoryTransaction",
@@ -2273,7 +2252,7 @@
             ],
             "variables": []
         },
-        "sizeInBytes": 126383
+        "sizeInBytes": 128346
     },
     "doc": {
         "dependencies": {
@@ -2287,6 +2266,7 @@
                 "isIndexedDbTransactionError",
                 "logDebug",
                 "logError",
+                "makeDatabaseInfo",
                 "newQueryForPath",
                 "primitiveComparator",
                 "randomBytes",
@@ -2312,6 +2292,7 @@
                 "FirebaseCredentialsProvider",
                 "FirebaseFirestore",
                 "FirebaseFirestore$1",
+                "FirestoreClient",
                 "FirestoreError",
                 "OAuthToken",
                 "Query",
@@ -2322,7 +2303,7 @@
             ],
             "variables": []
         },
-        "sizeInBytes": 22872
+        "sizeInBytes": 24423
     },
     "documentId": {
         "dependencies": {
@@ -2331,24 +2312,17 @@
                 "documentId",
                 "fail",
                 "formatJSON",
-                "formatPlural",
                 "getMessageOrStack",
                 "hardAssert",
                 "isIndexedDbTransactionError",
-                "isPlainObject",
                 "logDebug",
                 "logError",
-                "ordinal",
+                "makeDatabaseInfo",
                 "primitiveComparator",
                 "randomBytes",
                 "registerFirestore",
                 "removeComponents",
                 "removeComponents$1",
-                "tryGetCustomObjectType",
-                "validateArgType",
-                "validateNamedArrayAtLeastNumberOfElements",
-                "validateType",
-                "valueDescription",
                 "wrapInUserErrorIfRecoverable"
             ],
             "classes": [
@@ -2365,6 +2339,7 @@
                 "FirebaseCredentialsProvider",
                 "FirebaseFirestore",
                 "FirebaseFirestore$1",
+                "FirestoreClient",
                 "FirestoreError",
                 "OAuthToken",
                 "User",
@@ -2372,7 +2347,7 @@
             ],
             "variables": []
         },
-        "sizeInBytes": 22827
+        "sizeInBytes": 22137
     },
     "enableIndexedDbPersistence": {
         "dependencies": {
@@ -2408,6 +2383,7 @@
                 "boundEquals",
                 "bufferEntryComparator",
                 "canAddToWritePipeline",
+                "canFallbackFromIndexedDbError",
                 "canUseNetwork",
                 "canonicalId",
                 "canonifyArray",
@@ -2529,7 +2505,6 @@
                 "hasLimitToLast",
                 "ignoreIfPrimaryLeaseLoss",
                 "immediateSuccessor",
-                "indexedDbClearPersistence",
                 "indexedDbStoragePrefix",
                 "isArray",
                 "isCollectionGroupQuery",
@@ -2555,6 +2530,7 @@
                 "logDebug",
                 "logError",
                 "logWarn",
+                "makeDatabaseInfo",
                 "mapCodeFromRpcCode",
                 "matchesAllDocuments",
                 "maybeDocumentMap",
@@ -2567,7 +2543,9 @@
                 "newConnectivityMonitor",
                 "newDatastore",
                 "newEventManager",
+                "newIndexedDbRemoteDocumentCache",
                 "newLocalStore",
+                "newMemoryRemoteDocumentCache",
                 "newPersistentWriteStream",
                 "newQuery",
                 "newQueryComparator",
@@ -2611,6 +2589,7 @@
                 "rejectBatch",
                 "rejectFailedWrite",
                 "rejectOutstandingPendingWritesCallbacks",
+                "remoteDocumentCacheGetLastReadTime",
                 "remoteDocumentsStore",
                 "remoteStoreApplyPrimaryState",
                 "remoteStoreHandleCredentialChange",
@@ -2627,6 +2606,7 @@
                 "serverTransformResults",
                 "setOfflineComponentProvider",
                 "setOnlineComponentProvider",
+                "setPersistenceProviders",
                 "shouldStartWriteStream",
                 "sortsBeforeDocument",
                 "startWriteStream",
@@ -2727,6 +2707,7 @@
                 "FirebaseCredentialsProvider",
                 "FirebaseFirestore",
                 "FirebaseFirestore$1",
+                "FirestoreClient",
                 "FirestoreError",
                 "GrpcConnection",
                 "InFilter",
@@ -2736,7 +2717,8 @@
                 "IndexedDbMutationQueue",
                 "IndexedDbOfflineComponentProvider",
                 "IndexedDbPersistence",
-                "IndexedDbRemoteDocumentCache",
+                "IndexedDbRemoteDocumentCacheImpl",
+                "IndexedDbRemoteDocumentChangeBuffer",
                 "IndexedDbTargetCache",
                 "IndexedDbTransaction",
                 "IndexedDbTransactionError",
@@ -2763,7 +2745,8 @@
                 "MemoryMutationQueue",
                 "MemoryOfflineComponentProvider",
                 "MemoryPersistence",
-                "MemoryRemoteDocumentCache",
+                "MemoryRemoteDocumentCacheImpl",
+                "MemoryRemoteDocumentChangeBuffer",
                 "MemorySharedClientState",
                 "MemoryTargetCache",
                 "MemoryTransaction",
@@ -2819,7 +2802,7 @@
             ],
             "variables": []
         },
-        "sizeInBytes": 235442
+        "sizeInBytes": 239072
     },
     "enableMultiTabIndexedDbPersistence": {
         "dependencies": {
@@ -2863,6 +2846,7 @@
                 "boundEquals",
                 "bufferEntryComparator",
                 "canAddToWritePipeline",
+                "canFallbackFromIndexedDbError",
                 "canUseNetwork",
                 "canonicalId",
                 "canonifyArray",
@@ -3009,7 +2993,6 @@
                 "hasLimitToLast",
                 "ignoreIfPrimaryLeaseLoss",
                 "immediateSuccessor",
-                "indexedDbClearPersistence",
                 "indexedDbStoragePrefix",
                 "initializeViewAndComputeSnapshot",
                 "isArray",
@@ -3038,6 +3021,7 @@
                 "logError",
                 "logWarn",
                 "lookupMutationDocuments",
+                "makeDatabaseInfo",
                 "mapCodeFromRpcCode",
                 "matchesAllDocuments",
                 "maybeDocumentMap",
@@ -3050,7 +3034,9 @@
                 "newConnectivityMonitor",
                 "newDatastore",
                 "newEventManager",
+                "newIndexedDbRemoteDocumentCache",
                 "newLocalStore",
+                "newMemoryRemoteDocumentCache",
                 "newPersistentWatchStream",
                 "newPersistentWriteStream",
                 "newQuery",
@@ -3102,6 +3088,8 @@
                 "rejectListen",
                 "rejectOutstandingPendingWritesCallbacks",
                 "releaseTarget",
+                "remoteDocumentCacheGetLastReadTime",
+                "remoteDocumentCacheGetNewDocumentChanges",
                 "remoteDocumentsStore",
                 "remoteStoreApplyPrimaryState",
                 "remoteStoreHandleCredentialChange",
@@ -3126,6 +3114,7 @@
                 "serverTransformResults",
                 "setOfflineComponentProvider",
                 "setOnlineComponentProvider",
+                "setPersistenceProviders",
                 "shouldPersistTargetData",
                 "shouldStartWatchStream",
                 "shouldStartWriteStream",
@@ -3246,6 +3235,7 @@
                 "FirebaseCredentialsProvider",
                 "FirebaseFirestore",
                 "FirebaseFirestore$1",
+                "FirestoreClient",
                 "FirestoreError",
                 "GrpcConnection",
                 "InFilter",
@@ -3255,7 +3245,8 @@
                 "IndexedDbMutationQueue",
                 "IndexedDbOfflineComponentProvider",
                 "IndexedDbPersistence",
-                "IndexedDbRemoteDocumentCache",
+                "IndexedDbRemoteDocumentCacheImpl",
+                "IndexedDbRemoteDocumentChangeBuffer",
                 "IndexedDbTargetCache",
                 "IndexedDbTransaction",
                 "IndexedDbTransactionError",
@@ -3283,7 +3274,8 @@
                 "MemoryMutationQueue",
                 "MemoryOfflineComponentProvider",
                 "MemoryPersistence",
-                "MemoryRemoteDocumentCache",
+                "MemoryRemoteDocumentCacheImpl",
+                "MemoryRemoteDocumentChangeBuffer",
                 "MemorySharedClientState",
                 "MemoryTargetCache",
                 "MemoryTransaction",
@@ -3355,7 +3347,7 @@
             ],
             "variables": []
         },
-        "sizeInBytes": 303115
+        "sizeInBytes": 307653
     },
     "enableNetwork": {
         "dependencies": {
@@ -3457,6 +3449,7 @@
                 "logDebug",
                 "logError",
                 "logWarn",
+                "makeDatabaseInfo",
                 "mapCodeFromRpcCode",
                 "matchesAllDocuments",
                 "maybeDocumentMap",
@@ -3466,6 +3459,7 @@
                 "newDatastore",
                 "newEventManager",
                 "newLocalStore",
+                "newMemoryRemoteDocumentCache",
                 "newQueryComparator",
                 "newRemoteStore",
                 "newSerializer",
@@ -3551,6 +3545,7 @@
                 "FirebaseCredentialsProvider",
                 "FirebaseFirestore",
                 "FirebaseFirestore$1",
+                "FirestoreClient",
                 "FirestoreError",
                 "GrpcConnection",
                 "IndexFreeQueryEngine",
@@ -3569,7 +3564,8 @@
                 "MemoryMutationQueue",
                 "MemoryOfflineComponentProvider",
                 "MemoryPersistence",
-                "MemoryRemoteDocumentCache",
+                "MemoryRemoteDocumentCacheImpl",
+                "MemoryRemoteDocumentChangeBuffer",
                 "MemorySharedClientState",
                 "MemoryTargetCache",
                 "MemoryTransaction",
@@ -3613,7 +3609,7 @@
             ],
             "variables": []
         },
-        "sizeInBytes": 126325
+        "sizeInBytes": 128288
     },
     "endAt": {
         "dependencies": {
@@ -3631,7 +3627,6 @@
                 "fieldPathFromDotSeparatedString",
                 "forEach",
                 "formatJSON",
-                "formatPlural",
                 "fromDotSeparatedString",
                 "fullyQualifiedPrefixPath",
                 "getFirstOrderByField",
@@ -3640,7 +3635,6 @@
                 "getMessageOrStack",
                 "getPreviousValue",
                 "hardAssert",
-                "invalidClassError",
                 "isCollectionGroupQuery",
                 "isEmpty",
                 "isIndexedDbTransactionError",
@@ -3653,6 +3647,7 @@
                 "logDebug",
                 "logError",
                 "looksLikeJsonObject",
+                "makeDatabaseInfo",
                 "newQueryBoundFromDocOrFields",
                 "newQueryBoundFromDocument",
                 "newQueryBoundFromFields",
@@ -3662,7 +3657,6 @@
                 "normalizeByteString",
                 "normalizeNumber",
                 "normalizeTimestamp",
-                "ordinal",
                 "parseArray",
                 "parseData",
                 "parseObject",
@@ -3686,11 +3680,7 @@
                 "tryGetCustomObjectType",
                 "typeOrder",
                 "uint8ArrayFromBinaryString",
-                "validateArgType",
-                "validateExactNumberOfArgs",
-                "validateNamedArrayAtLeastNumberOfElements",
                 "validatePlainObject",
-                "validateType",
                 "valueDescription",
                 "wrapInUserErrorIfRecoverable"
             ],
@@ -3717,6 +3707,7 @@
                 "FirebaseCredentialsProvider",
                 "FirebaseFirestore",
                 "FirebaseFirestore$1",
+                "FirestoreClient",
                 "FirestoreError",
                 "GeoPoint",
                 "JsonProtoSerializer",
@@ -3738,7 +3729,7 @@
             ],
             "variables": []
         },
-        "sizeInBytes": 52360
+        "sizeInBytes": 51707
     },
     "endBefore": {
         "dependencies": {
@@ -3756,7 +3747,6 @@
                 "fieldPathFromDotSeparatedString",
                 "forEach",
                 "formatJSON",
-                "formatPlural",
                 "fromDotSeparatedString",
                 "fullyQualifiedPrefixPath",
                 "getFirstOrderByField",
@@ -3765,7 +3755,6 @@
                 "getMessageOrStack",
                 "getPreviousValue",
                 "hardAssert",
-                "invalidClassError",
                 "isCollectionGroupQuery",
                 "isEmpty",
                 "isIndexedDbTransactionError",
@@ -3778,6 +3767,7 @@
                 "logDebug",
                 "logError",
                 "looksLikeJsonObject",
+                "makeDatabaseInfo",
                 "newQueryBoundFromDocOrFields",
                 "newQueryBoundFromDocument",
                 "newQueryBoundFromFields",
@@ -3787,7 +3777,6 @@
                 "normalizeByteString",
                 "normalizeNumber",
                 "normalizeTimestamp",
-                "ordinal",
                 "parseArray",
                 "parseData",
                 "parseObject",
@@ -3811,11 +3800,7 @@
                 "tryGetCustomObjectType",
                 "typeOrder",
                 "uint8ArrayFromBinaryString",
-                "validateArgType",
-                "validateExactNumberOfArgs",
-                "validateNamedArrayAtLeastNumberOfElements",
                 "validatePlainObject",
-                "validateType",
                 "valueDescription",
                 "wrapInUserErrorIfRecoverable"
             ],
@@ -3842,6 +3827,7 @@
                 "FirebaseCredentialsProvider",
                 "FirebaseFirestore",
                 "FirebaseFirestore$1",
+                "FirestoreClient",
                 "FirestoreError",
                 "GeoPoint",
                 "JsonProtoSerializer",
@@ -3863,7 +3849,7 @@
             ],
             "variables": []
         },
-        "sizeInBytes": 52371
+        "sizeInBytes": 51718
     },
     "getDoc": {
         "dependencies": {
@@ -3955,7 +3941,6 @@
                 "filterEquals",
                 "forEach",
                 "formatJSON",
-                "formatPlural",
                 "fromBytes",
                 "fromDotSeparatedString",
                 "fromName",
@@ -3989,7 +3974,6 @@
                 "hasLimitToLast",
                 "ignoreIfPrimaryLeaseLoss",
                 "initializeViewAndComputeSnapshot",
-                "invalidClassError",
                 "isArray",
                 "isCollectionGroupQuery",
                 "isDocumentQuery",
@@ -4004,7 +3988,6 @@
                 "isNullOrUndefined",
                 "isNullValue",
                 "isNumber",
-                "isPlainObject",
                 "isServerTimestamp",
                 "isValidResourceName",
                 "loadProtos",
@@ -4012,6 +3995,7 @@
                 "logDebug",
                 "logError",
                 "logWarn",
+                "makeDatabaseInfo",
                 "mapCodeFromRpcCode",
                 "matchesAllDocuments",
                 "maybeDocumentMap",
@@ -4021,6 +4005,7 @@
                 "newDatastore",
                 "newEventManager",
                 "newLocalStore",
+                "newMemoryRemoteDocumentCache",
                 "newPersistentWatchStream",
                 "newQueryComparator",
                 "newQueryForPath",
@@ -4041,7 +4026,6 @@
                 "onWatchStreamClose",
                 "onWatchStreamOpen",
                 "orderByEquals",
-                "ordinal",
                 "patchDocument",
                 "patchObject",
                 "preconditionIsValidForDocument",
@@ -4121,10 +4105,6 @@
                 "typeOrder",
                 "uint8ArrayFromBinaryString",
                 "updateTrackedLimbos",
-                "validateArgType",
-                "validateExactNumberOfArgs",
-                "validateNamedArrayAtLeastNumberOfElements",
-                "validateType",
                 "valueCompare",
                 "valueDescription",
                 "valueEquals",
@@ -4167,6 +4147,7 @@
                 "FirebaseCredentialsProvider",
                 "FirebaseFirestore",
                 "FirebaseFirestore$1",
+                "FirestoreClient",
                 "FirestoreError",
                 "GeoPoint",
                 "GrpcConnection",
@@ -4187,7 +4168,8 @@
                 "MemoryMutationQueue",
                 "MemoryOfflineComponentProvider",
                 "MemoryPersistence",
-                "MemoryRemoteDocumentCache",
+                "MemoryRemoteDocumentCacheImpl",
+                "MemoryRemoteDocumentChangeBuffer",
                 "MemorySharedClientState",
                 "MemoryTargetCache",
                 "MemoryTransaction",
@@ -4252,7 +4234,7 @@
             ],
             "variables": []
         },
-        "sizeInBytes": 201013
+        "sizeInBytes": 200796
     },
     "getDocFromCache": {
         "dependencies": {
@@ -4318,7 +4300,6 @@
                 "filterEquals",
                 "forEach",
                 "formatJSON",
-                "formatPlural",
                 "fromDotSeparatedString",
                 "geoPointEquals",
                 "getDocFromCache",
@@ -4335,7 +4316,6 @@
                 "hardAssert",
                 "hasLimitToFirst",
                 "hasLimitToLast",
-                "invalidClassError",
                 "isArray",
                 "isCollectionGroupQuery",
                 "isDocumentQuery",
@@ -4347,16 +4327,17 @@
                 "isNegativeZero",
                 "isNullOrUndefined",
                 "isNumber",
-                "isPlainObject",
                 "isServerTimestamp",
                 "isValidResourceName",
                 "localTransformResults",
                 "logDebug",
                 "logError",
+                "makeDatabaseInfo",
                 "matchesAllDocuments",
                 "maybeDocumentMap",
                 "mutationEquals",
                 "newLocalStore",
+                "newMemoryRemoteDocumentCache",
                 "newQueryComparator",
                 "newQueryForPath",
                 "newTarget",
@@ -4368,7 +4349,6 @@
                 "objectEquals",
                 "objectSize",
                 "orderByEquals",
-                "ordinal",
                 "patchDocument",
                 "patchObject",
                 "preconditionIsValidForDocument",
@@ -4405,10 +4385,6 @@
                 "tryGetCustomObjectType",
                 "typeOrder",
                 "uint8ArrayFromBinaryString",
-                "validateArgType",
-                "validateExactNumberOfArgs",
-                "validateNamedArrayAtLeastNumberOfElements",
-                "validateType",
                 "valueCompare",
                 "valueDescription",
                 "valueEquals",
@@ -4440,6 +4416,7 @@
                 "FirebaseCredentialsProvider",
                 "FirebaseFirestore",
                 "FirebaseFirestore$1",
+                "FirestoreClient",
                 "FirestoreError",
                 "GeoPoint",
                 "IndexFreeQueryEngine",
@@ -4456,7 +4433,8 @@
                 "MemoryMutationQueue",
                 "MemoryOfflineComponentProvider",
                 "MemoryPersistence",
-                "MemoryRemoteDocumentCache",
+                "MemoryRemoteDocumentCacheImpl",
+                "MemoryRemoteDocumentChangeBuffer",
                 "MemorySharedClientState",
                 "MemoryTargetCache",
                 "MemoryTransaction",
@@ -4501,7 +4479,7 @@
             ],
             "variables": []
         },
-        "sizeInBytes": 119815
+        "sizeInBytes": 119320
     },
     "getDocFromServer": {
         "dependencies": {
@@ -4593,7 +4571,6 @@
                 "filterEquals",
                 "forEach",
                 "formatJSON",
-                "formatPlural",
                 "fromBytes",
                 "fromDotSeparatedString",
                 "fromName",
@@ -4627,7 +4604,6 @@
                 "hasLimitToLast",
                 "ignoreIfPrimaryLeaseLoss",
                 "initializeViewAndComputeSnapshot",
-                "invalidClassError",
                 "isArray",
                 "isCollectionGroupQuery",
                 "isDocumentQuery",
@@ -4642,7 +4618,6 @@
                 "isNullOrUndefined",
                 "isNullValue",
                 "isNumber",
-                "isPlainObject",
                 "isServerTimestamp",
                 "isValidResourceName",
                 "loadProtos",
@@ -4650,6 +4625,7 @@
                 "logDebug",
                 "logError",
                 "logWarn",
+                "makeDatabaseInfo",
                 "mapCodeFromRpcCode",
                 "matchesAllDocuments",
                 "maybeDocumentMap",
@@ -4659,6 +4635,7 @@
                 "newDatastore",
                 "newEventManager",
                 "newLocalStore",
+                "newMemoryRemoteDocumentCache",
                 "newPersistentWatchStream",
                 "newQueryComparator",
                 "newQueryForPath",
@@ -4679,7 +4656,6 @@
                 "onWatchStreamClose",
                 "onWatchStreamOpen",
                 "orderByEquals",
-                "ordinal",
                 "patchDocument",
                 "patchObject",
                 "preconditionIsValidForDocument",
@@ -4759,10 +4735,6 @@
                 "typeOrder",
                 "uint8ArrayFromBinaryString",
                 "updateTrackedLimbos",
-                "validateArgType",
-                "validateExactNumberOfArgs",
-                "validateNamedArrayAtLeastNumberOfElements",
-                "validateType",
                 "valueCompare",
                 "valueDescription",
                 "valueEquals",
@@ -4805,6 +4777,7 @@
                 "FirebaseCredentialsProvider",
                 "FirebaseFirestore",
                 "FirebaseFirestore$1",
+                "FirestoreClient",
                 "FirestoreError",
                 "GeoPoint",
                 "GrpcConnection",
@@ -4825,7 +4798,8 @@
                 "MemoryMutationQueue",
                 "MemoryOfflineComponentProvider",
                 "MemoryPersistence",
-                "MemoryRemoteDocumentCache",
+                "MemoryRemoteDocumentCacheImpl",
+                "MemoryRemoteDocumentChangeBuffer",
                 "MemorySharedClientState",
                 "MemoryTargetCache",
                 "MemoryTransaction",
@@ -4890,7 +4864,7 @@
             ],
             "variables": []
         },
-        "sizeInBytes": 201032
+        "sizeInBytes": 200815
     },
     "getDocs": {
         "dependencies": {
@@ -4983,7 +4957,6 @@
                 "filterEquals",
                 "forEach",
                 "formatJSON",
-                "formatPlural",
                 "fromBytes",
                 "fromDotSeparatedString",
                 "fromName",
@@ -5017,7 +4990,6 @@
                 "hasLimitToLast",
                 "ignoreIfPrimaryLeaseLoss",
                 "initializeViewAndComputeSnapshot",
-                "invalidClassError",
                 "isArray",
                 "isCollectionGroupQuery",
                 "isDocumentQuery",
@@ -5032,7 +5004,6 @@
                 "isNullOrUndefined",
                 "isNullValue",
                 "isNumber",
-                "isPlainObject",
                 "isServerTimestamp",
                 "isValidResourceName",
                 "loadProtos",
@@ -5040,6 +5011,7 @@
                 "logDebug",
                 "logError",
                 "logWarn",
+                "makeDatabaseInfo",
                 "mapCodeFromRpcCode",
                 "matchesAllDocuments",
                 "maybeDocumentMap",
@@ -5049,6 +5021,7 @@
                 "newDatastore",
                 "newEventManager",
                 "newLocalStore",
+                "newMemoryRemoteDocumentCache",
                 "newPersistentWatchStream",
                 "newQueryComparator",
                 "newQueryForPath",
@@ -5069,7 +5042,6 @@
                 "onWatchStreamClose",
                 "onWatchStreamOpen",
                 "orderByEquals",
-                "ordinal",
                 "patchDocument",
                 "patchObject",
                 "preconditionIsValidForDocument",
@@ -5149,11 +5121,7 @@
                 "typeOrder",
                 "uint8ArrayFromBinaryString",
                 "updateTrackedLimbos",
-                "validateArgType",
-                "validateExactNumberOfArgs",
                 "validateHasExplicitOrderByForLimitToLast",
-                "validateNamedArrayAtLeastNumberOfElements",
-                "validateType",
                 "valueCompare",
                 "valueDescription",
                 "valueEquals",
@@ -5196,6 +5164,7 @@
                 "FirebaseCredentialsProvider",
                 "FirebaseFirestore",
                 "FirebaseFirestore$1",
+                "FirestoreClient",
                 "FirestoreError",
                 "GeoPoint",
                 "GrpcConnection",
@@ -5216,7 +5185,8 @@
                 "MemoryMutationQueue",
                 "MemoryOfflineComponentProvider",
                 "MemoryPersistence",
-                "MemoryRemoteDocumentCache",
+                "MemoryRemoteDocumentCacheImpl",
+                "MemoryRemoteDocumentChangeBuffer",
                 "MemorySharedClientState",
                 "MemoryTargetCache",
                 "MemoryTransaction",
@@ -5282,7 +5252,7 @@
             ],
             "variables": []
         },
-        "sizeInBytes": 203304
+        "sizeInBytes": 203097
     },
     "getDocsFromCache": {
         "dependencies": {
@@ -5352,7 +5322,6 @@
                 "filterEquals",
                 "forEach",
                 "formatJSON",
-                "formatPlural",
                 "fromDotSeparatedString",
                 "geoPointEquals",
                 "getDocsFromCache",
@@ -5370,7 +5339,6 @@
                 "hardAssert",
                 "hasLimitToFirst",
                 "hasLimitToLast",
-                "invalidClassError",
                 "isArray",
                 "isCollectionGroupQuery",
                 "isDocumentQuery",
@@ -5382,16 +5350,17 @@
                 "isNegativeZero",
                 "isNullOrUndefined",
                 "isNumber",
-                "isPlainObject",
                 "isServerTimestamp",
                 "isValidResourceName",
                 "localTransformResults",
                 "logDebug",
                 "logError",
+                "makeDatabaseInfo",
                 "matchesAllDocuments",
                 "maybeDocumentMap",
                 "mutationEquals",
                 "newLocalStore",
+                "newMemoryRemoteDocumentCache",
                 "newQueryComparator",
                 "newQueryForPath",
                 "newTarget",
@@ -5403,7 +5372,6 @@
                 "objectEquals",
                 "objectSize",
                 "orderByEquals",
-                "ordinal",
                 "patchDocument",
                 "patchObject",
                 "preconditionIsValidForDocument",
@@ -5440,10 +5408,6 @@
                 "tryGetCustomObjectType",
                 "typeOrder",
                 "uint8ArrayFromBinaryString",
-                "validateArgType",
-                "validateExactNumberOfArgs",
-                "validateNamedArrayAtLeastNumberOfElements",
-                "validateType",
                 "valueCompare",
                 "valueDescription",
                 "valueEquals",
@@ -5478,6 +5442,7 @@
                 "FirebaseCredentialsProvider",
                 "FirebaseFirestore",
                 "FirebaseFirestore$1",
+                "FirestoreClient",
                 "FirestoreError",
                 "GeoPoint",
                 "IndexFreeQueryEngine",
@@ -5494,7 +5459,8 @@
                 "MemoryMutationQueue",
                 "MemoryOfflineComponentProvider",
                 "MemoryPersistence",
-                "MemoryRemoteDocumentCache",
+                "MemoryRemoteDocumentCacheImpl",
+                "MemoryRemoteDocumentChangeBuffer",
                 "MemorySharedClientState",
                 "MemoryTargetCache",
                 "MemoryTransaction",
@@ -5543,7 +5509,7 @@
             ],
             "variables": []
         },
-        "sizeInBytes": 132741
+        "sizeInBytes": 132288
     },
     "getDocsFromServer": {
         "dependencies": {
@@ -5636,7 +5602,6 @@
                 "filterEquals",
                 "forEach",
                 "formatJSON",
-                "formatPlural",
                 "fromBytes",
                 "fromDotSeparatedString",
                 "fromName",
@@ -5670,7 +5635,6 @@
                 "hasLimitToLast",
                 "ignoreIfPrimaryLeaseLoss",
                 "initializeViewAndComputeSnapshot",
-                "invalidClassError",
                 "isArray",
                 "isCollectionGroupQuery",
                 "isDocumentQuery",
@@ -5685,7 +5649,6 @@
                 "isNullOrUndefined",
                 "isNullValue",
                 "isNumber",
-                "isPlainObject",
                 "isServerTimestamp",
                 "isValidResourceName",
                 "loadProtos",
@@ -5693,6 +5656,7 @@
                 "logDebug",
                 "logError",
                 "logWarn",
+                "makeDatabaseInfo",
                 "mapCodeFromRpcCode",
                 "matchesAllDocuments",
                 "maybeDocumentMap",
@@ -5702,6 +5666,7 @@
                 "newDatastore",
                 "newEventManager",
                 "newLocalStore",
+                "newMemoryRemoteDocumentCache",
                 "newPersistentWatchStream",
                 "newQueryComparator",
                 "newQueryForPath",
@@ -5722,7 +5687,6 @@
                 "onWatchStreamClose",
                 "onWatchStreamOpen",
                 "orderByEquals",
-                "ordinal",
                 "patchDocument",
                 "patchObject",
                 "preconditionIsValidForDocument",
@@ -5802,10 +5766,6 @@
                 "typeOrder",
                 "uint8ArrayFromBinaryString",
                 "updateTrackedLimbos",
-                "validateArgType",
-                "validateExactNumberOfArgs",
-                "validateNamedArrayAtLeastNumberOfElements",
-                "validateType",
                 "valueCompare",
                 "valueDescription",
                 "valueEquals",
@@ -5848,6 +5808,7 @@
                 "FirebaseCredentialsProvider",
                 "FirebaseFirestore",
                 "FirebaseFirestore$1",
+                "FirestoreClient",
                 "FirestoreError",
                 "GeoPoint",
                 "GrpcConnection",
@@ -5868,7 +5829,8 @@
                 "MemoryMutationQueue",
                 "MemoryOfflineComponentProvider",
                 "MemoryPersistence",
-                "MemoryRemoteDocumentCache",
+                "MemoryRemoteDocumentCacheImpl",
+                "MemoryRemoteDocumentChangeBuffer",
                 "MemorySharedClientState",
                 "MemoryTargetCache",
                 "MemoryTransaction",
@@ -5934,7 +5896,7 @@
             ],
             "variables": []
         },
-        "sizeInBytes": 203032
+        "sizeInBytes": 202825
     },
     "getFirestore": {
         "dependencies": {
@@ -5948,6 +5910,7 @@
                 "isIndexedDbTransactionError",
                 "logDebug",
                 "logError",
+                "makeDatabaseInfo",
                 "primitiveComparator",
                 "randomBytes",
                 "registerFirestore",
@@ -5966,13 +5929,14 @@
                 "FirebaseCredentialsProvider",
                 "FirebaseFirestore",
                 "FirebaseFirestore$1",
+                "FirestoreClient",
                 "FirestoreError",
                 "OAuthToken",
                 "User"
             ],
             "variables": []
         },
-        "sizeInBytes": 16834
+        "sizeInBytes": 18387
     },
     "increment": {
         "dependencies": {
@@ -5988,6 +5952,7 @@
                 "isSafeInteger",
                 "logDebug",
                 "logError",
+                "makeDatabaseInfo",
                 "primitiveComparator",
                 "randomBytes",
                 "registerFirestore",
@@ -6011,6 +5976,7 @@
                 "FirebaseCredentialsProvider",
                 "FirebaseFirestore",
                 "FirebaseFirestore$1",
+                "FirestoreClient",
                 "FirestoreError",
                 "NumericIncrementFieldValueImpl",
                 "NumericIncrementTransformOperation",
@@ -6020,7 +5986,7 @@
             ],
             "variables": []
         },
-        "sizeInBytes": 18248
+        "sizeInBytes": 19801
     },
     "initializeFirestore": {
         "dependencies": {
@@ -6034,6 +6000,7 @@
                 "isIndexedDbTransactionError",
                 "logDebug",
                 "logError",
+                "makeDatabaseInfo",
                 "primitiveComparator",
                 "randomBytes",
                 "registerFirestore",
@@ -6052,6 +6019,7 @@
                 "FirebaseCredentialsProvider",
                 "FirebaseFirestore",
                 "FirebaseFirestore$1",
+                "FirestoreClient",
                 "FirestoreError",
                 "LruParams",
                 "OAuthToken",
@@ -6059,7 +6027,7 @@
             ],
             "variables": []
         },
-        "sizeInBytes": 18138
+        "sizeInBytes": 19691
     },
     "limit": {
         "dependencies": {
@@ -6073,7 +6041,7 @@
                 "limit",
                 "logDebug",
                 "logError",
-                "ordinal",
+                "makeDatabaseInfo",
                 "primitiveComparator",
                 "queryWithLimit",
                 "randomBytes",
@@ -6094,6 +6062,7 @@
                 "FirebaseCredentialsProvider",
                 "FirebaseFirestore",
                 "FirebaseFirestore$1",
+                "FirestoreClient",
                 "FirestoreError",
                 "OAuthToken",
                 "Query",
@@ -6104,7 +6073,7 @@
             ],
             "variables": []
         },
-        "sizeInBytes": 18315
+        "sizeInBytes": 19706
     },
     "limitToLast": {
         "dependencies": {
@@ -6118,7 +6087,7 @@
                 "limitToLast",
                 "logDebug",
                 "logError",
-                "ordinal",
+                "makeDatabaseInfo",
                 "primitiveComparator",
                 "queryWithLimit",
                 "randomBytes",
@@ -6139,6 +6108,7 @@
                 "FirebaseCredentialsProvider",
                 "FirebaseFirestore",
                 "FirebaseFirestore$1",
+                "FirestoreClient",
                 "FirestoreError",
                 "OAuthToken",
                 "Query",
@@ -6149,7 +6119,7 @@
             ],
             "variables": []
         },
-        "sizeInBytes": 18339
+        "sizeInBytes": 19730
     },
     "onSnapshot": {
         "dependencies": {
@@ -6242,7 +6212,6 @@
                 "filterEquals",
                 "forEach",
                 "formatJSON",
-                "formatPlural",
                 "fromBytes",
                 "fromDotSeparatedString",
                 "fromName",
@@ -6276,7 +6245,6 @@
                 "ignoreIfPrimaryLeaseLoss",
                 "implementsAnyMethods",
                 "initializeViewAndComputeSnapshot",
-                "invalidClassError",
                 "isArray",
                 "isCollectionGroupQuery",
                 "isDocumentQuery",
@@ -6292,7 +6260,6 @@
                 "isNullValue",
                 "isNumber",
                 "isPartialObserver",
-                "isPlainObject",
                 "isServerTimestamp",
                 "isValidResourceName",
                 "loadProtos",
@@ -6300,6 +6267,7 @@
                 "logDebug",
                 "logError",
                 "logWarn",
+                "makeDatabaseInfo",
                 "mapCodeFromRpcCode",
                 "matchesAllDocuments",
                 "maybeDocumentMap",
@@ -6309,6 +6277,7 @@
                 "newDatastore",
                 "newEventManager",
                 "newLocalStore",
+                "newMemoryRemoteDocumentCache",
                 "newPersistentWatchStream",
                 "newQueryComparator",
                 "newQueryForPath",
@@ -6330,7 +6299,6 @@
                 "onWatchStreamClose",
                 "onWatchStreamOpen",
                 "orderByEquals",
-                "ordinal",
                 "patchDocument",
                 "patchObject",
                 "preconditionIsValidForDocument",
@@ -6410,11 +6378,7 @@
                 "typeOrder",
                 "uint8ArrayFromBinaryString",
                 "updateTrackedLimbos",
-                "validateArgType",
-                "validateExactNumberOfArgs",
                 "validateHasExplicitOrderByForLimitToLast",
-                "validateNamedArrayAtLeastNumberOfElements",
-                "validateType",
                 "valueCompare",
                 "valueDescription",
                 "valueEquals",
@@ -6457,6 +6421,7 @@
                 "FirebaseCredentialsProvider",
                 "FirebaseFirestore",
                 "FirebaseFirestore$1",
+                "FirestoreClient",
                 "FirestoreError",
                 "GeoPoint",
                 "GrpcConnection",
@@ -6477,7 +6442,8 @@
                 "MemoryMutationQueue",
                 "MemoryOfflineComponentProvider",
                 "MemoryPersistence",
-                "MemoryRemoteDocumentCache",
+                "MemoryRemoteDocumentCacheImpl",
+                "MemoryRemoteDocumentChangeBuffer",
                 "MemorySharedClientState",
                 "MemoryTargetCache",
                 "MemoryTransaction",
@@ -6543,7 +6509,7 @@
             ],
             "variables": []
         },
-        "sizeInBytes": 204416
+        "sizeInBytes": 204213
     },
     "onSnapshotsInSync": {
         "dependencies": {
@@ -6681,6 +6647,7 @@
                 "logDebug",
                 "logError",
                 "logWarn",
+                "makeDatabaseInfo",
                 "mapCodeFromRpcCode",
                 "matchesAllDocuments",
                 "maybeDocumentMap",
@@ -6690,6 +6657,7 @@
                 "newDatastore",
                 "newEventManager",
                 "newLocalStore",
+                "newMemoryRemoteDocumentCache",
                 "newPersistentWatchStream",
                 "newQueryComparator",
                 "newQueryForPath",
@@ -6824,6 +6792,7 @@
                 "FirebaseCredentialsProvider",
                 "FirebaseFirestore",
                 "FirebaseFirestore$1",
+                "FirestoreClient",
                 "FirestoreError",
                 "GrpcConnection",
                 "IndexFreeQueryEngine",
@@ -6843,7 +6812,8 @@
                 "MemoryMutationQueue",
                 "MemoryOfflineComponentProvider",
                 "MemoryPersistence",
-                "MemoryRemoteDocumentCache",
+                "MemoryRemoteDocumentCacheImpl",
+                "MemoryRemoteDocumentChangeBuffer",
                 "MemorySharedClientState",
                 "MemoryTargetCache",
                 "MemoryTransaction",
@@ -6899,7 +6869,7 @@
             ],
             "variables": []
         },
-        "sizeInBytes": 183839
+        "sizeInBytes": 185924
     },
     "orderBy": {
         "dependencies": {
@@ -6911,33 +6881,25 @@
                 "fieldPathFromArgument$1",
                 "fieldPathFromDotSeparatedString",
                 "formatJSON",
-                "formatPlural",
                 "fromDotSeparatedString",
                 "getFirstOrderByField",
                 "getInequalityFilterField",
                 "getMessageOrStack",
                 "hardAssert",
-                "invalidClassError",
                 "isIndexedDbTransactionError",
-                "isPlainObject",
                 "logDebug",
                 "logError",
+                "makeDatabaseInfo",
                 "newQueryOrderBy",
                 "orderBy",
-                "ordinal",
                 "primitiveComparator",
                 "queryWithAddedOrderBy",
                 "randomBytes",
                 "registerFirestore",
                 "removeComponents",
                 "removeComponents$1",
-                "tryGetCustomObjectType",
-                "validateArgType",
-                "validateNamedArrayAtLeastNumberOfElements",
                 "validateNewOrderBy",
                 "validateOrderByAndInequalityMatch",
-                "validateType",
-                "valueDescription",
                 "wrapInUserErrorIfRecoverable"
             ],
             "classes": [
@@ -6954,6 +6916,7 @@
                 "FirebaseCredentialsProvider",
                 "FirebaseFirestore",
                 "FirebaseFirestore$1",
+                "FirestoreClient",
                 "FirestoreError",
                 "OAuthToken",
                 "OrderBy",
@@ -6966,7 +6929,7 @@
             ],
             "variables": []
         },
-        "sizeInBytes": 27572
+        "sizeInBytes": 26561
     },
     "query": {
         "dependencies": {
@@ -6979,6 +6942,7 @@
                 "isIndexedDbTransactionError",
                 "logDebug",
                 "logError",
+                "makeDatabaseInfo",
                 "primitiveComparator",
                 "query",
                 "randomBytes",
@@ -6998,13 +6962,14 @@
                 "FirebaseCredentialsProvider",
                 "FirebaseFirestore",
                 "FirebaseFirestore$1",
+                "FirestoreClient",
                 "FirestoreError",
                 "OAuthToken",
                 "User"
             ],
             "variables": []
         },
-        "sizeInBytes": 16859
+        "sizeInBytes": 18412
     },
     "queryEqual": {
         "dependencies": {
@@ -7031,6 +6996,7 @@
                 "isServerTimestamp",
                 "logDebug",
                 "logError",
+                "makeDatabaseInfo",
                 "newTarget",
                 "normalizeByteString",
                 "normalizeNumber",
@@ -7070,6 +7036,7 @@
                 "FirebaseCredentialsProvider",
                 "FirebaseFirestore",
                 "FirebaseFirestore$1",
+                "FirestoreClient",
                 "FirestoreError",
                 "OAuthToken",
                 "OrderBy",
@@ -7080,7 +7047,7 @@
             ],
             "variables": []
         },
-        "sizeInBytes": 31992
+        "sizeInBytes": 33551
     },
     "refEqual": {
         "dependencies": {
@@ -7093,6 +7060,7 @@
                 "isIndexedDbTransactionError",
                 "logDebug",
                 "logError",
+                "makeDatabaseInfo",
                 "newQueryForPath",
                 "primitiveComparator",
                 "randomBytes",
@@ -7117,6 +7085,7 @@
                 "FirebaseCredentialsProvider",
                 "FirebaseFirestore",
                 "FirebaseFirestore$1",
+                "FirestoreClient",
                 "FirestoreError",
                 "OAuthToken",
                 "Query",
@@ -7127,7 +7096,7 @@
             ],
             "variables": []
         },
-        "sizeInBytes": 21894
+        "sizeInBytes": 23451
     },
     "runTransaction": {
         "dependencies": {
@@ -7152,7 +7121,6 @@
                 "fieldPathFromDotSeparatedString",
                 "forEach",
                 "formatJSON",
-                "formatPlural",
                 "fromDotSeparatedString",
                 "fromFound",
                 "fromMaybeDocument",
@@ -7169,7 +7137,6 @@
                 "getMessageOrStack",
                 "getPreviousValue",
                 "hardAssert",
-                "invalidClassError",
                 "invokeBatchGetDocumentsRpc",
                 "invokeCommitRpc",
                 "isEmpty",
@@ -7188,6 +7155,7 @@
                 "logError",
                 "logWarn",
                 "looksLikeJsonObject",
+                "makeDatabaseInfo",
                 "mapCodeFromRpcCode",
                 "newConnection",
                 "newDatastore",
@@ -7201,7 +7169,6 @@
                 "numberEquals",
                 "objectEquals",
                 "objectSize",
-                "ordinal",
                 "parseArray",
                 "parseData",
                 "parseObject",
@@ -7233,12 +7200,8 @@
                 "tryGetCustomObjectType",
                 "typeOrder",
                 "uint8ArrayFromBinaryString",
-                "validateArgType",
-                "validateExactNumberOfArgs",
-                "validateNamedArrayAtLeastNumberOfElements",
                 "validatePlainObject",
                 "validateReference",
-                "validateType",
                 "valueDescription",
                 "valueEquals",
                 "wrapInUserErrorIfRecoverable"
@@ -7275,6 +7238,7 @@
                 "FirebaseCredentialsProvider",
                 "FirebaseFirestore",
                 "FirebaseFirestore$1",
+                "FirestoreClient",
                 "FirestoreError",
                 "GeoPoint",
                 "GrpcConnection",
@@ -7317,7 +7281,7 @@
             ],
             "variables": []
         },
-        "sizeInBytes": 82754
+        "sizeInBytes": 82092
     },
     "serverTimestamp": {
         "dependencies": {
@@ -7330,6 +7294,7 @@
                 "isIndexedDbTransactionError",
                 "logDebug",
                 "logError",
+                "makeDatabaseInfo",
                 "primitiveComparator",
                 "randomBytes",
                 "registerFirestore",
@@ -7351,6 +7316,7 @@
                 "FirebaseCredentialsProvider",
                 "FirebaseFirestore",
                 "FirebaseFirestore$1",
+                "FirestoreClient",
                 "FirestoreError",
                 "OAuthToken",
                 "ServerTimestampFieldValueImpl",
@@ -7360,7 +7326,7 @@
             ],
             "variables": []
         },
-        "sizeInBytes": 17353
+        "sizeInBytes": 18906
     },
     "setDoc": {
         "dependencies": {
@@ -7451,7 +7417,6 @@
                 "filterEquals",
                 "forEach",
                 "formatJSON",
-                "formatPlural",
                 "fromDotSeparatedString",
                 "fromTimestamp",
                 "fromVersion",
@@ -7476,7 +7441,6 @@
                 "hasLimitToFirst",
                 "hasLimitToLast",
                 "ignoreIfPrimaryLeaseLoss",
-                "invalidClassError",
                 "isArray",
                 "isCollectionGroupQuery",
                 "isDocumentQuery",
@@ -7501,6 +7465,7 @@
                 "logError",
                 "logWarn",
                 "looksLikeJsonObject",
+                "makeDatabaseInfo",
                 "mapCodeFromRpcCode",
                 "matchesAllDocuments",
                 "maybeDocumentMap",
@@ -7510,6 +7475,7 @@
                 "newDatastore",
                 "newEventManager",
                 "newLocalStore",
+                "newMemoryRemoteDocumentCache",
                 "newPersistentWriteStream",
                 "newQueryComparator",
                 "newRemoteStore",
@@ -7532,7 +7498,6 @@
                 "onWriteStreamClose",
                 "onWriteStreamOpen",
                 "orderByEquals",
-                "ordinal",
                 "parseArray",
                 "parseData",
                 "parseObject",
@@ -7601,11 +7566,7 @@
                 "tryGetCustomObjectType",
                 "typeOrder",
                 "uint8ArrayFromBinaryString",
-                "validateArgType",
-                "validateExactNumberOfArgs",
-                "validateNamedArrayAtLeastNumberOfElements",
                 "validatePlainObject",
-                "validateType",
                 "valueCompare",
                 "valueDescription",
                 "valueEquals",
@@ -7640,6 +7601,7 @@
                 "FirebaseCredentialsProvider",
                 "FirebaseFirestore",
                 "FirebaseFirestore$1",
+                "FirestoreClient",
                 "FirestoreError",
                 "GeoPoint",
                 "GrpcConnection",
@@ -7659,7 +7621,8 @@
                 "MemoryMutationQueue",
                 "MemoryOfflineComponentProvider",
                 "MemoryPersistence",
-                "MemoryRemoteDocumentCache",
+                "MemoryRemoteDocumentCacheImpl",
+                "MemoryRemoteDocumentChangeBuffer",
                 "MemorySharedClientState",
                 "MemoryTargetCache",
                 "MemoryTransaction",
@@ -7713,7 +7676,7 @@
             ],
             "variables": []
         },
-        "sizeInBytes": 164530
+        "sizeInBytes": 164575
     },
     "setLogLevel": {
         "dependencies": {
@@ -7726,6 +7689,7 @@
                 "isIndexedDbTransactionError",
                 "logDebug",
                 "logError",
+                "makeDatabaseInfo",
                 "primitiveComparator",
                 "randomBytes",
                 "registerFirestore",
@@ -7745,13 +7709,14 @@
                 "FirebaseCredentialsProvider",
                 "FirebaseFirestore",
                 "FirebaseFirestore$1",
+                "FirestoreClient",
                 "FirestoreError",
                 "OAuthToken",
                 "User"
             ],
             "variables": []
         },
-        "sizeInBytes": 16800
+        "sizeInBytes": 18353
     },
     "snapshotEqual": {
         "dependencies": {
@@ -7773,7 +7738,6 @@
                 "filterEquals",
                 "forEach",
                 "formatJSON",
-                "formatPlural",
                 "fromDotSeparatedString",
                 "geoPointEquals",
                 "getFirstOrderByField",
@@ -7782,14 +7746,13 @@
                 "getMessageOrStack",
                 "getPreviousValue",
                 "hardAssert",
-                "invalidClassError",
                 "isIndexedDbTransactionError",
                 "isNegativeZero",
-                "isPlainObject",
                 "isServerTimestamp",
                 "isValidResourceName",
                 "logDebug",
                 "logError",
+                "makeDatabaseInfo",
                 "newQueryForPath",
                 "newTarget",
                 "normalizeByteString",
@@ -7799,7 +7762,6 @@
                 "objectEquals",
                 "objectSize",
                 "orderByEquals",
-                "ordinal",
                 "primitiveComparator",
                 "queryEqual",
                 "queryEquals",
@@ -7813,14 +7775,8 @@
                 "snapshotEqual",
                 "targetEquals",
                 "timestampEquals",
-                "tryGetCustomObjectType",
                 "typeOrder",
                 "uint8ArrayFromBinaryString",
-                "validateArgType",
-                "validateExactNumberOfArgs",
-                "validateNamedArrayAtLeastNumberOfElements",
-                "validateType",
-                "valueDescription",
                 "valueEquals",
                 "wrapInUserErrorIfRecoverable"
             ],
@@ -7846,6 +7802,7 @@
                 "FirebaseCredentialsProvider",
                 "FirebaseFirestore",
                 "FirebaseFirestore$1",
+                "FirestoreClient",
                 "FirestoreError",
                 "GeoPoint",
                 "OAuthToken",
@@ -7866,7 +7823,7 @@
             ],
             "variables": []
         },
-        "sizeInBytes": 50005
+        "sizeInBytes": 48413
     },
     "startAfter": {
         "dependencies": {
@@ -7883,7 +7840,6 @@
                 "fieldPathFromDotSeparatedString",
                 "forEach",
                 "formatJSON",
-                "formatPlural",
                 "fromDotSeparatedString",
                 "fullyQualifiedPrefixPath",
                 "getFirstOrderByField",
@@ -7892,7 +7848,6 @@
                 "getMessageOrStack",
                 "getPreviousValue",
                 "hardAssert",
-                "invalidClassError",
                 "isCollectionGroupQuery",
                 "isEmpty",
                 "isIndexedDbTransactionError",
@@ -7905,6 +7860,7 @@
                 "logDebug",
                 "logError",
                 "looksLikeJsonObject",
+                "makeDatabaseInfo",
                 "newQueryBoundFromDocOrFields",
                 "newQueryBoundFromDocument",
                 "newQueryBoundFromFields",
@@ -7914,7 +7870,6 @@
                 "normalizeByteString",
                 "normalizeNumber",
                 "normalizeTimestamp",
-                "ordinal",
                 "parseArray",
                 "parseData",
                 "parseObject",
@@ -7939,11 +7894,7 @@
                 "tryGetCustomObjectType",
                 "typeOrder",
                 "uint8ArrayFromBinaryString",
-                "validateArgType",
-                "validateExactNumberOfArgs",
-                "validateNamedArrayAtLeastNumberOfElements",
                 "validatePlainObject",
-                "validateType",
                 "valueDescription",
                 "wrapInUserErrorIfRecoverable"
             ],
@@ -7970,6 +7921,7 @@
                 "FirebaseCredentialsProvider",
                 "FirebaseFirestore",
                 "FirebaseFirestore$1",
+                "FirestoreClient",
                 "FirestoreError",
                 "GeoPoint",
                 "JsonProtoSerializer",
@@ -7991,7 +7943,7 @@
             ],
             "variables": []
         },
-        "sizeInBytes": 52381
+        "sizeInBytes": 51728
     },
     "startAt": {
         "dependencies": {
@@ -8008,7 +7960,6 @@
                 "fieldPathFromDotSeparatedString",
                 "forEach",
                 "formatJSON",
-                "formatPlural",
                 "fromDotSeparatedString",
                 "fullyQualifiedPrefixPath",
                 "getFirstOrderByField",
@@ -8017,7 +7968,6 @@
                 "getMessageOrStack",
                 "getPreviousValue",
                 "hardAssert",
-                "invalidClassError",
                 "isCollectionGroupQuery",
                 "isEmpty",
                 "isIndexedDbTransactionError",
@@ -8030,6 +7980,7 @@
                 "logDebug",
                 "logError",
                 "looksLikeJsonObject",
+                "makeDatabaseInfo",
                 "newQueryBoundFromDocOrFields",
                 "newQueryBoundFromDocument",
                 "newQueryBoundFromFields",
@@ -8039,7 +7990,6 @@
                 "normalizeByteString",
                 "normalizeNumber",
                 "normalizeTimestamp",
-                "ordinal",
                 "parseArray",
                 "parseData",
                 "parseObject",
@@ -8064,11 +8014,7 @@
                 "tryGetCustomObjectType",
                 "typeOrder",
                 "uint8ArrayFromBinaryString",
-                "validateArgType",
-                "validateExactNumberOfArgs",
-                "validateNamedArrayAtLeastNumberOfElements",
                 "validatePlainObject",
-                "validateType",
                 "valueDescription",
                 "wrapInUserErrorIfRecoverable"
             ],
@@ -8095,6 +8041,7 @@
                 "FirebaseCredentialsProvider",
                 "FirebaseFirestore",
                 "FirebaseFirestore$1",
+                "FirestoreClient",
                 "FirestoreError",
                 "GeoPoint",
                 "JsonProtoSerializer",
@@ -8116,7 +8063,7 @@
             ],
             "variables": []
         },
-        "sizeInBytes": 52371
+        "sizeInBytes": 51718
     },
     "terminate": {
         "dependencies": {
@@ -8129,6 +8076,7 @@
                 "isIndexedDbTransactionError",
                 "logDebug",
                 "logError",
+                "makeDatabaseInfo",
                 "primitiveComparator",
                 "randomBytes",
                 "registerFirestore",
@@ -8148,13 +8096,14 @@
                 "FirebaseCredentialsProvider",
                 "FirebaseFirestore",
                 "FirebaseFirestore$1",
+                "FirestoreClient",
                 "FirestoreError",
                 "OAuthToken",
                 "User"
             ],
             "variables": []
         },
-        "sizeInBytes": 16869
+        "sizeInBytes": 18422
     },
     "updateDoc": {
         "dependencies": {
@@ -8245,7 +8194,6 @@
                 "filterEquals",
                 "forEach",
                 "formatJSON",
-                "formatPlural",
                 "fromDotSeparatedString",
                 "fromTimestamp",
                 "fromVersion",
@@ -8270,7 +8218,6 @@
                 "hasLimitToFirst",
                 "hasLimitToLast",
                 "ignoreIfPrimaryLeaseLoss",
-                "invalidClassError",
                 "isArray",
                 "isCollectionGroupQuery",
                 "isDocumentQuery",
@@ -8295,6 +8242,7 @@
                 "logError",
                 "logWarn",
                 "looksLikeJsonObject",
+                "makeDatabaseInfo",
                 "mapCodeFromRpcCode",
                 "matchesAllDocuments",
                 "maybeDocumentMap",
@@ -8304,6 +8252,7 @@
                 "newDatastore",
                 "newEventManager",
                 "newLocalStore",
+                "newMemoryRemoteDocumentCache",
                 "newPersistentWriteStream",
                 "newQueryComparator",
                 "newRemoteStore",
@@ -8326,7 +8275,6 @@
                 "onWriteStreamClose",
                 "onWriteStreamOpen",
                 "orderByEquals",
-                "ordinal",
                 "parseArray",
                 "parseData",
                 "parseObject",
@@ -8396,11 +8344,7 @@
                 "typeOrder",
                 "uint8ArrayFromBinaryString",
                 "updateDoc",
-                "validateArgType",
-                "validateExactNumberOfArgs",
-                "validateNamedArrayAtLeastNumberOfElements",
                 "validatePlainObject",
-                "validateType",
                 "valueCompare",
                 "valueDescription",
                 "valueEquals",
@@ -8437,6 +8381,7 @@
                 "FirebaseCredentialsProvider",
                 "FirebaseFirestore",
                 "FirebaseFirestore$1",
+                "FirestoreClient",
                 "FirestoreError",
                 "GeoPoint",
                 "GrpcConnection",
@@ -8456,7 +8401,8 @@
                 "MemoryMutationQueue",
                 "MemoryOfflineComponentProvider",
                 "MemoryPersistence",
-                "MemoryRemoteDocumentCache",
+                "MemoryRemoteDocumentCacheImpl",
+                "MemoryRemoteDocumentChangeBuffer",
                 "MemorySharedClientState",
                 "MemoryTargetCache",
                 "MemoryTransaction",
@@ -8510,7 +8456,7 @@
             ],
             "variables": []
         },
-        "sizeInBytes": 165962
+        "sizeInBytes": 166007
     },
     "waitForPendingWrites": {
         "dependencies": {
@@ -8611,6 +8557,7 @@
                 "logDebug",
                 "logError",
                 "logWarn",
+                "makeDatabaseInfo",
                 "mapCodeFromRpcCode",
                 "matchesAllDocuments",
                 "maybeDocumentMap",
@@ -8620,6 +8567,7 @@
                 "newDatastore",
                 "newEventManager",
                 "newLocalStore",
+                "newMemoryRemoteDocumentCache",
                 "newQueryComparator",
                 "newRemoteStore",
                 "newSerializer",
@@ -8706,6 +8654,7 @@
                 "FirebaseCredentialsProvider",
                 "FirebaseFirestore",
                 "FirebaseFirestore$1",
+                "FirestoreClient",
                 "FirestoreError",
                 "GrpcConnection",
                 "IndexFreeQueryEngine",
@@ -8724,7 +8673,8 @@
                 "MemoryMutationQueue",
                 "MemoryOfflineComponentProvider",
                 "MemoryPersistence",
-                "MemoryRemoteDocumentCache",
+                "MemoryRemoteDocumentCacheImpl",
+                "MemoryRemoteDocumentChangeBuffer",
                 "MemorySharedClientState",
                 "MemoryTargetCache",
                 "MemoryTransaction",
@@ -8768,7 +8718,7 @@
             ],
             "variables": []
         },
-        "sizeInBytes": 127059
+        "sizeInBytes": 128967
     },
     "where": {
         "dependencies": {
@@ -8797,7 +8747,6 @@
                 "findFilterOperator",
                 "forEach",
                 "formatJSON",
-                "formatPlural",
                 "fromDotSeparatedString",
                 "fullyQualifiedPrefixPath",
                 "geoPointEquals",
@@ -8806,14 +8755,11 @@
                 "getLocalWriteTime",
                 "getMessageOrStack",
                 "hardAssert",
-                "invalidClassError",
                 "isArray",
                 "isCollectionGroupQuery",
                 "isEmpty",
                 "isIndexedDbTransactionError",
-                "isNanValue",
                 "isNegativeZero",
-                "isNullValue",
                 "isPlainObject",
                 "isSafeInteger",
                 "isServerTimestamp",
@@ -8821,6 +8767,7 @@
                 "logDebug",
                 "logError",
                 "looksLikeJsonObject",
+                "makeDatabaseInfo",
                 "newQueryFilter",
                 "newSerializer",
                 "newUserDataReader",
@@ -8830,7 +8777,6 @@
                 "numberEquals",
                 "objectEquals",
                 "objectSize",
-                "ordinal",
                 "parseArray",
                 "parseData",
                 "parseDocumentIdValue",
@@ -8855,14 +8801,10 @@
                 "tryGetCustomObjectType",
                 "typeOrder",
                 "uint8ArrayFromBinaryString",
-                "validateArgType",
                 "validateDisjunctiveFilterElements",
-                "validateExactNumberOfArgs",
-                "validateNamedArrayAtLeastNumberOfElements",
                 "validateNewFilter",
                 "validateOrderByAndInequalityMatch",
                 "validatePlainObject",
-                "validateType",
                 "valueCompare",
                 "valueDescription",
                 "valueEquals",
@@ -8892,6 +8834,7 @@
                 "FirebaseCredentialsProvider",
                 "FirebaseFirestore",
                 "FirebaseFirestore$1",
+                "FirestoreClient",
                 "FirestoreError",
                 "GeoPoint",
                 "InFilter",
@@ -8915,7 +8858,7 @@
             ],
             "variables": []
         },
-        "sizeInBytes": 58213
+        "sizeInBytes": 56793
     },
     "writeBatch": {
         "dependencies": {
@@ -9006,7 +8949,6 @@
                 "filterEquals",
                 "forEach",
                 "formatJSON",
-                "formatPlural",
                 "fromDotSeparatedString",
                 "fromTimestamp",
                 "fromVersion",
@@ -9031,7 +8973,6 @@
                 "hasLimitToFirst",
                 "hasLimitToLast",
                 "ignoreIfPrimaryLeaseLoss",
-                "invalidClassError",
                 "isArray",
                 "isCollectionGroupQuery",
                 "isDocumentQuery",
@@ -9056,6 +8997,7 @@
                 "logError",
                 "logWarn",
                 "looksLikeJsonObject",
+                "makeDatabaseInfo",
                 "mapCodeFromRpcCode",
                 "matchesAllDocuments",
                 "maybeDocumentMap",
@@ -9065,6 +9007,7 @@
                 "newDatastore",
                 "newEventManager",
                 "newLocalStore",
+                "newMemoryRemoteDocumentCache",
                 "newPersistentWriteStream",
                 "newQueryComparator",
                 "newRemoteStore",
@@ -9087,7 +9030,6 @@
                 "onWriteStreamClose",
                 "onWriteStreamOpen",
                 "orderByEquals",
-                "ordinal",
                 "parseArray",
                 "parseData",
                 "parseObject",
@@ -9157,12 +9099,8 @@
                 "tryGetCustomObjectType",
                 "typeOrder",
                 "uint8ArrayFromBinaryString",
-                "validateArgType",
-                "validateExactNumberOfArgs",
-                "validateNamedArrayAtLeastNumberOfElements",
                 "validatePlainObject",
                 "validateReference",
-                "validateType",
                 "valueCompare",
                 "valueDescription",
                 "valueEquals",
@@ -9200,6 +9138,7 @@
                 "FirebaseCredentialsProvider",
                 "FirebaseFirestore",
                 "FirebaseFirestore$1",
+                "FirestoreClient",
                 "FirestoreError",
                 "GeoPoint",
                 "GrpcConnection",
@@ -9219,7 +9158,8 @@
                 "MemoryMutationQueue",
                 "MemoryOfflineComponentProvider",
                 "MemoryPersistence",
-                "MemoryRemoteDocumentCache",
+                "MemoryRemoteDocumentCacheImpl",
+                "MemoryRemoteDocumentChangeBuffer",
                 "MemorySharedClientState",
                 "MemoryTargetCache",
                 "MemoryTransaction",
@@ -9275,6 +9215,6 @@
             ],
             "variables": []
         },
-        "sizeInBytes": 169138
+        "sizeInBytes": 169185
     }
 }
