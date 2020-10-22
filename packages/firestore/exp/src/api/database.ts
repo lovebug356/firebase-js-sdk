@@ -126,9 +126,9 @@ export class FirebaseFirestore
       );
       this._firestoreClient = new FirestoreClient(
         this._credentials,
-        this._queue
+        this._queue,
+        databaseInfo
       );
-      this._firestoreClient.start(databaseInfo);
     }
     return this._firestoreClient!;
   }

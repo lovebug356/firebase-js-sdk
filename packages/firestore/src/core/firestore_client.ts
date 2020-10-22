@@ -85,29 +85,13 @@ export const MAX_CONCURRENT_LIMBO_RESOLUTIONS = 100;
  * async queue that is shared by all of the other components in the system.
  */
 export class FirestoreClient {
-  // NOTE: These should technically have '|undefined' in the types, since
-  // they're initialized asynchronously rather than in the constructor, but
-  // given that all work is done on the async queue and we assert that
-  // initialization completes before any other work is queued, we're cheating
-  // with the types rather than littering the code with '!' or unnecessary
-  // undefined checks.
-  private databaseInfo!: DatabaseInfo;
   private user = User.UNAUTHENTICATED;
+  private readonly clientId = AutoId.newId();
   private credentialListener: CredentialChangeListener = () => {};
+  private readonly receivedInitialUser = new Deferred<void>();
 
   offlineComponents?: OfflineComponentProvider;
   onlineComponents?: OnlineComponentProvider;
-
-  private readonly clientId = AutoId.newId();
-
-  // We defer our initialization until we get the current user from
-  // setChangeListener(). We block the async queue until we got the initial
-  // user and the initialization is completed. This will prevent any scheduled
-  // work from happening before initialization is completed.
-  //
-  // If initializationDone resolved then the FirestoreClient is in a usable
-  // state.
-  private readonly initializationDone = new Deferred<void>();
 
   constructor(
     private credentials: CredentialsProvider,
@@ -119,57 +103,21 @@ export class FirestoreClient {
      * start processing a new operation while the previous one is waiting for
      * an async I/O to complete).
      */
-    public asyncQueue: AsyncQueue
-  ) {}
-
-  /**
-   * Starts up the FirestoreClient, returning only whether or not enabling
-   * persistence succeeded.
-   *
-   * The intent here is to "do the right thing" as far as users are concerned.
-   * Namely, in cases where offline persistence is requested and possible,
-   * enable it, but otherwise fall back to persistence disabled. For the most
-   * part we expect this to succeed one way or the other so we don't expect our
-   * users to actually wait on the firestore.enablePersistence Promise since
-   * they generally won't care.
-   *
-   * Of course some users actually do care about whether or not persistence
-   * was successfully enabled, so the Promise returned from this method
-   * indicates this outcome.
-   *
-   * This presents a problem though: even before enablePersistence resolves or
-   * rejects, users may have made calls to e.g. firestore.collection() which
-   * means that the FirestoreClient in there will be available and will be
-   * enqueuing actions on the async queue.
-   *
-   * Meanwhile any failure of an operation on the async queue causes it to
-   * panic and reject any further work, on the premise that unhandled errors
-   * are fatal.
-   *
-   * Consequently the fallback is handled internally here in start, and if the
-   * fallback succeeds we signal success to the async queue even though the
-   * start() itself signals failure.
-   *
-   * @param databaseInfo The connection information for the current instance.
-   */
-  start(databaseInfo: DatabaseInfo): void {
-    this.databaseInfo = databaseInfo;
-
+    public asyncQueue: AsyncQueue,
+    private databaseInfo: DatabaseInfo
+  ) {
     this.credentials.setChangeListener(user => {
       logDebug(LOG_TAG, 'Received user=', user.uid);
       if (!this.user.isEqual(user)) {
         this.user = user;
         this.credentialListener(user);
       }
-      this.initializationDone.resolve();
+      this.receivedInitialUser.resolve();
     });
-
-    // Block the async queue until initialization is done
-    this.asyncQueue.enqueueAndForget(() => this.initializationDone.promise);
   }
 
   async getConfiguration(): Promise<ComponentConfiguration> {
-    await this.initializationDone.promise;
+    await this.receivedInitialUser.promise;
 
     return {
       asyncQueue: this.asyncQueue,
@@ -184,7 +132,7 @@ export class FirestoreClient {
   setCredentialChangeListener(listener: (user: User) => void): void {
     this.credentialListener = listener;
     // eslint-disable-next-line @typescript-eslint/no-floating-promises
-    this.initializationDone.promise.then(() =>
+    this.receivedInitialUser.promise.then(() =>
       this.credentialListener(this.user)
     );
   }

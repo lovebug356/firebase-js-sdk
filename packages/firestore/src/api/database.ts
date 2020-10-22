@@ -546,8 +546,11 @@ export class Firestore
     );
 
     const databaseInfo = this.makeDatabaseInfo();
-    this._firestoreClient = new FirestoreClient(this._credentials, this._queue);
-    this._firestoreClient.start(databaseInfo);
+    this._firestoreClient = new FirestoreClient(
+      this._credentials,
+      this._queue,
+      databaseInfo
+    );
   }
 
   private static databaseIdFromApp(app: FirebaseApp): DatabaseId {
