@@ -203,11 +203,13 @@ export async function setOfflineComponentProvider(
   logDebug(LOG_TAG, 'Initializing OfflineComponentProvider');
   const configuration = await firestoreClient.getConfiguration();
   await offlineComponentProvider.initialize(configuration);
+
   firestoreClient.setCredentialChangeListener(user =>
     firestoreClient.asyncQueue.enqueueRetryable(async () => {
       await handleUserChange(offlineComponentProvider.localStore, user);
     })
   );
+
   // When a user calls clearPersistence() in one client, all other clients
   // need to be terminated to allow the delete to succeed.
   offlineComponentProvider.persistence.setDatabaseDeletedListener(() =>
@@ -267,7 +269,7 @@ export async function firestoreClientEnableNetwork(
 export function getRemoteStore(
   firestoreClient: FirestoreClient
 ): Promise<RemoteStore> {
-  return ensureOnlineComponents(firestoreClient).then(o => o.remoteStore);
+  return ensureOnlineComponents(firestoreClient).then(c => c.remoteStore);
 }
 
 /** Disables the network connection. Pending operations will not complete. */
