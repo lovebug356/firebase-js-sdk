@@ -303,12 +303,6 @@ export class AsyncQueue {
    * when the promise returned by the new operation is (with its value).
    */
   enqueue<T extends unknown>(op: () => Promise<T>): Promise<T> {
-    if (this.isShuttingDown) {
-      throw new FirestoreError(
-        Code.FAILED_PRECONDITION,
-        'The client has already been terminated.'
-      );
-    }
     this.verifyNotFailed();
     if (this._isShuttingDown) {
       // Return a Promise which never resolves.

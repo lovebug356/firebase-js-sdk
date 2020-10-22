@@ -137,6 +137,19 @@ export class FirestoreClient {
     );
   }
 
+  /**
+   * Checks that the client has not been terminated. Ensures that other methods on
+   * this class cannot be called after the client is terminated.
+   */
+  verifyNotTerminated(): void {
+    if (this.asyncQueue.isShuttingDown) {
+      throw new FirestoreError(
+        Code.FAILED_PRECONDITION,
+        'The client has already been terminated.'
+      );
+    }
+  }
+
   terminate(): Promise<void> {
     this.asyncQueue.enterRestrictedMode();
     const deferred = new Deferred();
@@ -169,6 +182,8 @@ export class FirestoreClient {
 async function ensureOfflineComponents(
   firestoreClient: FirestoreClient
 ): Promise<OfflineComponentProvider> {
+  firestoreClient.verifyNotTerminated();
+
   if (!firestoreClient.offlineComponents) {
     logDebug(LOG_TAG, 'Using default OfflineComponentProvider');
     await setOfflineComponentProvider(
@@ -183,6 +198,8 @@ async function ensureOfflineComponents(
 async function ensureOnlineComponents(
   firestoreClient: FirestoreClient
 ): Promise<OnlineComponentProvider> {
+  firestoreClient.verifyNotTerminated();
+
   if (!firestoreClient.onlineComponents) {
     logDebug(LOG_TAG, 'Using default OnlineComponentProvider');
     await setOnlineComponentProvider(
