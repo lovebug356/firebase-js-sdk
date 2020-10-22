@@ -345,9 +345,7 @@ function setPersistenceProviders(
  * Decides whether the provided error allows us to gracefully disable
  * persistence (as opposed to crashing the client).
  */
-// TODO(schmidt-sebastian): Remove `export` in
-// https://github.com/firebase/firebase-js-sdk/pull/3901
-export function canFallbackFromIndexedDbError(
+function canFallbackFromIndexedDbError(
   error: FirestoreError | DOMException
 ): boolean {
   if (error.name === 'FirebaseError') {
