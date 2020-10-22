@@ -301,6 +301,22 @@ describe('Testing Module Tests', function () {
     });
   });
 
+  it('should allow transaction after clearFirestoreData', async function () {
+    await firebase.clearFirestoreData({
+      projectId: 'foo'
+    });
+    const app = firebase.initializeTestApp({
+      projectId: 'foo'
+    });
+
+    const doc = app.firestore().doc('test/test');
+    await firebase.assertSucceeds(
+      app.firestore().runTransaction(async transaction => {
+        await transaction.get(doc);
+      })
+    );
+  });
+
   it('apps() returns apps created with initializeTestApp', async function () {
     const numApps = firebase.apps().length;
     await firebase.initializeTestApp({ databaseName: 'foo', auth: undefined });
