@@ -524,7 +524,6 @@ export class Firestore
       // eslint-disable-next-line @typescript-eslint/no-floating-promises
       this.configureClient();
     }
-    this._firestoreClient!.verifyNotTerminated();
     return this._firestoreClient as FirestoreClient;
   }
 
@@ -584,10 +583,8 @@ export class Firestore
     delete: async (): Promise<void> => {
       // The client must be initialized to ensure that all subsequent API usage
       // throws an exception.
-      if (!this._terminated) {
-        this._ensureClientConfigured();
-        await this._firestoreClient!.terminate();
-      }
+      this._ensureClientConfigured();
+      await this._firestoreClient!.terminate();
     }
   };
 

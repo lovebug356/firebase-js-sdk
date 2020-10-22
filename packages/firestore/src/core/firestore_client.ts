@@ -93,11 +93,12 @@ export class FirestoreClient {
   // undefined checks.
   private databaseInfo!: DatabaseInfo;
   private user = User.UNAUTHENTICATED;
-  private readonly clientId = AutoId.newId();
   private credentialListener: CredentialChangeListener = () => {};
 
   offlineComponents?: OfflineComponentProvider;
   onlineComponents?: OnlineComponentProvider;
+
+  private readonly clientId = AutoId.newId();
 
   // We defer our initialization until we get the current user from
   // setChangeListener(). We block the async queue until we got the initial
@@ -154,18 +155,13 @@ export class FirestoreClient {
   start(databaseInfo: DatabaseInfo): void {
     this.databaseInfo = databaseInfo;
 
-    let initialized = false;
     this.credentials.setChangeListener(user => {
-      if (!initialized) {
-        initialized = true;
-
-        logDebug(LOG_TAG, 'Initializing. user=', user.uid);
-        this.initializationDone.resolve();
-      }
-      if (!user.isEqual(this.user)) {
+      logDebug(LOG_TAG, 'Received user=', user.uid);
+      if (!this.user.isEqual(user)) {
         this.user = user;
         this.credentialListener(user);
       }
+      this.initializationDone.resolve();
     });
 
     // Block the async queue until initialization is done
@@ -186,7 +182,6 @@ export class FirestoreClient {
   }
 
   setCredentialChangeListener(listener: (user: User) => void): void {
-    logDebug('FirebaseFirestore', 'Registering credential change listener');
     this.credentialListener = listener;
     // eslint-disable-next-line @typescript-eslint/no-floating-promises
     this.initializationDone.promise.then(() =>
@@ -194,30 +189,17 @@ export class FirestoreClient {
     );
   }
 
-  /**
-   * Checks that the client has not been terminated. Ensures that other methods on
-   * this class cannot be called after the client is terminated.
-   */
-  verifyNotTerminated(): void {
-    if (this.asyncQueue.isShuttingDown) {
-      throw new FirestoreError(
-        Code.FAILED_PRECONDITION,
-        'The client has already been terminated.'
-      );
-    }
-  }
-
-  databaseId(): DatabaseId {
-    return this.databaseInfo.databaseId;
-  }
-
   terminate(): Promise<void> {
     this.asyncQueue.enterRestrictedMode();
     const deferred = new Deferred();
     this.asyncQueue.enqueueAndForgetEvenWhileRestricted(async () => {
       try {
-        await this.onlineComponents?.terminate();
-        await this.offlineComponents?.terminate();
+        if (this.onlineComponents) {
+          await this.onlineComponents.terminate();
+        }
+        if (this.offlineComponents) {
+          await this.offlineComponents.terminate();
+        }
 
         // `removeChangeListener` must be called after shutting down the
         // RemoteStore as it will prevent the RemoteStore from retrieving
@@ -236,12 +218,9 @@ export class FirestoreClient {
   }
 }
 
-// TODO(firestore-compat): Remove `export` once compat migration is complete.
-export async function ensureOfflineComponents(
+async function ensureOfflineComponents(
   firestoreClient: FirestoreClient
 ): Promise<OfflineComponentProvider> {
-  firestoreClient.asyncQueue.verifyOperationInProgress();
-
   if (!firestoreClient.offlineComponents) {
     logDebug(LOG_TAG, 'Using default OfflineComponentProvider');
     await setOfflineComponentProvider(
@@ -253,12 +232,9 @@ export async function ensureOfflineComponents(
   return firestoreClient.offlineComponents!;
 }
 
-// TODO(firestore-compat): Remove `export` once compat migration is complete.
-export async function ensureOnlineComponents(
+async function ensureOnlineComponents(
   firestoreClient: FirestoreClient
 ): Promise<OnlineComponentProvider> {
-  firestoreClient.asyncQueue.verifyOperationInProgress();
-
   if (!firestoreClient.onlineComponents) {
     logDebug(LOG_TAG, 'Using default OnlineComponentProvider');
     await setOnlineComponentProvider(
@@ -332,7 +308,6 @@ export function getPersistence(
 export async function firestoreClientEnableNetwork(
   firestoreClient: FirestoreClient
 ): Promise<void> {
-  firestoreClient.verifyNotTerminated();
   return firestoreClient.asyncQueue.enqueue(async () => {
     const persistence = await getPersistence(firestoreClient);
     const remoteStore = await getRemoteStore(firestoreClient);
@@ -351,7 +326,6 @@ export function getRemoteStore(
 export async function firestoreClientDisableNetwork(
   firestoreClient: FirestoreClient
 ): Promise<void> {
-  firestoreClient.verifyNotTerminated();
   return firestoreClient.asyncQueue.enqueue(async () => {
     const persistence = await getPersistence(firestoreClient);
     const remoteStore = await getRemoteStore(firestoreClient);
@@ -374,8 +348,6 @@ export function getSyncEngine(
 export async function firestoreClientWaitForPendingWrites(
   firestoreClient: FirestoreClient
 ): Promise<void> {
-  firestoreClient.verifyNotTerminated();
-
   const deferred = new Deferred<void>();
   firestoreClient.asyncQueue.enqueueAndForget(async () => {
     const syncEngine = await getSyncEngine(firestoreClient);
@@ -406,7 +378,6 @@ export function firestoreClientListen(
   options: ListenOptions,
   observer: Partial<Observer<ViewSnapshot>>
 ): () => void {
-  firestoreClient.verifyNotTerminated();
   const wrappedObserver = new AsyncObserver(observer);
   const listener = new QueryListener(query, wrappedObserver, options);
   firestoreClient.asyncQueue.enqueueAndForget(async () => {
@@ -426,7 +397,6 @@ export function firestoreClientGetDocumentFromLocalCache(
   firestoreClient: FirestoreClient,
   docKey: DocumentKey
 ): Promise<Document | null> {
-  firestoreClient.verifyNotTerminated();
   const deferred = new Deferred<Document | null>();
   firestoreClient.asyncQueue.enqueueAndForget(async () => {
     const localStore = await getLocalStore(firestoreClient);
@@ -440,7 +410,6 @@ export function firestoreClientGetDocumentViaSnapshotListener(
   key: DocumentKey,
   options: GetOptions = {}
 ): Promise<ViewSnapshot> {
-  firestoreClient.verifyNotTerminated();
   const deferred = new Deferred<ViewSnapshot>();
   firestoreClient.asyncQueue.enqueueAndForget(async () => {
     const eventManager = await getEventManager(firestoreClient);
@@ -456,14 +425,13 @@ export function firestoreClientGetDocumentViaSnapshotListener(
 }
 
 export async function getLocalStore(firestoreClient: FirestoreClient) {
-  return (await ensureOfflineComponents(firestoreClient)).localStore;
+  return ensureOfflineComponents(firestoreClient).then(c => c.localStore);
 }
 
 export function firestoreClientGetDocumentsFromLocalCache(
   firestoreClient: FirestoreClient,
   query: Query
 ): Promise<ViewSnapshot> {
-  firestoreClient.verifyNotTerminated();
   const deferred = new Deferred<ViewSnapshot>();
   firestoreClient.asyncQueue.enqueueAndForget(async () => {
     const localStore = await getLocalStore(firestoreClient);
@@ -477,7 +445,6 @@ export function firestoreClientGetDocumentsViaSnapshotListener(
   query: Query,
   options: GetOptions = {}
 ): Promise<ViewSnapshot> {
-  firestoreClient.verifyNotTerminated();
   const deferred = new Deferred<ViewSnapshot>();
   firestoreClient.asyncQueue.enqueueAndForget(async () => {
     const eventManager = await getEventManager(firestoreClient);
@@ -496,7 +463,6 @@ export function firestoreClientWrite(
   firestoreClient: FirestoreClient,
   mutations: Mutation[]
 ): Promise<void> {
-  firestoreClient.verifyNotTerminated();
   const deferred = new Deferred<void>();
   firestoreClient.asyncQueue.enqueueAndForget(async () => {
     const syncEngine = await getSyncEngine(firestoreClient);
@@ -509,7 +475,6 @@ export function firestoreClientAddSnapshotsInSyncListener(
   firestoreClient: FirestoreClient,
   observer: Partial<Observer<void>>
 ): () => void {
-  firestoreClient.verifyNotTerminated();
   const wrappedObserver = new AsyncObserver(observer);
   firestoreClient.asyncQueue.enqueueAndForget(async () => {
     const eventManager = await getEventManager(firestoreClient);
@@ -524,10 +489,10 @@ export function firestoreClientAddSnapshotsInSyncListener(
   };
 }
 
-export async function getDatastore(
+export function getDatastore(
   firestoreClient: FirestoreClient
 ): Promise<Datastore> {
-  return (await ensureOnlineComponents(firestoreClient)).datastore;
+  return ensureOnlineComponents(firestoreClient).then(c => c.datastore);
 }
 
 /**
@@ -549,7 +514,6 @@ export function firestoreClientTransaction<T>(
   firestoreClient: FirestoreClient,
   updateFunction: (transaction: Transaction) => Promise<T>
 ): Promise<T> {
-  firestoreClient.verifyNotTerminated();
   const deferred = new Deferred<T>();
   firestoreClient.asyncQueue.enqueueAndForget(async () => {
     const datastore = await getDatastore(firestoreClient);
